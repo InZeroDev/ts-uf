@@ -1,0 +1,34 @@
+{
+  "name": "@inzero/ts-uf",
+  "version": "0.0.1",
+  "description": "TypeScript utility functions",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "typescript",
+    "utility",
+    "functions"
+  ],
+  "author": "InZero",
+  "license": "MIT",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.14.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.14.0",
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "prettier-plugin-packagejson": "^3.0.2",
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2"
+  }
+}
