@@ -8,7 +8,9 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "gen-barrel": "barrel src/index.ts src/**/index.ts",
+    "prepublish": "pnpm gen-barrel; pnpm build"
   },
   "keywords": [
     "typescript",
@@ -26,6 +28,8 @@
   },
   "packageManager": "pnpm@12.14.0",
   "devDependencies": {
+    "@inzero/barrel": "0.0.2",
+    "@inzero/ts-ut": "0.1.2",
     "prettier": "^3.9.10",
     "prettier-plugin-packagejson": "^3.0.2",
     "tsup": "^9.0.0",

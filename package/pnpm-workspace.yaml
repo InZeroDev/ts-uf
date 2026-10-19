@@ -1,2 +1,5 @@
 allowBuilds:
   esbuild: true
+minimumReleaseAgeExclude:
+  - '@inzero/barrel'
+  - '@inzero/ts-ut'
