@@ -1,0 +1,83 @@
+import type { Func, RT } from "@inzero/ts-ut";
+import { hasKey } from "~/object";
+import { iife } from "./utils";
+import { isNumber } from "~/number";
+import { isBoolean } from "~/boolean";
+
+/* ---------------------------------- Types --------------------------------- */
+export type RepeatData = ({ end: number } | { count: number }) & { start?: number; step?: number };
+
+export type RepeatCbParams = [index: number];
+
+export type RepeatCbRT = boolean | number | void;
+
+export type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
+export type RepeatAsyncCb = Func<RepeatCbParams, Promise<RepeatCbRT>>;
+
+/* -------------------------------------------------------------------------- */
+
+export type RepeatWhileCondition = Func<RepeatCbParams, boolean>;
+export type RepeatWhileAsyncCondition = Func<RepeatCbParams, Promise<boolean>>;
+
+/* ---------------------------------- Utils --------------------------------- */
+const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { end: number }>> => {
+	if (isNumber(arg2)) return { start: 0, step: 1, end: arg2 };
+	arg2.start ??= 0;
+	arg2.step ??= 1;
+	return {
+		start: arg2.start,
+		step: arg2.step,
+		end: hasKey(arg2, "end") ? arg2.end : arg2.start + arg2.count,
+	};
+};
+
+/* -------------------------------- Functions ------------------------------- */
+export function repeat<const F extends RepeatCb>(func: F, data: RepeatData): void;
+export function repeat<const F extends RepeatCb>(func: F, times: number): void;
+export function repeat<const F extends RepeatCb>(func: F, arg2: number | RepeatData): void {
+	const data = argToData(arg2);
+
+	let index = data.start;
+	for (; index < data.end;) {
+		const result = func(index);
+		if (isBoolean(result) && result) break;
+		if (isNumber(result)) index = result;
+		else index += data.step;
+	}
+}
+
+export async function repeatAsync<const F extends RepeatAsyncCb>(
+	func: F,
+	data: RepeatData,
+): Promise<void>;
+export async function repeatAsync<const F extends RepeatAsyncCb>(
+	func: F,
+	times: number,
+): Promise<void>;
+export async function repeatAsync<const F extends RepeatAsyncCb>(
+	func: F,
+	arg2: number | RepeatData,
+): Promise<void> {
+	const data = argToData(arg2);
+
+	let index = data.start;
+	for (; index < data.end;) {
+		const result = await func(index);
+		if (isBoolean(result) && result) break;
+		if (isNumber(result)) index = result;
+		else index += data.step;
+	}
+}
+
+export function repeatWhile<const F extends Func>(func: F, condition: RepeatWhileCondition): void {
+	let index = 0;
+	while (condition(index)) func(index);
+}
+
+export async function repeatWhileAsync<const F extends Func>(
+	func: F,
+	condition: RepeatWhileAsyncCondition,
+): Promise<void> {
+	let index = 0;
+	while (await condition(index)) await func(index);
+}
