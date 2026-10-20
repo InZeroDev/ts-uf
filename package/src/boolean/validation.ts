@@ -10,4 +10,3 @@ export function isBoolean<T>(value: CheckT<T>): value is SmartExtract<T, boolean
 export function isNotBoolean<T>(value: CheckT<T>): value is Exclude<T, boolean> {
 	return !isBoolean(value);
 }
-

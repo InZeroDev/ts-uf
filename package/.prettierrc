@@ -1,6 +1,6 @@
 {
-  "printWidth": 100,
-  "useTabs": true,
-  "tabWidth": 2,
-  "plugins": ["prettier-plugin-packagejson"]
+	"printWidth": 100,
+	"useTabs": true,
+	"tabWidth": 2,
+	"plugins": ["prettier-plugin-packagejson"]
 }

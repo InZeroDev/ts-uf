@@ -1,2 +1,2 @@
-export * from './hasKey';
-export * from './validation';
+export * from "./hasKey";
+export * from "./validation";

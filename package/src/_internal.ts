@@ -12,4 +12,3 @@ export type _AdvCheckT<T, Check extends boolean, Message extends string> =
 		? T
 		: { __error: Message }
 	: T;
-

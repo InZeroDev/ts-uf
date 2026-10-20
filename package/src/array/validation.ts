@@ -1,4 +1,12 @@
-import type { HasType, IsAny, IsUnknown, List, NonEmptyTuple, ROList, SmartExtract } from "@inzero/ts-ut";
+import type {
+	HasType,
+	IsAny,
+	IsUnknown,
+	List,
+	NonEmptyTuple,
+	ROList,
+	SmartExtract,
+} from "@inzero/ts-ut";
 import type { IsTuple, MatchRO } from "@inzero/ts-ut/_internal";
 import { getIndexRange, numberToIndex } from "./utils";
 import type { _CheckT } from "~/_internal";
@@ -8,7 +16,7 @@ type CheckT<T> = _CheckT<T, ROList, "array">;
 
 /**
  * Checks whether a value is an array.
- * 
+ *
  * @example
  * ```ts
  * function foo(value: string | string[]) {
@@ -26,7 +34,7 @@ export function isArray<T>(
 
 /**
  * Checks whether a value is not an array.
- * 
+ *
  * @example
  * ```ts
  * function foo(value: string | string[]) {
@@ -59,7 +67,7 @@ export function isEmptyArray<T>(
 
 /**
  * Checks whether a value is a non-empty array.
- * 
+ *
  * @example
  * ```ts
  * function foo(value: string[]) {
@@ -85,7 +93,7 @@ export function isNonEmptyArray<T>(
 
 /**
  * Checks whether a value is an array with a single element.
- * 
+ *
  * @example
  * ```ts
  * function foo(value: string[]) {
@@ -109,7 +117,7 @@ export function isSingletonArray<T>(
 
 /**
  * Checks whether a value is an array with no or more than one element.
- * 
+ *
  * @example
  * ```ts
  * isNonSingletonArray([]); // true
@@ -127,7 +135,7 @@ export function isNonSingletonArray<T>(
 
 /**
  * Checks whether a given index is the first index of an array.
- * 
+ *
  * @example
  * ```ts
  * isFirstIndex(0); // true
@@ -140,7 +148,7 @@ export function isFirstIndex(index: number): boolean {
 
 /**
  * Checks whether a given index is not the first index of an array.
- * 
+ *
  * @example
  * ```ts
  * isNotFirstIndex(0); // false
@@ -153,11 +161,11 @@ export function isNotFirstIndex(index: number): boolean {
 
 /**
  * Checks whether a given index is the last index of an array.
- * 
+ *
  * @example
  * ```ts
  * const arr = [0, 1, 2, 3];
- * 
+ *
  * isLastIndex(0, arr.length); // false;
  * isLastIndex(3, arr.length); // true;
  * ```
@@ -168,11 +176,11 @@ export function isLastIndex(index: number, length: number): boolean {
 
 /**
  * Checks whether a given index is not the last index of an array.
- * 
+ *
  * @example
  * ```ts
  * const arr = [0, 1, 2, 3];
- * 
+ *
  * isNotLastIndex(0, arr.length); // true;
  * isNotLastIndex(3, arr.length); // false;
  * ```
@@ -183,11 +191,11 @@ export function isNotLastIndex(index: number, length: number): boolean {
 
 /**
  * Checks whether a given index is within the range of an array.
- * 
+ *
  * @example
  * ```ts
  * const arr = [0, 1, 2, 3];
- * 
+ *
  * hasIndex(-1, arr.length); // false;
  * hasIndex(0, arr.length); // true;
  * hasIndex(3, arr.length); // true;
@@ -195,16 +203,16 @@ export function isNotLastIndex(index: number, length: number): boolean {
  * ```
  */
 export function hasIndex(index: number, length: number): boolean {
-	return isInRange(index, getIndexRange(length))
+	return isInRange(index, getIndexRange(length));
 }
 
 /**
  * Checks whether a given index is not within the range of an array.
- * 
+ *
  * @example
  * ```ts
  * const arr = [0, 1, 2, 3];
- * 
+ *
  * lacksIndex(-1, arr.length); // true;
  * lacksIndex(0, arr.length); // false;
  * lacksIndex(3, arr.length); // false;
@@ -212,5 +220,5 @@ export function hasIndex(index: number, length: number): boolean {
  * ```
  */
 export function lacksIndex(index: number, length: number): boolean {
-	return !hasIndex(index, length)
+	return !hasIndex(index, length);
 }

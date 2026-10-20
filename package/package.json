@@ -1,38 +1,38 @@
 {
-  "name": "@inzero/ts-uf",
-  "version": "0.0.1",
-  "description": "TypeScript utility functions",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "format": "prettier --write .",
-    "gen-barrel": "barrel check src src/* --extension ts --create; barrel src/index.ts src/*/index.ts",
-    "prepublish": "pnpm gen-barrel; pnpm build"
-  },
-  "keywords": [
-    "typescript",
-    "utility",
-    "functions"
-  ],
-  "author": "InZero",
-  "license": "MIT",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "12.14.0",
-      "onFail": "download"
-    }
-  },
-  "packageManager": "pnpm@12.14.0",
-  "devDependencies": {
-    "@inzero/barrel": "0.1.0",
-    "@inzero/ts-ut": "0.2.0",
-    "prettier": "^3.9.10",
-    "prettier-plugin-packagejson": "^3.0.2",
-    "tsup": "^9.0.0",
-    "typescript": "^7.0.2"
-  }
+	"name": "@inzero/ts-uf",
+	"version": "0.0.1",
+	"description": "TypeScript utility functions",
+	"keywords": [
+		"typescript",
+		"utility",
+		"functions"
+	],
+	"license": "MIT",
+	"author": "InZero",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsup",
+		"dev": "tsup --watch",
+		"format": "prettier --write .",
+		"gen-barrel": "barrel check src src/* --extension ts --create; barrel src/index.ts src/*/index.ts",
+		"prepublish": "pnpm gen-barrel; pnpm build"
+	},
+	"devDependencies": {
+		"@inzero/barrel": "0.1.0",
+		"@inzero/ts-ut": "0.2.0",
+		"prettier": "^3.9.10",
+		"prettier-plugin-packagejson": "^3.0.2",
+		"tsup": "^9.0.0",
+		"typescript": "^7.0.2"
+	},
+	"packageManager": "pnpm@12.14.0",
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "12.14.0",
+			"onFail": "download"
+		}
+	}
 }

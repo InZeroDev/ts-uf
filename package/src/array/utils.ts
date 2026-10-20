@@ -2,7 +2,7 @@ import type { Func, RT, Tuple, Valid } from "@inzero/ts-ut";
 
 /**
  * Converts an index to a number.
- * 
+ *
  * @example
  * ```ts
  * indexToNumber(0); // 1
@@ -14,7 +14,7 @@ export function indexToNumber(index: number): number {
 
 /**
  * Converts a number to an index.
- * 
+ *
  * @example
  * ```ts
  * numberToIndex(1); // 0
@@ -26,11 +26,11 @@ export function numberToIndex(number: number): number {
 
 /**
  * Gets the last index of an array using its length.
- * 
+ *
  * @example
  * ```ts
  * const arr = [1, 2, 3, 4, 5];
- * 
+ *
  * getLastIndex(arr.length); // 4
  * ```
  */
@@ -40,12 +40,12 @@ export function getLastIndex(length: number): number {
 
 /**
  * Gets the middle index of an array using its length.
- * 
+ *
  * @example
  * ```ts
  * const oddArr = [0, 1, 2];
  * const evenArr = [0, 1, 2, 3];
- * 
+ *
  * getMiddleIndex(oddArr.length); // 1
  * getMiddleIndex(evenArr.length); // 1
  * ```
@@ -56,7 +56,7 @@ export function getMiddleIndex(length: number): number {
 
 /**
  * Gets the index range of an array using its length.
- * 
+ *
  * @example
  * ```ts
  * const arr = [0, 1, 2, 3, 4];;
@@ -69,7 +69,7 @@ export function getIndexRange(length: number): [start: number, end: number] {
 
 /**
  * Gets the signed index range of an array using its length.
- * 
+ *
  * @example
  * ```ts
  * const arr = [0, 1, 2, 3, 4];;
@@ -82,7 +82,7 @@ export function getSignedIndexRange(length: number): [start: number, end: number
 
 /**
  * Creates an array of the given length and value.
- * 
+ *
  * @example
  * ```ts
  * createArray(5, (index) => index); // [0, 1, 2, 3, 4]
@@ -97,7 +97,7 @@ export function createArray<const L extends number, const F extends Func<[index:
 
 /**
  * Creates an array of the given length with zero-based indices.
- * 
+ *
  * @example
  * ```ts
  * cons arr = [img1, img2, img3];
@@ -110,7 +110,7 @@ export function getZeroBasedIndices(length: number): number[] {
 
 /**
  * Creates an array of the given length with one-based indices.
- * 
+ *
  * @example
  * ```ts
  * cons arr = [img1, img2, img3];
