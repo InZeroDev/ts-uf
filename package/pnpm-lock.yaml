@@ -167,11 +167,11 @@ importers:
   .:
     devDependencies:
       '@inzero/barrel':
-        specifier: 0.0.2
-        version: 0.0.2
+        specifier: 0.1.0
+        version: 0.1.0
       '@inzero/ts-ut':
-        specifier: 0.1.2
-        version: 0.1.2
+        specifier: 0.2.0
+        version: 0.2.0
       prettier:
         specifier: ^3.9.10
         version: 3.9.10
@@ -343,12 +343,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@inzero/barrel@0.0.2':
-    resolution: {integrity: sha512-Cc1ESloCezTHRdHP5DQ1FOyfO31YVZlFaEq0vbNDdOiXoQL8a0gR0L7Nl4XrCCVuMEn5/KemR3j0bm0D3tp5Sw==}
+  '@inzero/barrel@0.1.0':
+    resolution: {integrity: sha512-QGZB99ZIKf8NxABCQLvPvGtxCyxqp5rf2IwkOdmm+76OTmGBaqeiDVJDoth678vE0PEEe2+FPpkB3QPbTxI1SQ==}
     hasBin: true
 
-  '@inzero/ts-ut@0.1.2':
-    resolution: {integrity: sha512-zaQvVJvy51hdLGEXKYtZhG6vt7cYlVWU3YNbonTnq6aEmnDGGF0eCsVvrCvf0SrRrN3NVt8F99jMwUYewZ08+A==}
+  '@inzero/ts-ut@0.2.0':
+    resolution: {integrity: sha512-/lH7oEA8MdKvoI4ifV8AqC5Nfg9inmTrNZupWNWSi+j8mP26sncRV7LKx4jslADLamsi7j7aEYNrZ8wHigmAfQ==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1039,14 +1039,14 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@inzero/barrel@0.0.2':
+  '@inzero/barrel@0.1.0':
     dependencies:
       env-paths: 4.0.0
       fast-glob: 3.3.3
       fs-extra: 11.4.1
       zod: 4.6.7
 
-  '@inzero/ts-ut@0.1.2': {}
+  '@inzero/ts-ut@0.2.0': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
