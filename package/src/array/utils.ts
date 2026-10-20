@@ -1,29 +1,93 @@
 import type { Func, RT, Tuple, Valid } from "@inzero/ts-ut";
 
+/**
+ * Converts an index to a number.
+ * 
+ * @example
+ * ```ts
+ * indexToNumber(0); // 1
+ * ```
+ */
 export function indexToNumber(index: number): number {
 	return index + 1;
 }
 
+/**
+ * Converts a number to an index.
+ * 
+ * @example
+ * ```ts
+ * numberToIndex(1); // 0
+ * ```
+ */
 export function numberToIndex(number: number): number {
 	return number - 1;
 }
 
+/**
+ * Gets the last index of an array using its length.
+ * 
+ * @example
+ * ```ts
+ * const arr = [1, 2, 3, 4, 5];
+ * 
+ * getLastIndex(arr.length); // 4
+ * ```
+ */
 export function getLastIndex(length: number): number {
 	return numberToIndex(length);
 }
 
+/**
+ * Gets the middle index of an array using its length.
+ * 
+ * @example
+ * ```ts
+ * const oddArr = [0, 1, 2];
+ * const evenArr = [0, 1, 2, 3];
+ * 
+ * getMiddleIndex(oddArr.length); // 1
+ * getMiddleIndex(evenArr.length); // 1
+ * ```
+ */
 export function getMiddleIndex(length: number): number {
 	return numberToIndex(Math.floor(length / 2));
 }
 
+/**
+ * Gets the index range of an array using its length.
+ * 
+ * @example
+ * ```ts
+ * const arr = [0, 1, 2, 3, 4];;
+ * getIndexRange(arr.length); // [0, 4]
+ * ```
+ */
 export function getIndexRange(length: number): [start: number, end: number] {
 	return [0, length - 1];
 }
 
+/**
+ * Gets the signed index range of an array using its length.
+ * 
+ * @example
+ * ```ts
+ * const arr = [0, 1, 2, 3, 4];;
+ * getSignedIndexRange(arr.length); // [-5, 4]
+ * ```
+ */
 export function getSignedIndexRange(length: number): [start: number, end: number] {
 	return [-length, length - 1];
 }
 
+/**
+ * Creates an array of the given length and value.
+ * 
+ * @example
+ * ```ts
+ * createArray(5, (index) => index); // [0, 1, 2, 3, 4]
+ * ```
+ */
 export function createArray<const L extends number, const F extends Func<[index: number]>>(
 	length: L,
 	value: F,
@@ -31,10 +95,28 @@ export function createArray<const L extends number, const F extends Func<[index:
 	return Array.from({ length }, (_, index) => value(index)) as Valid;
 }
 
+/**
+ * Creates an array of the given length with zero-based indices.
+ * 
+ * @example
+ * ```ts
+ * cons arr = [img1, img2, img3];
+ * const indexes = getZeroBasedIndices(arr.length); // [0, 1, 2]
+ * ```
+ */
 export function getZeroBasedIndices(length: number): number[] {
 	return createArray(length, (index) => index);
 }
 
+/**
+ * Creates an array of the given length with one-based indices.
+ * 
+ * @example
+ * ```ts
+ * cons arr = [img1, img2, img3];
+ * const indexes = getOneBasedIndices(arr.length); // [1, 2, 3]
+ * ```
+ */
 export function getOneBasedIndices(length: number): number[] {
 	return createArray(length, indexToNumber);
 }
