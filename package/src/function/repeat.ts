@@ -32,7 +32,24 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
 };
 
 /* -------------------------------- Functions ------------------------------- */
+/**
+ * Repeats a function a given number of times.
+ *
+ * @example
+ * ```ts
+ * repeat(console.log, { start: 10, end: 13 }); // logs "10", "11", "12"
+ * repeat(console.log, { start: 10, count: 3 }); // logs "10", "11", "12"
+ * ```
+ */
 export function repeat<const F extends RepeatCb>(func: F, data: RepeatData): void;
+/**
+ * Repeats a function a given number of times.
+ *
+ * @example
+ * ```ts
+ * repeat(console.log, 3); // logs "0", "1", "2"
+ * ```
+ */
 export function repeat<const F extends RepeatCb>(func: F, times: number): void;
 export function repeat<const F extends RepeatCb>(func: F, arg2: number | RepeatData): void {
 	const data = argToData(arg2);
@@ -46,10 +63,16 @@ export function repeat<const F extends RepeatCb>(func: F, arg2: number | RepeatD
 	}
 }
 
+/**
+ * An asynchronous version of {@linkcode repeat}.
+ */
 export async function repeatAsync<const F extends RepeatAsyncCb>(
 	func: F,
 	data: RepeatData,
 ): Promise<void>;
+/**
+ * An asynchronous version of {@linkcode repeat}.
+ */
 export async function repeatAsync<const F extends RepeatAsyncCb>(
 	func: F,
 	times: number,
@@ -69,11 +92,22 @@ export async function repeatAsync<const F extends RepeatAsyncCb>(
 	}
 }
 
+/**
+ * Repeats a function while a given condition is true.
+ * 
+ * @example
+ * ```ts
+ * repeatWhile(console.log, (index) => index < 3); // logs "0", "1", "2"
+ * ```
+ */
 export function repeatWhile<const F extends Func>(func: F, condition: RepeatWhileCondition): void {
 	let index = 0;
 	while (condition(index)) func(index);
 }
 
+/**
+ * An asynchronous version of {@linkcode repeatWhile}.
+ */
 export async function repeatWhileAsync<const F extends Func>(
 	func: F,
 	condition: RepeatWhileAsyncCondition,
