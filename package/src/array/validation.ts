@@ -1,5 +1,5 @@
-import type { HasType, IsAny, IsUnknown, List, ROList, SmartExtract } from "@inzero/ts-ut";
-import type { MatchRO } from "@inzero/ts-ut/_internal";
+import type { HasType, IsAny, IsUnknown, List, NonEmptyTuple, ROList, SmartExtract } from "@inzero/ts-ut";
+import type { IsTuple, MatchRO } from "@inzero/ts-ut/_internal";
 import { getIndexRange, numberToIndex } from "./utils";
 import type { _CheckT } from "~/_internal";
 import { isInRange } from "~/math/validation";
@@ -72,8 +72,14 @@ export function isEmptyArray<T>(
 export function isNonEmptyArray<T>(
 	value: CheckT<T>,
 ): value is IsUnknown<T> | IsAny<T> extends false
-	? Exclude<Extract<T, ROList>, []>
-	: Extract<List, T> {
+	? T extends T
+		? IsTuple<T> extends true
+			? Exclude<T, []>
+			: T extends ROList
+				? Extract<MatchRO<NonEmptyTuple<T[number]>, T>, T>
+				: never
+		: never
+	: Extract<NonEmptyTuple<T>, T> {
 	return isArray(value) && value.length > 0;
 }
 
