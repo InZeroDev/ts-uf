@@ -83,7 +83,7 @@ export function isNonEmptyString<T>(
  * ```
  */
 export function isBlank<T>(value: CheckT<T>): value is SmartExtract<T, string> {
-	return isString(value) && (value === "" || value.trim() === "");
+	return isString(value) && value.trim() === "";
 }
 
 /**
