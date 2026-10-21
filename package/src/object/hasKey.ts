@@ -1,7 +1,5 @@
-import type { Dict, DictKey, IsNever, Keyof, LacksType, Not, SmartExtract } from "@inzero/ts-ut";
-
-type IsKnownKey<K extends DictKey> = LacksType<DictKey, K>;
-type IsKnownDict<T extends Dict> = Not<IsNever<Keyof<T>>>;
+import type { Dict, DictKey, Keyof, SmartExtract } from "@inzero/ts-ut";
+import type { IsKnownDict, IsKnownKey } from "./_internal";
 
 /**
  * Checks whether an object contains the given key.
