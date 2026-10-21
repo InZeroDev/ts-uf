@@ -42,3 +42,45 @@ export function isNotOneOf<const T, const L extends ROList>(
 ): value is Exclude<T, L[number]> {
 	return !isOneOf(value, list);
 }
+
+/**
+ * Checks whether a value is nullish (`null | undefined`).
+ */
+export function isNullish<T>(value: T): value is SmartExtract<T, null | undefined> {
+	return isUndefined(value) || isNull(value);
+}
+
+/**
+ * Checks whether a value is `undefined`.
+ */
+export function isUndefined<T>(value: T): value is SmartExtract<T, undefined> {
+	return value === undefined;
+}
+
+/**
+ * Checks whether a value is `null`.
+ */
+export function isNull<T>(value: T): value is SmartExtract<T, null> {
+	return value === null;
+}
+
+/**
+ * Checks whether a value is not `undefined`.
+ */
+export function isNotUndefined<T>(value: T): value is Exclude<T, undefined> {
+	return !isUndefined(value);
+}
+
+/**
+ * Checks whether a value is not `null`.
+ */
+export function isNotNull<T>(value: T): value is Exclude<T, null> {
+	return !isNull(value);
+}
+
+/**
+ * Checks whether a value is neither `null` nor `undefined`.
+ */
+export function isNonNullish<T>(value: T): value is Exclude<T, null | undefined> {
+	return !isNullish(value);
+}
