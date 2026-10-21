@@ -194,9 +194,9 @@ export function getRandomElement<T extends ROList>(arr: T): T extends T ? T[numb
  */
 export function mapOnDefined<
 	T extends ROList,
-	const F extends Func<[value: Exclude<T[number], undefined | null>]>,
->(arr: T, func: F): (RT<F> | Extract<T[number], undefined | null>)[] {
-	return arr.map((value) => (isNullish(value) ? value : func(value as Valid)))
+	const R,
+>(arr: T, func: Func<[value: Exclude<T[number], undefined | null>], R>): (R | Extract<T[number], undefined | null>)[] {
+	return arr.map((value) => (isNullish(value) ? value : func(value as Valid))) as Valid;
 };
 
 /**
