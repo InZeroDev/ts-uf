@@ -135,10 +135,10 @@ export function getSignedIndexRange(length: number): [start: number, end: number
  * createArray(5, (index) => index); // [0, 1, 2, 3, 4]
  * ```
  */
-export function createArray<const L extends number, const F extends Func<[index: number]>>(
+export function createArray<L extends number, const R>(
 	length: L,
-	value: F,
-): Tuple<L, RT<F>> {
+	value: Func<[index: number], R>,
+): Tuple<L, R> {
 	return Array.from({ length }, (_, index) => value(index)) as Valid;
 }
 
