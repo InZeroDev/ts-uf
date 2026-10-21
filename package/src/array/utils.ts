@@ -1,5 +1,6 @@
-import type { Func, Pop, ROList, RT, Tuple, Valid } from "@inzero/ts-ut";
+import type { Func, KeyofTuple, Pop, ROList, RT, Tuple, Valid } from "@inzero/ts-ut";
 import type { IsTuple, NormalizeIndex } from "@inzero/ts-ut/_internal";
+import { getRandomInteger } from "~/math";
 
 /**
  * Converts an index to a number.
@@ -165,3 +166,12 @@ export function getZeroBasedIndices(length: number): number[] {
 export function getOneBasedIndices(length: number): number[] {
 	return createArray(length, indexToNumber);
 }
+
+export function getRandomIndex(length: number): number {
+	return getRandomInteger(0, numberToIndex(length));
+}
+
+export function getRandomElement<T extends ROList>(arr: T): T extends T ? T[number] | (IsTuple<T> extends true ? never : undefined) : never {
+	return arr[getRandomIndex(arr.length)] as Valid;
+}
+
