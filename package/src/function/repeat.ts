@@ -41,7 +41,7 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
  * repeat(console.log, { start: 10, count: 3 }); // logs "10", "11", "12"
  * ```
  */
-export function repeat<const F extends RepeatCb>(func: F, data: RepeatData): void;
+export function repeat(func: RepeatCb, data: RepeatData): void;
 /**
  * Repeats a function a given number of times.
  *
@@ -50,8 +50,8 @@ export function repeat<const F extends RepeatCb>(func: F, data: RepeatData): voi
  * repeat(console.log, 3); // logs "0", "1", "2"
  * ```
  */
-export function repeat<const F extends RepeatCb>(func: F, times: number): void;
-export function repeat<const F extends RepeatCb>(func: F, arg2: number | RepeatData): void {
+export function repeat(func: RepeatCb, times: number): void;
+export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 	const data = argToData(arg2);
 
 	let index = data.start;
@@ -66,21 +66,12 @@ export function repeat<const F extends RepeatCb>(func: F, arg2: number | RepeatD
 /**
  * An asynchronous version of {@linkcode repeat}.
  */
-export async function repeatAsync<const F extends RepeatAsyncCb>(
-	func: F,
-	data: RepeatData,
-): Promise<void>;
+export async function repeatAsync(func: RepeatAsyncCb, data: RepeatData): Promise<void>;
 /**
  * An asynchronous version of {@linkcode repeat}.
  */
-export async function repeatAsync<const F extends RepeatAsyncCb>(
-	func: F,
-	times: number,
-): Promise<void>;
-export async function repeatAsync<const F extends RepeatAsyncCb>(
-	func: F,
-	arg2: number | RepeatData,
-): Promise<void> {
+export async function repeatAsync(func: RepeatAsyncCb, times: number): Promise<void>;
+export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData): Promise<void> {
 	const data = argToData(arg2);
 
 	let index = data.start;
@@ -100,7 +91,7 @@ export async function repeatAsync<const F extends RepeatAsyncCb>(
  * repeatWhile(console.log, (index) => index < 3); // logs "0", "1", "2"
  * ```
  */
-export function repeatWhile<const F extends Func>(func: F, condition: RepeatWhileCondition): void {
+export function repeatWhile(func: Func, condition: RepeatWhileCondition): void {
 	let index = 0;
 	while (condition(index)) func(index);
 }
@@ -108,8 +99,8 @@ export function repeatWhile<const F extends Func>(func: F, condition: RepeatWhil
 /**
  * An asynchronous version of {@linkcode repeatWhile}.
  */
-export async function repeatWhileAsync<const F extends Func>(
-	func: F,
+export async function repeatWhileAsync(
+	func: Func,
 	condition: RepeatWhileAsyncCondition,
 ): Promise<void> {
 	let index = 0;

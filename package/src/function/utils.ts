@@ -1,4 +1,4 @@
-import type { Func, Params, RT } from "@inzero/ts-ut";
+import type { Func, Params, ROList, RT } from "@inzero/ts-ut";
 
 /**
  * Immediately invoked function expression.
@@ -13,6 +13,6 @@ import type { Func, Params, RT } from "@inzero/ts-ut";
  * });
  * ```
  */
-export function iife<const F extends Func>(func: F, ...args: Params<F>): RT<F> {
+export function iife<const A extends ROList, const R>(func: Func<A, R>, ...args: A): R {
 	return func(...args);
 }
