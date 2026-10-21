@@ -36,19 +36,15 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
  * Repeats a function a given number of times.
  *
  * @example
- * ```ts
  * repeat(console.log, { start: 10, end: 13 }); // logs "10", "11", "12"
  * repeat(console.log, { start: 10, count: 3 }); // logs "10", "11", "12"
- * ```
  */
 export function repeat(func: RepeatCb, data: RepeatData): void;
 /**
  * Repeats a function a given number of times.
  *
  * @example
- * ```ts
  * repeat(console.log, 3); // logs "0", "1", "2"
- * ```
  */
 export function repeat(func: RepeatCb, times: number): void;
 export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
@@ -87,9 +83,7 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
  * Repeats a function while a given condition is true.
  *
  * @example
- * ```ts
  * repeatWhile(console.log, (index) => index < 3); // logs "0", "1", "2"
- * ```
  */
 export function repeatWhile(func: Func, condition: RepeatWhileCondition): void {
 	let index = 0;

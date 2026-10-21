@@ -7,7 +7,6 @@ import type { IsKnownDict, IsKnownKey } from "./_internal";
  * @remarks Narrows `obj` by filtering out all the versions that don't contain the given key.
  *
  * @example
- * ```ts
  * type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
  *
  * function repeat(cb: Func, data: Data) {
@@ -17,7 +16,6 @@ import type { IsKnownDict, IsKnownKey } from "./_internal";
  *     data; // { start?: number, step?: number, end: number }
  *   }
  * }
- * ```
  */
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
@@ -29,7 +27,6 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
  * @remarks Narrows `key` to `keyof obj` when the check succeeds.
  *
  * @example
- * ```ts
  * const presets = { a: 1, b: 2 };
  *
  * function foo(preset: string) {
@@ -38,7 +35,6 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
  *     presets[preset]; // number
  *   }
  * }
- * ```
  */
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
@@ -50,14 +46,12 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
  * @remarks Narrows `obj` to `typeof obj & Record<typeof key, unknown>` when the check succeeds.
  *
  * @example
- * ```ts
  * function foo(sizes: Record<string, number>) {
  *   if (hasKey(sizes, "small")) {
  *     sizes.small; // number
  *     sizes.medium; // number | undefined
  *   }
  * }
- * ```
  */
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends false ? T : never,
@@ -78,7 +72,6 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
  * @remarks Narrows `obj` by filtering out all the versions that contain the given key.
  *
  * @example
- * ```ts
  * type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
  *
  * function repeat(cb: Func, data: Data) {
@@ -88,7 +81,6 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
  *     data; // { start?: number, step?: number, count: number }
  *   }
  * }
- * ```
  */
 export function lacksKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,

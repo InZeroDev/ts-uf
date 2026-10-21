@@ -13,10 +13,8 @@ export type ReplaceUpdate = [start: number, end: number, replacement: string];
  * - some ranges overlap.
  * 
  * @example
- * ```ts
  * replaceString("Hello World!", [6, 11, "Universe"]); // "Hello Universe!"
  * replaceString("012345678", [0, 2, "x"], [3, 5, "y"], [6, 8, "z"]); // "x2y5z8"
- * ```
  */
 export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): string {
 	if (doRangesOverlap(updates.map(([start, end]) => [start, end])))
@@ -52,9 +50,7 @@ type Range = [start: number, end: number];
  * - some ranges overlap.
  * 
  * @example
- * ```ts
  * deleteSubstring("Hello World And Welcome!", [5, 11], [23, 24]); // "Hello And Welcome"
- * ```
  */
 export function deleteSubstring(string: string, ...ranges: Range[]): string {
   return replaceSubstring(string, ...ranges.map<ReplaceUpdate>(([start, end]) => [start, end, ""]));
@@ -72,9 +68,7 @@ export type InsertUpdate = [index: number, insertion: string];
  * - some ranges overlap.
  * 
  * @example
- * ```ts
  * insertSubstring("Hello World!", [6, "("], [11, ")"]); // "Hello (World)!"
- * ```
  */
 export function insertSubstring(string: string, ...updates: InsertUpdate[]): string {
   return replaceSubstring(string, ...updates.map<ReplaceUpdate>(([index, insertion]) => [index, index, insertion]));

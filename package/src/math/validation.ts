@@ -5,10 +5,8 @@ import { isBoolean } from "~/boolean";
  * Checks whether a number is odd.
  *
  * @example
- * ```ts
  * isOdd(1); // true
  * isOdd(2); // false
- * ```
  */
 export function isOdd(value: number): boolean {
 	return value % 2 === 1;
@@ -18,10 +16,8 @@ export function isOdd(value: number): boolean {
  * Checks whether a number is even.
  *
  * @example
- * ```ts
  * isEven(1); // false
  * isEven(2); // true
- * ```
  */
 export function isEven(value: number): boolean {
 	return !isOdd(value);
@@ -31,11 +27,9 @@ export function isEven(value: number): boolean {
  * Checks whether a number is positive.
  *
  * @example
- * ```ts
  * isPositive(-1); // false
  * isPositive(0); // false
  * isPositive(1); // true
- * ```
  */
 export function isPositive(value: number): boolean {
 	return value > 0;
@@ -45,11 +39,9 @@ export function isPositive(value: number): boolean {
  * Checks whether a number is non-negative.
  *
  * @example
- * ```ts
  * isNonNegative(-1); // false
  * isNonNegative(0); // true
  * isNonNegative(1); // true
- * ```
  */
 export function isNonNegative(value: number): boolean {
 	return value >= 0;
@@ -59,11 +51,9 @@ export function isNonNegative(value: number): boolean {
  * Checks whether a number is negative.
  *
  * @example
- * ```ts
  * isNegative(-1); // true
  * isNegative(0); // false
  * isNegative(1); // false
- * ```
  */
 export function isNegative(value: number): boolean {
 	return value < 0;
@@ -73,11 +63,9 @@ export function isNegative(value: number): boolean {
  * Checks whether a number is non-positive.
  *
  * @example
- * ```ts
  * isNonPositive(-1); // true
  * isNonPositive(0); // true
  * isNonPositive(1); // false
- * ```
  */
 export function isNonPositive(value: number): boolean {
 	return value <= 0;
@@ -87,7 +75,6 @@ export function isNonPositive(value: number): boolean {
  * Checks whether a number is prime.
  *
  * @example
- * ```ts
  * isPrime(2); // true
  * isPrime(3); // true
  * isPrime(563); // true
@@ -96,7 +83,6 @@ export function isNonPositive(value: number): boolean {
  * isPrime(1); // false
  * isPrime(4); // false
  * isPrime(564); // false
- * ```
  */
 export function isPrime(value: number): boolean {
 	if (value <= 1) return false;
@@ -110,7 +96,6 @@ export function isPrime(value: number): boolean {
  * Checks whether a number is not prime.
  *
  * @example
- * ```ts
  * isPrime(2); // false
  * isPrime(3); // false
  * isPrime(563); // false
@@ -119,7 +104,6 @@ export function isPrime(value: number): boolean {
  * isPrime(1); // true
  * isPrime(4); // true
  * isPrime(564); // true
- * ```
  */
 export function isNotPrime(value: number): boolean {
 	return !isPrime(value);
@@ -134,7 +118,6 @@ type ExclusiveMinMax = {
  * Checks whether a number is within a given range.
  *
  * @example
- * ```ts
  * const range = [1, 10] as const;
  *
  * isInRange(0, range); // false
@@ -144,7 +127,6 @@ type ExclusiveMinMax = {
  * isInRange(10, range); // true
  *
  * isInRange(11, range); // false
- * ```
  */
 export function isInRange(
 	value: number,
@@ -161,7 +143,6 @@ export function isInRange(
  * Checks whether a number is out of a given range.
  *
  * @example
- * ```ts
  * const range = [1, 10] as const;
  *
  * isOutOfRange(0, range); // true
@@ -171,7 +152,6 @@ export function isInRange(
  * isOutOfRange(10, range); // false
  *
  * isOutOfRange(11, range); // true
- * ```
  */
 export function isOutOfRange(
 	value: number,
@@ -187,10 +167,8 @@ type Range = [start: number, end: number];
  * Checks whether some ranges overlap.
  * 
  * @example
- * ```ts
  * doRangesOverlap([0, 3], [3, 6]); // false
  * doRangesOverlap([0, 3], [2, 6]); // true
- * ```
  */
 export function doRangesOverlap(ranges: ROList<Range>): boolean {
   const sorted = ranges.toSorted((a, b) => a[0] - b[0]);
