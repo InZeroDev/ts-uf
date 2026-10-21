@@ -1,4 +1,5 @@
-import type { Func, RT, Tuple, Valid } from "@inzero/ts-ut";
+import type { Func, Pop, ROList, RT, Tuple, Valid } from "@inzero/ts-ut";
+import type { IsTuple, NormalizeIndex } from "@inzero/ts-ut/_internal";
 
 /**
  * Converts an index to a number.
@@ -25,6 +26,15 @@ export function numberToIndex(number: number): number {
 }
 
 /**
+ * Returns the first element of an array.
+ */
+export function getFirstElement<T extends ROList>(
+	arr: T,
+): T extends T ? (IsTuple<T> extends true ? T[0] : T[number] | undefined) : never {
+	return arr[0] as Valid;
+}
+
+/**
  * Gets the last index of an array using its length.
  *
  * @example
@@ -36,6 +46,19 @@ export function numberToIndex(number: number): number {
  */
 export function getLastIndex(length: number): number {
 	return numberToIndex(length);
+}
+
+/**
+ * Returns the last element of an array.
+ */
+export function getLastElement<T extends ROList>(
+	arr: T,
+): T extends T
+	? IsTuple<T> extends true
+		? T[NormalizeIndex<-1, T>]
+		: T[number] | undefined
+	: never {
+	return arr[getLastIndex(arr.length)] as Valid;
 }
 
 /**
@@ -53,6 +76,28 @@ export function getLastIndex(length: number): number {
 export function getMiddleIndex(length: number): number {
 	return numberToIndex(Math.floor(length / 2));
 }
+
+/**
+ * Returns the middle element of an array.
+ */
+export function getMiddleElement<T extends ROList>(
+	arr: T,
+): T extends T ? (IsTuple<T> extends true ? T[GetMiddleIndex<T>] : T[number] | undefined) : never {
+	return arr[getMiddleIndex(arr.length)] as Valid;
+}
+
+type GetMiddleIndex<T extends ROList> = T extends T ? _GetMiddleIndex<T> : never;
+type _GetMiddleIndex<
+	T extends ROList,
+	Left extends ROList = [],
+	Right extends ROList = [],
+> = T extends readonly [unknown, ...infer Rest]
+	? Left["length"] extends Right["length"]
+		? _GetMiddleIndex<Rest, Left, [...Right, any]>
+		: _GetMiddleIndex<Rest, [...Left, any], Right>
+	: Left["length"] extends Right["length"]
+		? Pop<Left>["length"]
+		: Left["length"];
 
 /**
  * Gets the index range of an array using its length.
