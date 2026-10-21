@@ -83,14 +83,6 @@ export function isNonPositive(value: number): boolean {
 	return value <= 0;
 }
 
-export function isZero<T extends number>(value: T): value is SmartExtract<T, 0> {
-	return value === 0;
-}
-
-export function isNotZero<T extends number>(value: T): value is Exclude<T, 0> {
-	return !isZero(value);
-}
-
 /**
  * Checks whether a number is prime.
  *
