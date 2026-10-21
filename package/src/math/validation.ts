@@ -1,4 +1,4 @@
-import type { SmartExtract } from "@inzero/ts-ut";
+import type { ROList, SmartExtract } from "@inzero/ts-ut";
 import { isBoolean } from "~/boolean";
 
 /**
@@ -179,4 +179,27 @@ export function isOutOfRange(
 	exclusive: ExclusiveMinMax = {},
 ): boolean {
 	return !isInRange(value, range, exclusive);
+}
+
+type Range = [start: number, end: number];
+
+/**
+ * Checks whether some ranges overlap.
+ * 
+ * @example
+ * ```ts
+ * doRangesOverlap([0, 3], [3, 6]); // false
+ * doRangesOverlap([0, 3], [2, 6]); // true
+ * ```
+ */
+export function doRangesOverlap(ranges: ROList<Range>): boolean {
+  const sorted = ranges.toSorted((a, b) => a[0] - b[0]);
+
+  for (let index = 1; index < sorted.length; index++) {
+    const range = sorted[index]!;
+    const prevRange = sorted[index - 1]!;
+    if (range[0] < prevRange[1]) return true;
+  }
+
+  return false;
 }
