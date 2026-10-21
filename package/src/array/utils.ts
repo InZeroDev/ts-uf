@@ -168,14 +168,30 @@ export function getOneBasedIndices(length: number): number[] {
 	return createArray(length, indexToNumber);
 }
 
+/**
+ * Gets a random index from an array using its length.
+ */
 export function getRandomIndex(length: number): number {
 	return getRandomInteger(0, numberToIndex(length));
 }
 
+/**
+ * Gets a random element from an array.
+ */
 export function getRandomElement<T extends ROList>(arr: T): T extends T ? T[number] | (IsTuple<T> extends true ? never : undefined) : never {
 	return arr[getRandomIndex(arr.length)] as Valid;
 }
 
+/**
+ * Maps a function over an array, ignoring `undefined` and `null` values.
+ * 
+ * @example
+ * ```ts
+ * const arr = [1, null, 3];
+ * 
+ * mapOnDefined(arr, (value) => value * 2); // [2, null, 6]
+ * ```
+ */
 export function mapOnDefined<
 	T extends ROList,
 	const F extends Func<[value: Exclude<T[number], undefined | null>]>,
@@ -183,6 +199,15 @@ export function mapOnDefined<
 	return arr.map((value) => (isNullish(value) ? value : func(value as Valid)))
 };
 
+/**
+ * Returns an array with unique elements.
+ * 
+ * @example
+ * ```ts
+ * const arr = ["foo", "foo", "bar"];
+ * const uniqueArr = toUniqueArray(arr); // ["foo", "bar"]
+ * ```
+ */
 export function toUniqueArray<T extends ROList>(arr: T): T[number][] {
 	return [...new Set(arr)];
 }
