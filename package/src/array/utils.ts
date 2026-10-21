@@ -1,6 +1,7 @@
 import type { Func, KeyofTuple, Pop, ROList, RT, Tuple, Valid } from "@inzero/ts-ut";
 import type { IsTuple, NormalizeIndex } from "@inzero/ts-ut/_internal";
 import { getRandomInteger } from "~/math";
+import { isNullish } from "~/other";
 
 /**
  * Converts an index to a number.
@@ -175,3 +176,13 @@ export function getRandomElement<T extends ROList>(arr: T): T extends T ? T[numb
 	return arr[getRandomIndex(arr.length)] as Valid;
 }
 
+export function mapOnDefined<
+	T extends ROList,
+	const F extends Func<[value: Exclude<T[number], undefined | null>]>,
+>(arr: T, func: F): (RT<F> | Extract<T[number], undefined | null>)[] {
+	return arr.map((value) => (isNullish(value) ? value : func(value as Valid)))
+};
+
+export function toUniqueArray<T extends ROList>(arr: T): T[number][] {
+	return [...new Set(arr)];
+}
