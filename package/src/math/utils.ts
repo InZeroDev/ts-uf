@@ -2,7 +2,7 @@ import { repeat } from "~/function";
 
 /**
  * Get the sum of the given numbers.
- * 
+ *
  * @example
  * ```ts
  * getSum(1, 2, 3); // 6
@@ -14,7 +14,7 @@ export function getSum(...numbers: number[]): number {
 
 /**
  * Get the average of the given numbers.
- * 
+ *
  * @example
  * ```ts
  * getAverage(1, 2, 3); // 2
@@ -26,7 +26,7 @@ export function getAverage(...numbers: number[]): number {
 
 /**
  * Get a random number between the given range.
- * 
+ *
  * @example
  * ```ts
  * getRandomNumber(1, 10); 3.1458241132191636
@@ -42,7 +42,7 @@ export function getRandomFloat(min: number, max: number): number {
 
 /**
  * Get a random integer between the given range.
- * 
+ *
  * @example
  * ```ts
  * getRandomInteger(1, 10); 3
@@ -56,11 +56,11 @@ export function getRandomInteger(min: number, max: number, inclusive: boolean = 
 
 /**
  * Ensures that a number is within a given range.
- * 
+ *
  * @example
  * ```ts
  * const range = [1, 10] as const;
- * 
+ *
  * minmax(0, ...range); // 1
  * minmax(5, ...range); // 5
  * minmax(11, ...range); // 10
@@ -74,7 +74,7 @@ export { minmax as clamp };
 
 /**
  * Rounds a number to a given number of decimals.
- * 
+ *
  * @example
  * ```ts
  * roundNumber(1.23456789, 3); // 1.235

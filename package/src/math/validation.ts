@@ -108,7 +108,7 @@ export function isPrime(value: number): boolean {
 
 /**
  * Checks whether a number is not prime.
- * 
+ *
  * @example
  * ```ts
  * isPrime(2); // false
@@ -138,11 +138,11 @@ type ExclusiveMinMax = {
  * const range = [1, 10] as const;
  *
  * isInRange(0, range); // false
- * 
+ *
  * isInRange(1, range); // true
  * isInRange(5, range); // true
  * isInRange(10, range); // true
- * 
+ *
  * isInRange(11, range); // false
  * ```
  */
@@ -165,11 +165,11 @@ export function isInRange(
  * const range = [1, 10] as const;
  *
  * isOutOfRange(0, range); // true
- * 
+ *
  * isOutOfRange(1, range); // false
  * isOutOfRange(5, range); // false
  * isOutOfRange(10, range); // false
- * 
+ *
  * isOutOfRange(11, range); // true
  * ```
  */

@@ -77,7 +77,7 @@ export function isNonEmptyString<T>(
  * isBlank(""); // true
  * isBlank("  "); // true
  * isBlank("\t\n"); // true
- * 
+ *
  * isBlank("hello"); // false
  * isBlank("   h"); // false
  * ```
@@ -94,7 +94,7 @@ export function isBlank<T>(value: CheckT<T>): value is SmartExtract<T, string> {
  * isNonBlank(""); // false
  * isNonBlank("  "); // false
  * isNonBlank("\t\n"); // false
- * 
+ *
  * isNonBlank("hello"); // true
  * isNonBlank("   h"); // true
  * ```

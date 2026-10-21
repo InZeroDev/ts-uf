@@ -2,7 +2,7 @@ import type { Func, Params, RT } from "@inzero/ts-ut";
 
 /**
  * Immediately invoked function expression.
- * 
+ *
  * @example
  * ```ts
  * const folders = iife(() => {

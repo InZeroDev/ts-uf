@@ -11,7 +11,7 @@ type SuggestValues<T extends Stringable> = T | (string & {}) | (number & {});
 
 /**
  * Extracts the context from a string pattern.
- * 
+ *
  * @example
  * ```ts
  * type Pattern = "Hello, {name}! Your age is {age=unknown}.";
@@ -31,7 +31,7 @@ export type ExtractContext<T extends string> = T extends `${infer L}{${infer V}}
 
 /**
  * Formats a string using a given context.
- * 
+ *
  * @example
  * ```ts
  * formatString("Hello, {name}! Your age is {age=unknown}.", { name: "John" }); // "Hello, John! Your age is unknown."

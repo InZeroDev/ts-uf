@@ -5,7 +5,7 @@ type CheckT<T> = _CheckT<T, boolean, "boolean">;
 
 /**
  * Checks whether a value is a boolean.
- * 
+ *
  * @example
  * ```ts
  * function foo(value: boolean | { a: boolean, b: boolean }) {
@@ -21,7 +21,7 @@ export function isBoolean<T>(value: CheckT<T>): value is SmartExtract<T, boolean
 
 /**
  * Checks whether a value is not a boolean.
- * 
+ *
  * @example
  * ```ts
  * function foo(value: boolean | { a: boolean, b: boolean }) {

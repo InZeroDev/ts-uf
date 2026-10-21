@@ -7,7 +7,7 @@ type RemoveEmptyDict<T> = T extends T ? (AreEqual<T, {}> extends false ? T : nev
 
 /**
  * Checks whether a value is an object.
- * 
+ *
  * @example
  * ```ts
  * function foo(inclusive: boolean | { inclusiveMin: boolean, inclusiveMax: boolean }) {
@@ -23,7 +23,7 @@ export function isObject<T>(value: CheckT<T>): value is SmartExtract<T, Dict> {
 
 /**
  * Checks whether a value is not an object.
- * 
+ *
  * @example
  * ```ts
  * function foo(inclusive: boolean | { inclusiveMin: boolean, inclusiveMax: boolean }) {
@@ -39,7 +39,7 @@ export function isNotObject<T>(value: CheckT<T>): value is Exclude<T, Dict> {
 
 /**
  * checks whether a value is an object with no keys.
- * 
+ *
  * @example
  * ```ts
  * isEmptyObject({}); // true

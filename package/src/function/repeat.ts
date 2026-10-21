@@ -94,7 +94,7 @@ export async function repeatAsync<const F extends RepeatAsyncCb>(
 
 /**
  * Repeats a function while a given condition is true.
- * 
+ *
  * @example
  * ```ts
  * repeatWhile(console.log, (index) => index < 3); // logs "0", "1", "2"
