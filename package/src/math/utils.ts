@@ -34,7 +34,7 @@ export function getAverage(...numbers: number[]): number {
  * getRandomNumber(1, 10); 5.6216396763729986
  * ```
  */
-export function getRandomNumber(min: number, max: number): number {
+export function getRandomFloat(min: number, max: number): number {
 	if (min > max) [min, max] = [max, min];
 	else if (min === max) return min;
 	return Math.random() * (max - min + 1) + min;
@@ -51,7 +51,7 @@ export function getRandomNumber(min: number, max: number): number {
  * ```
  */
 export function getRandomInteger(min: number, max: number, inclusive: boolean = false): number {
-	return Math.floor(getRandomNumber(min, max + +inclusive));
+	return Math.floor(getRandomFloat(min, max + +inclusive));
 }
 
 /**
