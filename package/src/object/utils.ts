@@ -19,13 +19,13 @@ type _GetDeep<T extends Dict | ROList, N extends string, R> = {
 	[P in keyof T]: P extends N
 		? IsNever<R> extends true
 			? T[P]
-			: // @ts-expect-error
+			: // @ts-expect-error - TS is just unhappy. Code is correct (I hope :)
 				GetDeep<T[P], R>
 		: never;
-} extends infer R
-	? R extends ROList
-		? R[number]
-		: R[keyof R]
+} extends infer O
+	? O extends ROList
+		? O[number]
+		: O[keyof O]
 	: never;
 type Next<K extends string> = K extends `${infer N extends string}.${infer R extends string}`
 	? [N, R]
@@ -57,7 +57,7 @@ export function getDeep<T extends Dict, K extends KeyofDeep<T>>(
  */
 export function getDeep(obj: Dict, key: string): unknown;
 export function getDeep(obj: Dict, key: string): unknown {
-	return key.split(".").reduce((acc, key) => (acc as any)?.[key], obj) as Valid;
+	return key.split(".").reduce((acc, key) => (acc as Valid)?.[key], obj) as Valid;
 }
 
 /**
@@ -81,7 +81,7 @@ export function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
 	if (lastKey === undefined) throw new Error("Invalid key");
 
 	const lastObj = keys.reduce((acc, currKey, ind) => {
-		const currValue = (acc as any)?.[currKey];
+		const currValue = (acc as Valid)?.[currKey];
 		if (isNotObject(currValue)) {
 			const invalidKey = keys.slice(0, ind + 1).join(".");
 			throw new Error(`${invalidKey} is not an object.`);

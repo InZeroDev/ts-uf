@@ -1,5 +1,5 @@
 import type { ROList } from "@inzero/ts-ut/list";
-import type { SmartExtract } from "@inzero/ts-ut/other";
+import type { SmartExtract, Valid } from "@inzero/ts-ut/other";
 
 /**
  * checks whether a value is one of the expected values.
@@ -17,7 +17,7 @@ export function isOneOf<const T, const L extends ROList>(
 	value: T,
 	list: L,
 ): value is SmartExtract<T, L[number]> {
-	return list.includes(value as any);
+	return list.includes(value as Valid);
 }
 
 /**

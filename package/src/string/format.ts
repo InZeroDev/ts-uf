@@ -28,7 +28,7 @@ export type ExtractContext<T extends string> = T extends `${infer L}{${infer V}}
 						ExtractContext<R>
 				>
 			: never
-	: {};
+	: {}; // eslint-disable-line @typescript-eslint/no-empty-object-type
 
 /**
  * Formats a string using a given context.

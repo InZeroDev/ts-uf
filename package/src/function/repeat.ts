@@ -86,7 +86,7 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
  */
 export function repeatWhile(func: Func, condition: RepeatWhileCondition): void {
 	let index = 0;
-	while (condition(index)) func(index);
+	while (condition(index)) func(index++);
 }
 
 /**
@@ -97,5 +97,5 @@ export async function repeatWhileAsync(
 	condition: RepeatWhileAsyncCondition,
 ): Promise<void> {
 	let index = 0;
-	while (await condition(index)) await func(index);
+	while (await condition(index)) await func(index++);
 }

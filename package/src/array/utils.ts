@@ -90,8 +90,8 @@ type _GetMiddleIndex<
 	Right extends ROList = [],
 > = T extends readonly [unknown, ...infer Rest]
 	? Left["length"] extends Right["length"]
-		? _GetMiddleIndex<Rest, Left, [...Right, any]>
-		: _GetMiddleIndex<Rest, [...Left, any], Right>
+		? _GetMiddleIndex<Rest, Left, [...Right, "+1"]>
+		: _GetMiddleIndex<Rest, [...Left, "+1"], Right>
 	: Left["length"] extends Right["length"]
 		? Pop<Left>["length"]
 		: Left["length"];
