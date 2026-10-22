@@ -1,7 +1,7 @@
 import type { SmartExtract } from "@inzero/ts-ut/other";
 import type { _CheckT } from "~/_internal";
 
-type CheckT<T> = _CheckT<T, string, "string">;
+type CheckT<T> = _CheckT<T, string>;
 
 /**
  * Checks whether a value is a string.

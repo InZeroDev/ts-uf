@@ -1,7 +1,7 @@
 import type { SmartExtract } from "@inzero/ts-ut/other";
 import type { _CheckT } from "~/_internal";
 
-type CheckT<T> = _CheckT<T, boolean, "boolean">;
+type CheckT<T> = _CheckT<T, boolean>;
 
 /**
  * Checks whether a value is a boolean.

@@ -6,7 +6,7 @@ import { getIndexRange, numberToIndex } from "./utils";
 import type { _CheckT } from "~/_internal";
 import { isInRange } from "~/math";
 
-type CheckT<T> = _CheckT<T, ROList, "array">;
+type CheckT<T> = _CheckT<T, ROList>;
 
 /**
  * Checks whether a value is an array.

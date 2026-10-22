@@ -2,7 +2,7 @@ import type { SmartExtract } from "@inzero/ts-ut/other";
 import type { Func } from "@inzero/ts-ut/func";
 import type { _CheckT } from "~/_internal";
 
-type CheckT<T> = _CheckT<T, Func, "function">;
+type CheckT<T> = _CheckT<T, Func>;
 
 /**
  * Checks whether a value is a function.

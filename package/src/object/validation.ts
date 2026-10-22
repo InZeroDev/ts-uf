@@ -4,7 +4,7 @@ import type { Dict } from "@inzero/ts-ut/dict";
 import type { _CheckT } from "~/_internal";
 import { isNotArray } from "~/array/validation";
 
-type CheckT<T> = _CheckT<T, Dict, "object">;
+type CheckT<T> = _CheckT<T, Dict>;
 type RemoveEmptyDict<T> = T extends T ? (AreEqual<T, {}> extends false ? T : never) : never;
 
 /**
