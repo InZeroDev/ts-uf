@@ -1,4 +1,5 @@
-import type { Func, Params, ROList, RT } from "@inzero/ts-ut";
+import type { Func } from "@inzero/ts-ut/func";
+import type { ROList } from "@inzero/ts-ut/list";
 
 /**
  * Immediately invoked function expression.

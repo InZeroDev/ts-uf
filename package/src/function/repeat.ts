@@ -1,6 +1,5 @@
-import type { Func, RT } from "@inzero/ts-ut";
+import type { Func } from "@inzero/ts-ut/func";
 import { hasKey } from "~/object";
-import { iife } from "./utils";
 import { isNumber } from "~/number";
 import { isBoolean } from "~/boolean";
 

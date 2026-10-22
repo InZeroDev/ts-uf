@@ -1,13 +1,8 @@
-import type {
-	Dict,
-	ROList,
-	KeyofDeep,
-	IsNever,
-	Valid,
-	Suggest,
-	Keyof,
-	DictKey,
-} from "@inzero/ts-ut";
+import type { IsNever, Valid } from "@inzero/ts-ut/other";
+import type { Suggest } from "@inzero/ts-ut/string";
+import type { Dict, KeyofDeep, DictKey } from "@inzero/ts-ut/dict";
+import type { ROList } from "@inzero/ts-ut/list";
+
 import { isNotObject } from "./validation";
 import type { IsKnownDict, IsKnownKey } from "./_internal";
 
@@ -141,5 +136,3 @@ export function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[ke
 export function fromEntries<K extends DictKey, V>(entries: [K, V][]): Dict<K, V> {
 	return Object.fromEntries(entries) as Valid;
 }
-
-

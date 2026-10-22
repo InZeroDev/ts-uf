@@ -1,4 +1,5 @@
-import type { FirstChar, LastChar, Valid } from "@inzero/ts-ut";
+import type { FirstChar, LastChar } from "@inzero/ts-ut/string";
+import type { Valid } from "@inzero/ts-ut/other";
 
 /**
  * Returns the first character of a string.

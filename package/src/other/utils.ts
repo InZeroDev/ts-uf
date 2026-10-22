@@ -1,4 +1,5 @@
-import type { Func, SmartExtract, Valid } from "@inzero/ts-ut";
+import type { Valid } from "@inzero/ts-ut/other";
+import type { Func } from "@inzero/ts-ut/func";
 import { isOneOf } from "./validation";
 
 /**
@@ -16,6 +17,9 @@ import { isOneOf } from "./validation";
  *   return mapDefined(func.getJsDocs().at(-1)?.getDescription(), convertJSDocLinks);
  * }
  */
-export function mapDefined<T, const R>(value: T, fn: Func<[value: Exclude<T, undefined | null>], R>): R | Extract<T, undefined | null> {
-  return isOneOf(value, [undefined, null]) ? value as Valid : fn(value as Valid);
+export function mapDefined<T, const R>(
+	value: T,
+	fn: Func<[value: Exclude<T, undefined | null>], R>,
+): R | Extract<T, undefined | null> {
+	return isOneOf(value, [undefined, null]) ? (value as Valid) : fn(value as Valid);
 }

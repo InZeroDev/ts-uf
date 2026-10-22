@@ -1,5 +1,4 @@
-import type { ROList, SmartExtract } from "@inzero/ts-ut";
-import { isBoolean } from "~/boolean";
+import type { ROList } from "@inzero/ts-ut/list";
 
 /**
  * Checks whether a number is odd.
@@ -165,19 +164,19 @@ type Range = [start: number, end: number];
 
 /**
  * Checks whether some ranges overlap.
- * 
+ *
  * @example
  * doRangesOverlap([0, 3], [3, 6]); // false
  * doRangesOverlap([0, 3], [2, 6]); // true
  */
 export function doRangesOverlap(ranges: ROList<Range>): boolean {
-  const sorted = ranges.toSorted((a, b) => a[0] - b[0]);
+	const sorted = ranges.toSorted((a, b) => a[0] - b[0]);
 
-  for (let index = 1; index < sorted.length; index++) {
-    const range = sorted[index]!;
-    const prevRange = sorted[index - 1]!;
-    if (range[0] < prevRange[1]) return true;
-  }
+	for (let index = 1; index < sorted.length; index++) {
+		const range = sorted[index]!;
+		const prevRange = sorted[index - 1]!;
+		if (range[0] < prevRange[1]) return true;
+	}
 
-  return false;
+	return false;
 }

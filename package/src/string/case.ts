@@ -1,4 +1,4 @@
-import type { Valid } from "@inzero/ts-ut";
+import type { Valid } from "@inzero/ts-ut/other";
 
 /**
  * Capitalizes the first character of a string.

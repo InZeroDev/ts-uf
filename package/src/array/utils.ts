@@ -1,4 +1,7 @@
-import type { Func, KeyofTuple, Pop, ROList, RT, Tuple, Valid } from "@inzero/ts-ut";
+import type { ROList } from "@inzero/ts-ut/list";
+import type { Tuple, Pop } from "@inzero/ts-ut/tuple";
+import type { Valid } from "@inzero/ts-ut/other";
+import type { Func } from "@inzero/ts-ut/func";
 import type { IsTuple, NormalizeIndex } from "@inzero/ts-ut/_internal";
 import { getRandomInteger } from "~/math";
 import { isNullish } from "~/other";
@@ -160,28 +163,30 @@ export function getRandomIndex(length: number): number {
 /**
  * Gets a random element from an array.
  */
-export function getRandomElement<T extends ROList>(arr: T): T extends T ? T[number] | (IsTuple<T> extends true ? never : undefined) : never {
+export function getRandomElement<T extends ROList>(
+	arr: T,
+): T extends T ? T[number] | (IsTuple<T> extends true ? never : undefined) : never {
 	return arr[getRandomIndex(arr.length)] as Valid;
 }
 
 /**
  * Maps a function over an array, ignoring `undefined` and `null` values.
- * 
+ *
  * @example
  * const arr = [1, null, 3];
- * 
+ *
  * mapOnDefined(arr, (value) => value * 2); // [2, null, 6]
  */
-export function mapOnDefined<
-	T extends ROList,
-	const R,
->(arr: T, func: Func<[value: Exclude<T[number], undefined | null>], R>): (R | Extract<T[number], undefined | null>)[] {
+export function mapOnDefined<T extends ROList, const R>(
+	arr: T,
+	func: Func<[value: Exclude<T[number], undefined | null>], R>,
+): (R | Extract<T[number], undefined | null>)[] {
 	return arr.map((value) => (isNullish(value) ? value : func(value as Valid))) as Valid;
-};
+}
 
 /**
  * Returns an array with unique elements.
- * 
+ *
  * @example
  * const arr = ["foo", "foo", "bar"];
  * const uniqueArr = toUniqueArray(arr); // ["foo", "bar"]

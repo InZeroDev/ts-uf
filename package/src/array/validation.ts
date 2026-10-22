@@ -1,16 +1,10 @@
-import type {
-	HasType,
-	IsAny,
-	IsUnknown,
-	List,
-	NonEmptyTuple,
-	ROList,
-	SmartExtract,
-} from "@inzero/ts-ut";
+import type { IsAny, IsUnknown, SmartExtract } from "@inzero/ts-ut/other";
+import type { List, ROList } from "@inzero/ts-ut/list";
+import type { NonEmptyTuple } from "@inzero/ts-ut/tuple";
 import type { IsTuple, MatchRO } from "@inzero/ts-ut/_internal";
 import { getIndexRange, numberToIndex } from "./utils";
 import type { _CheckT } from "~/_internal";
-import { isInRange } from "~/math/validation";
+import { isInRange } from "~/math";
 
 type CheckT<T> = _CheckT<T, ROList, "array">;
 

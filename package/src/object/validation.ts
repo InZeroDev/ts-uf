@@ -1,4 +1,6 @@
-import type { AreEqual, Dict, IsAny, IsUnknown, SmartExtract } from "@inzero/ts-ut";
+import type { AreEqual, IsAny, IsUnknown, SmartExtract } from "@inzero/ts-ut/other";
+import type { Dict } from "@inzero/ts-ut/dict";
+
 import type { _CheckT } from "~/_internal";
 import { isNotArray } from "~/array/validation";
 

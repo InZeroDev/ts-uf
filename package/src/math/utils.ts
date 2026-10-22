@@ -1,5 +1,3 @@
-import { repeat } from "~/function";
-
 /**
  * Get the sum of the given numbers.
  *

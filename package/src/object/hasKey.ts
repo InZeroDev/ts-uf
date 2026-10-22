@@ -1,4 +1,5 @@
-import type { Dict, DictKey, Keyof, SmartExtract } from "@inzero/ts-ut";
+import type { Dict, DictKey, Keyof } from "@inzero/ts-ut/dict";
+import type { SmartExtract } from "@inzero/ts-ut/other";
 import type { IsKnownDict, IsKnownKey } from "./_internal";
 
 /**
