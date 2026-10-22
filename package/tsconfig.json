@@ -21,12 +21,6 @@
 		"noUncheckedSideEffectImports": true,
 		"moduleDetection": "force",
 		"skipLibCheck": true,
-
-		// Path aliases
-		"paths": {
-			"~/*": ["./src/*"],
-			"~r/*": ["./*"]
-		}
 	},
 	"include": ["src"],
 	"exclude": ["node_modules"]

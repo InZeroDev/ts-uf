@@ -1,8 +1,8 @@
 import type { AreEqual, IsAny, IsUnknown, SmartExtract } from "@inzero/ts-ut/other";
 import type { Dict } from "@inzero/ts-ut/dict";
 
-import type { _CheckT } from "~/_internal";
-import { isNotArray } from "~/array/validation";
+import type { _CheckT } from "../_internal";
+import { isNotArray } from "../array/validation";
 
 type CheckT<T> = _CheckT<T, Dict>;
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

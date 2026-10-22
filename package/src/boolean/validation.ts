@@ -1,5 +1,5 @@
 import type { SmartExtract } from "@inzero/ts-ut/other";
-import type { _CheckT } from "~/_internal";
+import type { _CheckT } from "../_internal";
 
 type CheckT<T> = _CheckT<T, boolean>;
 

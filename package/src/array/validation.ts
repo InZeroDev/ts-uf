@@ -3,8 +3,8 @@ import type { List, ROList } from "@inzero/ts-ut/list";
 import type { NonEmptyTuple } from "@inzero/ts-ut/tuple";
 import type { IsTuple, MatchRO } from "@inzero/ts-ut/_internal";
 import { getIndexRange, numberToIndex } from "./utils";
-import type { _CheckT } from "~/_internal";
-import { isInRange } from "~/math";
+import type { _CheckT } from "../_internal";
+import { isInRange } from "../math";
 
 type CheckT<T> = _CheckT<T, ROList>;
 

@@ -1,7 +1,7 @@
 import type { Func } from "@inzero/ts-ut/func";
-import { hasKey } from "~/object";
-import { isNumber } from "~/number";
-import { isBoolean } from "~/boolean";
+import { hasKey } from "../object";
+import { isNumber } from "../number";
+import { isBoolean } from "../boolean";
 
 /* ---------------------------------- Types --------------------------------- */
 export type RepeatData = ({ end: number } | { count: number }) & { start?: number; step?: number };

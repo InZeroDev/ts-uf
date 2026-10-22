@@ -1,4 +1,4 @@
-import type { RORange } from "~/_internal";
+import type { RORange } from "../_internal";
 
 /**
  * Checks whether a number is odd.

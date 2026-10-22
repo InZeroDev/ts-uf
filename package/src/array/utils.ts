@@ -3,9 +3,9 @@ import type { Tuple, Pop } from "@inzero/ts-ut/tuple";
 import type { Valid } from "@inzero/ts-ut/other";
 import type { Func } from "@inzero/ts-ut/func";
 import type { IsTuple, NormalizeIndex } from "@inzero/ts-ut/_internal";
-import { getRandomInteger } from "~/math";
-import { isNullish } from "~/other";
-import type { Range } from "~/_internal";
+import { getRandomInteger } from "../math";
+import { isNullish } from "../other";
+import type { Range } from "../_internal";
 
 /**
  * Converts an index to a number.

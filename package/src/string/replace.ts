@@ -1,5 +1,5 @@
-import type { RORange } from "~/_internal";
-import { doRangesOverlap } from "~/math";
+import type { RORange } from "../_internal";
+import { doRangesOverlap } from "../math";
 
 export type ReplaceUpdate = [start: number, end: number, replacement: string];
 
