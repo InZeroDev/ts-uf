@@ -3,9 +3,13 @@ import type { SmartExtract } from "@inzero/ts-ut/other";
 import type { IsKnownDict, IsKnownKey } from "./_internal";
 
 /**
+ * @settingsDoc
+ * @before Used when `obj` and `key` are both known.
+ */
+/**
  * Checks whether an object contains the given key.
  *
- * @remarks Narrows `obj` by filtering out all the versions that don't contain the given key.
+ * @remarks Narrows `obj` by filtering out all the objects that don't contain the given key.
  *
  * @example
  * type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
@@ -22,6 +26,10 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
 ): obj is SmartExtract<typeof obj, Dict<K>>;
+/**
+ * @settingsDoc
+ * @before Used when `obj` is known but `key` is not.
+ */
 /**
  * Checks whether an object contains the given key.
  *
@@ -42,6 +50,10 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 	key: IsKnownKey<K> extends false ? K : never,
 ): key is SmartExtract<typeof key, Keyof<T>>;
 /**
+ * @settingsDoc
+ * @before Used when `key` is known but `obj` is not.
+ */
+/**
  * Checks whether an object contains the given key.
  *
  * @remarks Narrows `obj` to `typeof obj & Record<typeof key, unknown>` when the check succeeds.
@@ -59,6 +71,10 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 	key: IsKnownKey<K> extends true ? K : never,
 ): obj is typeof obj & Dict<K, T[keyof T]>;
 /**
+ * @settingsDoc
+ * @before Used when neither `obj` nor `key` are known.
+ */
+/**
  * Checks whether an object contains the given key.
  */
 
@@ -67,6 +83,10 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
 	return key in obj;
 }
 
+/**
+ * @settingsDoc
+ * @before Used when `key` and `obj` are both known.
+ */
 /**
  * Checks whether an object lacks the given key.
  *
@@ -87,6 +107,10 @@ export function lacksKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
 ): obj is Exclude<typeof obj, Dict<K>>;
+/**
+ * @settingsDoc
+ * @before Used when neither `obj` nor `key` are known.
+ */
 /**
  * Checks whether an object lacks the given key.
  */

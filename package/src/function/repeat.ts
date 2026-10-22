@@ -32,18 +32,50 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
 
 /* -------------------------------- Functions ------------------------------- */
 /**
+ * @settingsDoc
+ * @afterShape $T{RepeatCb}
+ * $T{RepeatCbParams}
+ * $T{RepeatCbRT}
+ *
+ * $T{RepeatData}
+ */
+/**
  * Repeats a function a given number of times.
+ *
+ * @remarks
+ *  - Return `false` to break the loop.
+ *  - Return `number` to jump to the given index.
  *
  * @example
  * repeat(console.log, { start: 10, end: 13 }); // logs "10", "11", "12"
  * repeat(console.log, { start: 10, count: 3 }); // logs "10", "11", "12"
+ *
+ * repeat((index) => {
+ *   if (index === 3) return 5; // jump to index 5
+ *   if (index === 8) return false; // break the loop
+ * }, 10);
  */
 export function repeat(func: RepeatCb, data: RepeatData): void;
 /**
+ * @settingsDoc
+ * @afterShape $T{RepeatCb}
+ * $T{RepeatCbParams}
+ * $T{RepeatCbRT}
+ */
+/**
  * Repeats a function a given number of times.
+ *
+ * @remarks
+ *  - Return `false` to break the loop.
+ *  - Return `number` to jump to the given index.
  *
  * @example
  * repeat(console.log, 3); // logs "0", "1", "2"
+ *
+ * repeat((index) => {
+ *   if (index === 3) return 5; // jump to index 5
+ *   if (index === 8) return false; // break the loop
+ * }, 10);
  */
 export function repeat(func: RepeatCb, times: number): void;
 export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
@@ -59,9 +91,23 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 }
 
 /**
+ * @settingsDoc
+ * @afterShape $T{RepeatAsyncCb}
+ * $T{RepeatCbParams}
+ * $T{RepeatCbRT}
+ *
+ * $T{RepeatData}
+ */
+/**
  * An asynchronous version of {@linkcode repeat}.
  */
 export async function repeatAsync(func: RepeatAsyncCb, data: RepeatData): Promise<void>;
+/**
+ * @settingsDoc
+ * @afterShape $T{RepeatAsyncCb}
+ * $T{RepeatCbParams}
+ * $T{RepeatCbRT}
+ */
 /**
  * An asynchronous version of {@linkcode repeat}.
  */
@@ -79,6 +125,11 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
 }
 
 /**
+ * @settingsDoc
+ * @afterShape $T{RepeatWhileCondition}
+ * $T{RepeatCbParams}
+ */
+/**
  * Repeats a function while a given condition is true.
  *
  * @example
@@ -89,6 +140,11 @@ export function repeatWhile(func: Func, condition: RepeatWhileCondition): void {
 	while (condition(index)) func(index++);
 }
 
+/**
+ * @settingsDoc
+ * @afterShape $T{RepeatWhileAsyncCondition}
+ * $T{RepeatCbParams}
+ */
 /**
  * An asynchronous version of {@linkcode repeatWhile}.
  */

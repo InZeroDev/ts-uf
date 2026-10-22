@@ -1,7 +1,6 @@
 import type { Join, Stringable } from "@inzero/ts-ut/string";
 import type { Not } from "@inzero/ts-ut/other";
 import type { Dict, Prettify } from "@inzero/ts-ut/dict";
-
 import { isOdd } from "~/math/validation";
 
 type IsEscaped<L extends string, _R extends boolean = false> = L extends `${infer N}\\`

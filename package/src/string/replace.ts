@@ -1,7 +1,12 @@
+import type { RORange } from "~/_internal";
 import { doRangesOverlap } from "~/math";
 
 export type ReplaceUpdate = [start: number, end: number, replacement: string];
 
+/**
+ * @settingsDoc
+ * @afterShape $T{ReplaceUpdate}
+ */
 /**
  * Replaces a substring using its coordinates.
  *
@@ -38,7 +43,10 @@ export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): s
 	).string;
 }
 
-type Range = [start: number, end: number];
+/**
+ * @settingsDoc
+ * @afterShape $T{RORange}I
+ */
 /**
  * Deletes a substring using its coordinates.
  *
@@ -52,11 +60,15 @@ type Range = [start: number, end: number];
  * @example
  * deleteSubstring("Hello World And Welcome!", [5, 11], [23, 24]); // "Hello And Welcome"
  */
-export function deleteSubstring(string: string, ...ranges: Range[]): string {
+export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 	return replaceSubstring(string, ...ranges.map<ReplaceUpdate>(([start, end]) => [start, end, ""]));
 }
 
 export type InsertUpdate = [index: number, insertion: string];
+/**
+ * @settingsDoc
+ * @afterShape $T{InsertUpdate}
+ */
 /**
  * Inserts a substring at a given index.
  *

@@ -1,4 +1,4 @@
-import type { ROList } from "@inzero/ts-ut/list";
+import type { RORange } from "~/_internal";
 
 /**
  * Checks whether a number is odd.
@@ -114,6 +114,11 @@ type ExclusiveMinMax = {
 };
 
 /**
+ * @settingsDoc
+ * @afterShape $T{RORange}I
+ * $T{ExclusiveMinMax}
+ */
+/**
  * Checks whether a number is within a given range.
  *
  * @example
@@ -127,17 +132,18 @@ type ExclusiveMinMax = {
  *
  * isInRange(11, range); // false
  */
-export function isInRange(
-	value: number,
-	range: readonly [min: number, max: number],
-	exclusive: ExclusiveMinMax = {},
-): boolean {
+export function isInRange(value: number, range: RORange, exclusive: ExclusiveMinMax = {}): boolean {
 	const [min, max] = range;
 	const isGTMin = exclusive.exclusiveMin ? value > min : value >= min;
 	const isLTMax = exclusive.exclusiveMax ? value < max : value <= max;
 	return isGTMin && isLTMax;
 }
 
+/**
+ * @settingsDoc
+ * @afterShape $T{RORange}I
+ * $T{ExclusiveMinMax}
+ */
 /**
  * Checks whether a number is out of a given range.
  *
@@ -154,14 +160,16 @@ export function isInRange(
  */
 export function isOutOfRange(
 	value: number,
-	range: readonly [min: number, max: number],
+	range: RORange,
 	exclusive: ExclusiveMinMax = {},
 ): boolean {
 	return !isInRange(value, range, exclusive);
 }
 
-type Range = [start: number, end: number];
-
+/**
+ * @settingsDoc
+ * @afterShape $T{RORange}I
+ */
 /**
  * Checks whether some ranges overlap.
  *
@@ -169,7 +177,7 @@ type Range = [start: number, end: number];
  * doRangesOverlap([0, 3], [3, 6]); // false
  * doRangesOverlap([0, 3], [2, 6]); // true
  */
-export function doRangesOverlap(ranges: ROList<Range>): boolean {
+export function doRangesOverlap(ranges: RORange[]): boolean {
 	const sorted = ranges.toSorted((a, b) => a[0] - b[0]);
 
 	for (let index = 1; index < sorted.length; index++) {

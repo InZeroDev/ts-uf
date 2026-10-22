@@ -5,6 +5,7 @@ import type { Func } from "@inzero/ts-ut/func";
 import type { IsTuple, NormalizeIndex } from "@inzero/ts-ut/_internal";
 import { getRandomInteger } from "~/math";
 import { isNullish } from "~/other";
+import type { Range } from "~/_internal";
 
 /**
  * Converts an index to a number.
@@ -103,7 +104,7 @@ type _GetMiddleIndex<
  * const arr = [0, 1, 2, 3, 4];;
  * getIndexRange(arr.length); // [0, 4]
  */
-export function getIndexRange(length: number): [start: number, end: number] {
+export function getIndexRange(length: number): Range {
 	return [0, length - 1];
 }
 
@@ -114,7 +115,7 @@ export function getIndexRange(length: number): [start: number, end: number] {
  * const arr = [0, 1, 2, 3, 4];;
  * getSignedIndexRange(arr.length); // [-5, 4]
  */
-export function getSignedIndexRange(length: number): [start: number, end: number] {
+export function getSignedIndexRange(length: number): Range {
 	return [-length, length - 1];
 }
 

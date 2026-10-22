@@ -34,6 +34,10 @@ type Next<K extends string> = K extends `${infer N extends string}.${infer R ext
 /* -------------------------------------------------------------------------- */
 
 /**
+ * @settingsDoc
+ * @before Used when `obj` and `key` are both known.
+ */
+/**
  * Gets a deeply nested value from an object using a dot-separated key.
  *
  * @example
@@ -46,6 +50,10 @@ export function getDeep<T extends Dict, K extends KeyofDeep<T>>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
 ): GetDeep<T, K>;
+/**
+ * @settingsDoc
+ * @before Used when neither `obj` nor `key` are known.
+ */
 /**
  * Gets a deeply nested value from an object using a dot-separated key.
  *
