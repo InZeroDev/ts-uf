@@ -15,7 +15,7 @@
 	"scripts": {
 		"build": "tsup",
 		"dev": "tsup --watch",
-		"lint": "eslint src/**/*.ts",
+		"lint": "tsc --noEmit; eslint src/**/*.ts",
 		"format": "prettier --write .",
 		"gen-barrel": "barrel check src src/* --extension ts --create; barrel src/index.ts src/*/index.ts",
 		"prepublish": "pnpm gen-barrel; pnpm build"
