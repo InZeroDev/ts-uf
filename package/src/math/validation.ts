@@ -119,7 +119,7 @@ type InclusiveMinMax = {
 
 /**
  * @settingsDoc
- * @afterShape $T{RORange}I
+ * @afterShape $T{RORange}{I}
  * $T{InclusiveMinMax}
  */
 /**
@@ -147,7 +147,7 @@ export function isInRange(value: number, range: RORange, inclusive: InclusiveMin
 
 /**
  * @settingsDoc
- * @afterShape $T{RORange}I
+ * @afterShape $T{RORange}{I}
  * $T{InclusiveMinMax}
  */
 /**
@@ -176,7 +176,7 @@ export function isOutOfRange(
 
 /**
  * @settingsDoc
- * @afterShape $T{RORange}I
+ * @afterShape $T{RORange}{I}
  */
 /**
  * Checks whether some ranges overlap.

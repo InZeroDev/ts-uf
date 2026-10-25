@@ -4,7 +4,7 @@ import type { InsertUpdate, ReplaceUpdate } from "./types";
 
 /**
  * @settingsDoc
- * @afterShape $T{ReplaceUpdate}
+ * @afterShape $T{ReplaceUpdate}{I}
  */
 /**
  * Replaces a substring using its coordinates.
@@ -44,7 +44,7 @@ export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): s
 
 /**
  * @settingsDoc
- * @afterShape $T{RORange}I
+ * @afterShape $T{RORange}{I}
  */
 /**
  * Deletes a substring using its coordinates.
@@ -65,7 +65,7 @@ export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 
 /**
  * @settingsDoc
- * @afterShape $T{InsertUpdate}
+ * @afterShape $T{InsertUpdate}{I}
  */
 /**
  * Inserts a substring at a given index.

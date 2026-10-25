@@ -21,11 +21,11 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
 
 /**
  * @settingsDoc
- * @afterShape $T{RepeatCb}
- * $T{RepeatCbParams}
- * $T{RepeatCbRT}
+ * @afterShape $T{RepeatCb}{I}
+ * $T{RepeatCbParams}{I=./types.ts}
+ * $T{RepeatCbRT}{I=./types.ts}
  *
- * $T{RepeatData}
+ * $T{RepeatData}{I}
  */
 /**
  * Repeats a function a given number of times.
@@ -46,9 +46,9 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
 export function repeat(func: RepeatCb, data: RepeatData): void;
 /**
  * @settingsDoc
- * @afterShape $T{RepeatCb}
- * $T{RepeatCbParams}
- * $T{RepeatCbRT}
+ * @afterShape $T{RepeatCb}{I}
+ * $T{RepeatCbParams}{I=./types.ts}{I}
+ * $T{RepeatCbRT}{I=./types.ts}
  */
 /**
  * Repeats a function a given number of times.
@@ -80,11 +80,11 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 
 /**
  * @settingsDoc
- * @afterShape $T{RepeatAsyncCb}
- * $T{RepeatCbParams}
- * $T{RepeatCbRT}
+ * @afterShape $T{RepeatAsyncCb}{I}
+ * $T{RepeatCbParams}{I=./types.ts}
+ * $T{RepeatCbRT}{I=./types.ts}
  *
- * $T{RepeatData}
+ * $T{RepeatData}{I}
  */
 /**
  * An asynchronous version of {@linkcode repeat}.
@@ -92,9 +92,9 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 export async function repeatAsync(func: RepeatAsyncCb, data: RepeatData): Promise<void>;
 /**
  * @settingsDoc
- * @afterShape $T{RepeatAsyncCb}
- * $T{RepeatCbParams}
- * $T{RepeatCbRT}
+ * @afterShape $T{RepeatAsyncCb}{I}
+ * $T{RepeatCbParams}{I=./types.ts}
+ * $T{RepeatCbRT}{I=./types.ts}
  */
 /**
  * An asynchronous version of {@linkcode repeat}.
@@ -114,11 +114,11 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
 
 /**
  * @settingsDoc
- * @afterShape $T{RepeatCb}
- * $T{RepeatCbRT}
+ * @afterShape $T{RepeatCb}{I}
+ * $T{RepeatCbRT}{I=./types.ts}
  *
- * $T{RepeatWhileCondition}
- * $T{RepeatCbParams}
+ * $T{RepeatWhileCondition}{I}
+ * $T{RepeatCbParams}{I=./types.ts}
  */
 /**
  * Repeats a function while a given condition is true.
@@ -142,11 +142,11 @@ export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): vo
 
 /**
  * @settingsDoc
- * @afterShape $T{RepeatAsyncCb}
- * $T{RepeatCbRT}
+ * @afterShape $T{RepeatAsyncCb}{I}
+ * $T{RepeatCbRT}{I=./types.ts}
  *
- * $T{RepeatWhileAsyncCondition}
- * $T{RepeatCbParams}
+ * $T{RepeatWhileAsyncCondition}{I}
+ * $T{RepeatCbParams}{I=./types.ts}
  */
 /**
  * An asynchronous version of {@linkcode repeatWhile}.
