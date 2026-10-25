@@ -44,7 +44,7 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
  *
  * @remarks
  *  - Return `false` to break the loop.
- *  - Return `number` to jump to the given index.
+ *  - Return a `number` to jump to that index.
  *
  * @example
  * repeat(console.log, { start: 10, end: 13 }); // logs "10", "11", "12"
@@ -67,7 +67,7 @@ export function repeat(func: RepeatCb, data: RepeatData): void;
  *
  * @remarks
  *  - Return `false` to break the loop.
- *  - Return `number` to jump to the given index.
+ *  - Return a `number` to jump to that index.
  *
  * @example
  * repeat(console.log, 3); // logs "0", "1", "2"

@@ -8,7 +8,7 @@ import { isNullish } from "../other";
 import type { Range } from "../_internal";
 
 /**
- * Converts an index to a number.
+ * Converts a 0-based index to a 1-based index.
  *
  * @example
  * indexToNumber(0); // 1
@@ -18,7 +18,7 @@ export function indexToNumber(index: number): number {
 }
 
 /**
- * Converts a number to an index.
+ * Converts a 1-based index to a 0-based index.
  *
  * @example
  * numberToIndex(1); // 0
@@ -37,7 +37,7 @@ export function getFirstElement<T extends ROList>(
 }
 
 /**
- * Gets the last index of an array using its length.
+ * Returns the last index of an array using its length.
  *
  * @example
  * const arr = [1, 2, 3, 4, 5];
@@ -62,7 +62,7 @@ export function getLastElement<T extends ROList>(
 }
 
 /**
- * Gets the middle index of an array using its length.
+ * Returns the middle index of an array using its length.
  *
  * @example
  * const oddArr = [0, 1, 2];
@@ -98,7 +98,7 @@ type _GetMiddleIndex<
 		: Left["length"];
 
 /**
- * Gets the index range of an array using its length.
+ * Returns the index range of an array using its length.
  *
  * @example
  * const arr = [0, 1, 2, 3, 4];;
@@ -109,7 +109,7 @@ export function getIndexRange(length: number): Range {
 }
 
 /**
- * Gets the signed index range of an array using its length.
+ * Returns the signed index range of an array using its length.
  *
  * @example
  * const arr = [0, 1, 2, 3, 4];;
@@ -120,7 +120,7 @@ export function getSignedIndexRange(length: number): Range {
 }
 
 /**
- * Creates an array of the given length and value.
+ * Creates an array of the given length and uses the given function to generate its values.
  *
  * @example
  * createArray(5, (index) => index); // [0, 1, 2, 3, 4]
@@ -133,7 +133,7 @@ export function createArray<L extends number, const R>(
 }
 
 /**
- * Creates an array of the given length with zero-based indices.
+ * Returns an array of the given length with zero-based indices.
  *
  * @example
  * cons arr = [img1, img2, img3];
@@ -144,7 +144,7 @@ export function getZeroBasedIndices(length: number): number[] {
 }
 
 /**
- * Creates an array of the given length with one-based indices.
+ * Returns an array of the given length with one-based indices.
  *
  * @example
  * cons arr = [img1, img2, img3];
@@ -155,14 +155,14 @@ export function getOneBasedIndices(length: number): number[] {
 }
 
 /**
- * Gets a random index from an array using its length.
+ * Returns a random index from an array using its length.
  */
 export function getRandomIndex(length: number): number {
 	return getRandomInteger(0, numberToIndex(length));
 }
 
 /**
- * Gets a random element from an array.
+ * Returns a random element from an array.
  */
 export function getRandomElement<T extends ROList>(
 	arr: T,

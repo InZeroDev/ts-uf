@@ -9,7 +9,7 @@ import { isOneOf } from "./validation";
  * // Instead of:
  * function getDescription(func: FunctionDeclaration) {
  *   const description = func.getJsDocs().at(-1)?.getDescription();
- *   if (description === undefined) return;
+ *   if (description === undefined) return; // Notice that we used `description === undefined` and not `!description`.
  *   return convertJsDocLinks(description);
  * }
  * // You can do:

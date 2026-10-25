@@ -117,22 +117,14 @@ export function isNonSingletonArray<T>(
 }
 
 /**
- * Checks whether a given index is the first index of an array.
- *
- * @example
- * isFirstIndex(0); // true
- * isFirstIndex(1); // false // + anything else is false
+ * A readable way to check if `index === 0`.
  */
 export function isFirstIndex(index: number): boolean {
 	return index === 0;
 }
 
 /**
- * Checks whether a given index is not the first index of an array.
- *
- * @example
- * isNotFirstIndex(0); // false
- * isNotFirstIndex(1); // true // + anything else is true
+ * A readable way to check if `index !== 0`.
  */
 export function isNotFirstIndex(index: number): boolean {
 	return !isFirstIndex(index);
@@ -140,7 +132,7 @@ export function isNotFirstIndex(index: number): boolean {
 
 /**
  * Checks whether a given index is the last index of an array.
- *
+ * 
  * @example
  * const arr = [0, 1, 2, 3];
  *

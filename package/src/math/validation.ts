@@ -25,6 +25,8 @@ export function isEven(value: number): boolean {
 /**
  * Checks whether a number is positive.
  *
+ * @remarks `0` is not considered positive. If you want to treat it as positive, use {@linkcode isNonNegative} instead.
+ *
  * @example
  * isPositive(-1); // false
  * isPositive(0); // false
@@ -49,6 +51,8 @@ export function isNonNegative(value: number): boolean {
 /**
  * Checks whether a number is negative.
  *
+ * @remarks `0` is not considered negative. If you want to treat it as negative, use {@linkcode isNonPositive} instead.
+ *
  * @example
  * isNegative(-1); // true
  * isNegative(0); // false
@@ -71,7 +75,7 @@ export function isNonPositive(value: number): boolean {
 }
 
 /**
- * Checks whether a number is prime.
+ * Checks whether a number is a prime number.
  *
  * @example
  * isPrime(2); // true
@@ -92,7 +96,7 @@ export function isPrime(value: number): boolean {
 }
 
 /**
- * Checks whether a number is not prime.
+ * Checks whether a number is not a prime number.
  *
  * @example
  * isPrime(2); // false
@@ -121,6 +125,8 @@ type ExclusiveMinMax = {
 /**
  * Checks whether a number is within a given range.
  *
+ * @remarks Both `min` and `max` are inclusive by default.
+ *
  * @example
  * const range = [1, 10] as const;
  *
@@ -147,6 +153,8 @@ export function isInRange(value: number, range: RORange, exclusive: ExclusiveMin
 /**
  * Checks whether a number is out of a given range.
  *
+ * @remarks Both `min` and `max` are inclusive by default.
+ *
  * @example
  * const range = [1, 10] as const;
  *
@@ -172,6 +180,8 @@ export function isOutOfRange(
  */
 /**
  * Checks whether some ranges overlap.
+ *
+ * @remarks By default, ranges sharing the same border are not considered overlapping.
  *
  * @example
  * doRangesOverlap([0, 3], [3, 6]); // false

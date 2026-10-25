@@ -19,12 +19,12 @@ export function getAverage(...numbers: number[]): number {
 }
 
 /**
- * Get a random number between the given range.
+ * Get a random float between the given range.
  *
  * @example
- * getRandomNumber(1, 10); 3.1458241132191636
- * getRandomNumber(1, 10); 2.076135543542401
- * getRandomNumber(1, 10); 5.6216396763729986
+ * getRandomFloat(1, 10); 3.1458241132191636
+ * getRandomFloat(1, 10); 2.076135543542401
+ * getRandomFloat(1, 10); 5.6216396763729986
  */
 export function getRandomFloat(min: number, max: number): number {
 	if (min > max) [min, max] = [max, min];
