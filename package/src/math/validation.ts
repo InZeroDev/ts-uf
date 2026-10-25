@@ -112,15 +112,15 @@ export function isNotPrime(value: number): boolean {
 	return !isPrime(value);
 }
 
-type ExclusiveMinMax = {
-	exclusiveMin?: boolean;
-	exclusiveMax?: boolean;
+type InclusiveMinMax = {
+	inclusiveMin?: boolean;
+	inclusiveMax?: boolean;
 };
 
 /**
  * @settingsDoc
  * @afterShape $T{RORange}I
- * $T{ExclusiveMinMax}
+ * $T{InclusiveMinMax}
  */
 /**
  * Checks whether a number is within a given range.
@@ -138,17 +138,17 @@ type ExclusiveMinMax = {
  *
  * isInRange(11, range); // false
  */
-export function isInRange(value: number, range: RORange, exclusive: ExclusiveMinMax = {}): boolean {
+export function isInRange(value: number, range: RORange, inclusive: InclusiveMinMax = {}): boolean {
 	const [min, max] = range;
-	const isGTMin = exclusive.exclusiveMin ? value > min : value >= min;
-	const isLTMax = exclusive.exclusiveMax ? value < max : value <= max;
+	const isGTMin = inclusive.inclusiveMin !== false ? value >= min : value > min;
+	const isLTMax = inclusive.inclusiveMax !== false ? value <= max : value < max;
 	return isGTMin && isLTMax;
 }
 
 /**
  * @settingsDoc
  * @afterShape $T{RORange}I
- * $T{ExclusiveMinMax}
+ * $T{InclusiveMinMax}
  */
 /**
  * Checks whether a number is out of a given range.
@@ -169,7 +169,7 @@ export function isInRange(value: number, range: RORange, exclusive: ExclusiveMin
 export function isOutOfRange(
 	value: number,
 	range: RORange,
-	exclusive: ExclusiveMinMax = {},
+	exclusive: InclusiveMinMax = {},
 ): boolean {
 	return !isInRange(value, range, exclusive);
 }
@@ -183,15 +183,15 @@ export function isOutOfRange(
  *
  * @remarks By default, ranges sharing the same boundary are not considered overlapping.
  * Set `touchingCounts` to `true` to consider them as overlapping.
- * 
- * @throws a {@link RangeError} If any range has a start greater than its end.
- * 
+ *
+ * @throws Throws a {@link RangeError} If any range has a start greater than its end.
+ *
  * @example
  * doRangesOverlap([[0, 3], [3, 6]]); // false
  * doRangesOverlap([[0, 3], [2, 6]]); // true
  *
  * doRangesOverlap([[0, 3], [3, 6]], true); // true
- * 
+ *
  * doRangesOverlap([[0, 3], [6, 3]]); // throws // 6 > 3
  */
 export function doRangesOverlap(ranges: RORange[], touchingCounts: boolean = false): boolean {
