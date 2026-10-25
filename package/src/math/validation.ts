@@ -181,19 +181,28 @@ export function isOutOfRange(
 /**
  * Checks whether some ranges overlap.
  *
- * @remarks By default, ranges sharing the same border are not considered overlapping.
- *
+ * @remarks By default, ranges sharing the same boundary are not considered overlapping.
+ * Set `touchingCounts` to `true` to consider them as overlapping.
+ * 
+ * @throws a {@link RangeError} If any range has a start greater than its end.
+ * 
  * @example
- * doRangesOverlap([0, 3], [3, 6]); // false
- * doRangesOverlap([0, 3], [2, 6]); // true
+ * doRangesOverlap([[0, 3], [3, 6]]); // false
+ * doRangesOverlap([[0, 3], [2, 6]]); // true
+ *
+ * doRangesOverlap([[0, 3], [3, 6]], true); // true
+ * 
+ * doRangesOverlap([[0, 3], [6, 3]]); // throws // 6 > 3
  */
-export function doRangesOverlap(ranges: RORange[]): boolean {
+export function doRangesOverlap(ranges: RORange[], touchingCounts: boolean = false): boolean {
+	if (ranges.some(([start, end]) => start > end)) throw new Error("Invalid range: start > end");
+
 	const sorted = ranges.toSorted((a, b) => a[0] - b[0]);
 
 	for (let index = 1; index < sorted.length; index++) {
 		const range = sorted[index]!;
 		const prevRange = sorted[index - 1]!;
-		if (range[0] < prevRange[1]) return true;
+		if (touchingCounts ? range[0] <= prevRange[1] : range[0] < prevRange[1]) return true;
 	}
 
 	return false;
