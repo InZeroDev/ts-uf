@@ -25,6 +25,106 @@
 		"gen-barrel": "barrel check src src/* --extension ts --create; barrel src/index.ts src/*/index.ts",
 		"prepublish": "pnpm gen-barrel; pnpm build"
 	},
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.mts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
+		},
+		"./types": {
+			"import": {
+				"types": "./dist/types.d.mts"
+			},
+			"require": {
+				"types": "./dist/types.d.ts"
+			}
+		},
+		"./string": {
+			"import": {
+				"types": "./dist/string/index.d.mts",
+				"default": "./dist/string/index.mjs"
+			},
+			"require": {
+				"types": "./dist/string/index.d.ts",
+				"default": "./dist/string/index.js"
+			}
+		},
+		"./number": {
+			"import": {
+				"types": "./dist/number/index.d.mts",
+				"default": "./dist/number/index.mjs"
+			},
+			"require": {
+				"types": "./dist/number/index.d.ts",
+				"default": "./dist/number/index.js"
+			}
+		},
+		"./boolean": {
+			"import": {
+				"types": "./dist/boolean/index.d.mts",
+				"default": "./dist/boolean/index.mjs"
+			},
+			"require": {
+				"types": "./dist/boolean/index.d.ts",
+				"default": "./dist/boolean/index.js"
+			}
+		},
+		"./array": {
+			"import": {
+				"types": "./dist/array/index.d.mts",
+				"default": "./dist/array/index.mjs"
+			},
+			"require": {
+				"types": "./dist/array/index.d.ts",
+				"default": "./dist/array/index.js"
+			}
+		},
+		"./object": {
+			"import": {
+				"types": "./dist/object/index.d.mts",
+				"default": "./dist/object/index.mjs"
+			},
+			"require": {
+				"types": "./dist/object/index.d.ts",
+				"default": "./dist/object/index.js"
+			}
+		},
+		"./function": {
+			"import": {
+				"types": "./dist/function/index.d.mts",
+				"default": "./dist/function/index.mjs"
+			},
+			"require": {
+				"types": "./dist/function/index.d.ts",
+				"default": "./dist/function/index.js"
+			}
+		},
+		"./math": {
+			"import": {
+				"types": "./dist/math/index.d.mts",
+				"default": "./dist/math/index.mjs"
+			},
+			"require": {
+				"types": "./dist/math/index.d.ts",
+				"default": "./dist/math/index.js"
+			}
+		},
+		"./other": {
+			"import": {
+				"types": "./dist/other/index.d.mts",
+				"default": "./dist/other/index.mjs"
+			},
+			"require": {
+				"types": "./dist/other/index.d.ts",
+				"default": "./dist/other/index.js"
+			}
+		}
+	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@inzero/barrel": "0.1.0",
