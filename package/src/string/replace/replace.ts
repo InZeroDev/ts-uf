@@ -1,7 +1,8 @@
-import type { RORange } from "../_internal";
-import { doRangesOverlap } from "../math";
+import type { RORange } from "../../_internal";
+import { doRangesOverlap } from "../../math";
+import type { InsertUpdate, ReplaceUpdate } from "./types";
 
-export type ReplaceUpdate = [start: number, end: number, replacement: string];
+
 
 /**
  * @settingsDoc
@@ -64,7 +65,6 @@ export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 	return replaceSubstring(string, ...ranges.map<ReplaceUpdate>(([start, end]) => [start, end, ""]));
 }
 
-export type InsertUpdate = [index: number, insertion: string];
 /**
  * @settingsDoc
  * @afterShape $T{InsertUpdate}

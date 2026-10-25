@@ -1,23 +1,13 @@
-import type { Func } from "@inzero/ts-ut/func";
-import { hasKey } from "../object";
-import { isNumber } from "../number";
+import { hasKey } from "../../object";
+import { isNumber } from "../../number";
+import type {
+	RepeatData,
+	RepeatCb,
+	RepeatAsyncCb,
+	RepeatWhileCondition,
+	RepeatWhileAsyncCondition,
+} from "./types";
 
-/* ---------------------------------- Types --------------------------------- */
-export type RepeatData = ({ end: number } | { count: number }) & { start?: number; step?: number };
-
-export type RepeatCbParams = [index: number];
-
-export type RepeatCbRT = boolean | number | void;
-
-export type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
-export type RepeatAsyncCb = Func<RepeatCbParams, Promise<RepeatCbRT>>;
-
-/* -------------------------------------------------------------------------- */
-
-export type RepeatWhileCondition = Func<RepeatCbParams, boolean>;
-export type RepeatWhileAsyncCondition = Func<RepeatCbParams, Promise<boolean>>;
-
-/* ---------------------------------- Utils --------------------------------- */
 const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { end: number }>> => {
 	if (isNumber(arg2)) return { start: 0, step: 1, end: arg2 };
 	arg2.start ??= 0;
@@ -29,7 +19,6 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
 	};
 };
 
-/* -------------------------------- Functions ------------------------------- */
 /**
  * @settingsDoc
  * @afterShape $T{RepeatCb}
@@ -127,13 +116,13 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
  * @settingsDoc
  * @afterShape $T{RepeatCb}
  * $T{RepeatCbRT}
- * 
+ *
  * $T{RepeatWhileCondition}
  * $T{RepeatCbParams}
  */
 /**
  * Repeats a function while a given condition is true.
- * 
+ *
  * @remarks
  *  - Return `false` to break the loop.
  *  - Return a `number` to jump to that index.
@@ -148,14 +137,14 @@ export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): vo
 		if (result === false) break;
 		if (isNumber(result)) index = result;
 		else index++;
-	};
+	}
 }
 
 /**
  * @settingsDoc
  * @afterShape $T{RepeatAsyncCb}
  * $T{RepeatCbRT}
- * 
+ *
  * $T{RepeatWhileAsyncCondition}
  * $T{RepeatCbParams}
  */
@@ -172,5 +161,5 @@ export async function repeatWhileAsync(
 		if (result === false) break;
 		if (isNumber(result)) index = result;
 		else index++;
-	};
+	}
 }
