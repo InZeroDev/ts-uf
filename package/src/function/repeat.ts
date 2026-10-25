@@ -126,32 +126,52 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
 
 /**
  * @settingsDoc
- * @afterShape $T{RepeatWhileCondition}
+ * @afterShape $T{RepeatCb}
+ * $T{RepeatCbRT}
+ * 
+ * $T{RepeatWhileCondition}
  * $T{RepeatCbParams}
  */
 /**
  * Repeats a function while a given condition is true.
+ * 
+ * @remarks
+ *  - Return `false` to break the loop.
+ *  - Return a `number` to jump to that index.
  *
  * @example
  * repeatWhile(console.log, (index) => index < 3); // logs "0", "1", "2"
  */
-export function repeatWhile(func: Func, condition: RepeatWhileCondition): void {
+export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): void {
 	let index = 0;
-	while (condition(index)) func(index++);
+	while (condition(index)) {
+		const result = func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index++;
+	};
 }
 
 /**
  * @settingsDoc
- * @afterShape $T{RepeatWhileAsyncCondition}
+ * @afterShape $T{RepeatAsyncCb}
+ * $T{RepeatCbRT}
+ * 
+ * $T{RepeatWhileAsyncCondition}
  * $T{RepeatCbParams}
  */
 /**
  * An asynchronous version of {@linkcode repeatWhile}.
  */
 export async function repeatWhileAsync(
-	func: Func,
+	func: RepeatAsyncCb,
 	condition: RepeatWhileAsyncCondition,
 ): Promise<void> {
 	let index = 0;
-	while (await condition(index)) await func(index++);
+	while (await condition(index)) {
+		const result = await func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index++;
+	};
 }
