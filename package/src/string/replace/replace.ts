@@ -2,8 +2,6 @@ import type { RORange } from "../../_internal";
 import { doRangesOverlap } from "../../math";
 import type { InsertUpdate, ReplaceUpdate } from "./types";
 
-
-
 /**
  * @settingsDoc
  * @afterShape $T{ReplaceUpdate}

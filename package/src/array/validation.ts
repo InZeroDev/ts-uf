@@ -132,7 +132,7 @@ export function isNotFirstIndex(index: number): boolean {
 
 /**
  * Checks whether a given index is the last index of an array.
- * 
+ *
  * @example
  * const arr = [0, 1, 2, 3];
  *
