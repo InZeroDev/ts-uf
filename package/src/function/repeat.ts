@@ -1,7 +1,6 @@
 import type { Func } from "@inzero/ts-ut/func";
 import { hasKey } from "../object";
 import { isNumber } from "../number";
-import { isBoolean } from "../boolean";
 
 /* ---------------------------------- Types --------------------------------- */
 export type RepeatData = ({ end: number } | { count: number }) & { start?: number; step?: number };
@@ -84,7 +83,7 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 	let index = data.start;
 	for (; index < data.end;) {
 		const result = func(index);
-		if (isBoolean(result) && result) break;
+		if (result === false) break;
 		if (isNumber(result)) index = result;
 		else index += data.step;
 	}
@@ -118,7 +117,7 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
 	let index = data.start;
 	for (; index < data.end;) {
 		const result = await func(index);
-		if (isBoolean(result) && result) break;
+		if (result === false) break;
 		if (isNumber(result)) index = result;
 		else index += data.step;
 	}
