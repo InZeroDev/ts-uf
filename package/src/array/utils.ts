@@ -128,9 +128,9 @@ export function getSignedIndexRange(length: number): Range {
  */
 export function createArray<L extends number, const R>(
 	length: L,
-	value: Func<[index: number], R>,
+	getValue: Func<[index: number], R>,
 ): Tuple<L, R> {
-	return Array.from({ length }, (_, index) => value(index)) as Valid;
+	return Array.from({ length }, (_, index) => getValue(index)) as Valid;
 }
 
 /**
