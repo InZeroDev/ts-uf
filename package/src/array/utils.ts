@@ -1,8 +1,8 @@
 import type { ROList } from "@inzero/ts-ut/list";
-import type { Tuple, Pop } from "@inzero/ts-ut/tuple";
+import type { Tuple } from "@inzero/ts-ut/tuple";
 import type { Valid } from "@inzero/ts-ut/other";
 import type { Func } from "@inzero/ts-ut/func";
-import type { IsTuple, NormalizeIndex } from "@inzero/ts-ut/_internal";
+import type { IsTuple } from "@inzero/ts-ut/_internal";
 import { getRandomInteger } from "../math";
 import { isNullish } from "../other";
 import type { Range } from "../_internal";
@@ -30,9 +30,12 @@ export function numberToIndex(number: number): number {
 /**
  * Returns the first element of an array.
  */
-export function getFirstElement<T extends ROList>(
-	arr: T,
-): T extends T ? (IsTuple<T> extends true ? T[0] : T[number] | undefined) : never {
+export function getFirstElement<const T>(arr: [T, ...unknown[]]): T;
+/**
+ * Returns the first element of an array.
+ */
+export function getFirstElement<const T>(arr: ROList<T>): T;
+export function getFirstElement<const T>(arr: ROList<T>): T {
 	return arr[0] as Valid;
 }
 
@@ -51,13 +54,12 @@ export function getLastIndex(length: number): number {
 /**
  * Returns the last element of an array.
  */
-export function getLastElement<T extends ROList>(
-	arr: T,
-): T extends T
-	? IsTuple<T> extends true
-		? T[NormalizeIndex<-1, T>]
-		: T[number] | undefined
-	: never {
+export function getLastElement<const T>(arr: [...unknown[], T]): T;
+/**
+ * Returns the last element of an array.
+ */
+export function getLastElement<const T>(arr: ROList<T>): T;
+export function getLastElement<const T>(arr: ROList<T>): T {
 	return arr[getLastIndex(arr.length)] as Valid;
 }
 
@@ -78,24 +80,23 @@ export function getMiddleIndex(length: number): number {
 /**
  * Returns the middle element of an array.
  */
-export function getMiddleElement<T extends ROList>(
-	arr: T,
-): T extends T ? (IsTuple<T> extends true ? T[GetMiddleIndex<T>] : T[number] | undefined) : never {
+export function getMiddleElement<const T>(arr: ROList<T>): T {
 	return arr[getMiddleIndex(arr.length)] as Valid;
 }
 
-type GetMiddleIndex<T extends ROList> = T extends T ? _GetMiddleIndex<T> : never;
-type _GetMiddleIndex<
-	T extends ROList,
-	Left extends ROList = [],
-	Right extends ROList = [],
-> = T extends readonly [unknown, ...infer Rest]
-	? Left["length"] extends Right["length"]
-		? _GetMiddleIndex<Rest, Left, [...Right, "+1"]>
-		: _GetMiddleIndex<Rest, [...Left, "+1"], Right>
-	: Left["length"] extends Right["length"]
-		? Pop<Left>["length"]
-		: Left["length"];
+// I think it's overkill
+// type GetMiddleIndex<T extends ROList> = T extends T ? _GetMiddleIndex<T> : never;
+// type _GetMiddleIndex<
+// 	T extends ROList,
+// 	Left extends ROList = [],
+// 	Right extends ROList = [],
+// > = T extends readonly [unknown, ...infer Rest]
+// 	? Left["length"] extends Right["length"]
+// 		? _GetMiddleIndex<Rest, Left, [...Right, "+1"]>
+// 		: _GetMiddleIndex<Rest, [...Left, "+1"], Right>
+// 	: Left["length"] extends Right["length"]
+// 		? Pop<Left>["length"]
+// 		: Left["length"];
 
 /**
  * Returns the index range of an array using its length.
