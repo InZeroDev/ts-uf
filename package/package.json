@@ -1,6 +1,6 @@
 {
 	"name": "@inzero/ts-uf",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "TypeScript utility functions",
 	"keywords": [
 		"typescript",
