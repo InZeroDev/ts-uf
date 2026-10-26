@@ -11,7 +11,6 @@ function isFunction<T>(value: CheckT<T>): value is SmartExtract<T, Func>;
 ```
 
 ```ts tab='Source'
-
 export function isFunction<T>(value: CheckT<T>): value is SmartExtract<T, Func> {
 	return typeof value === "function";
 }
@@ -21,7 +20,7 @@ Checks whether a value is a function.
 
 ```ts title='Example'
 function foo(valueOrFn: string | (() => string)) {
-  const value = isFunction(valueOrFn) ? valueOrFn() : valueOrFn;
+	const value = isFunction(valueOrFn) ? valueOrFn() : valueOrFn;
 }
 ```
 
@@ -32,7 +31,6 @@ function isNotFunction<T>(value: CheckT<T>): value is Exclude<T, Func>;
 ```
 
 ```ts tab='Source'
-
 export function isNotFunction<T>(value: CheckT<T>): value is Exclude<T, Func> {
 	return !isFunction(value);
 }
@@ -42,7 +40,7 @@ Checks if the value is not a function.
 
 ```ts title='Example'
 function foo(valueOrFn: string | (() => string)) {
-  const value = isNotFunction(valueOrFn) ? valueOrFn : valueOrFn();
+	const value = isNotFunction(valueOrFn) ? valueOrFn : valueOrFn();
 }
 ```
 
@@ -81,9 +79,8 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 
 Repeats a function a given number of times.
 
-<Callout type='info'>
- - Return `false` to break the loop.
- - Return a `number` to jump to that index.
+<Callout type="info">
+	- Return `false` to break the loop. - Return a `number` to jump to that index.
 </Callout>
 
 ```ts title='Example'
@@ -91,11 +88,10 @@ repeat(console.log, { start: 10, end: 13 }); // logs "10", "11", "12"
 repeat(console.log, { start: 10, count: 3 }); // logs "10", "11", "12"
 
 repeat((index) => {
-  if (index === 3) return 5; // jump to index 5
-  if (index === 8) return false; // break the loop
+	if (index === 3) return 5; // jump to index 5
+	if (index === 8) return false; // break the loop
 }, 10);
 ```
-
 
 </Tab>
 <Tab value={"Overload 02"}>
@@ -104,7 +100,10 @@ repeat((index) => {
 function repeat(func: RepeatCb, times: number): void;
 
 type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
-type RepeatCbParams = [index: number];{I}
+type RepeatCbParams = [index: number];
+{
+	I;
+}
 type RepeatCbRT = boolean | number | void;
 ```
 
@@ -126,20 +125,18 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 
 Repeats a function a given number of times.
 
-<Callout type='info'>
- - Return `false` to break the loop.
- - Return a `number` to jump to that index.
+<Callout type="info">
+	- Return `false` to break the loop. - Return a `number` to jump to that index.
 </Callout>
 
 ```ts title='Example'
 repeat(console.log, 3); // logs "0", "1", "2"
 
 repeat((index) => {
-  if (index === 3) return 5; // jump to index 5
-  if (index === 8) return false; // break the loop
+	if (index === 3) return 5; // jump to index 5
+	if (index === 8) return false; // break the loop
 }, 10);
 ```
-
 
 </Tab>
 </Tabs>
@@ -176,7 +173,6 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
 
 An asynchronous version of [repeat](#repeat).
 
-
 </Tab>
 <Tab value={"Overload 02"}>
 
@@ -206,7 +202,6 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
 
 An asynchronous version of [repeat](#repeat).
 
-
 </Tab>
 </Tabs>
 ### repeatWhile
@@ -222,7 +217,6 @@ type RepeatCbParams = [index: number];
 ```
 
 ```ts tab='Source'
-
 export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): void {
 	let index = 0;
 	while (condition(index)) {
@@ -236,9 +230,8 @@ export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): vo
 
 Repeats a function while a given condition is true.
 
-<Callout type='info'>
- - Return `false` to break the loop.
- - Return a `number` to jump to that index.
+<Callout type="info">
+	- Return `false` to break the loop. - Return a `number` to jump to that index.
 </Callout>
 
 ```ts title='Example'
@@ -261,7 +254,6 @@ type RepeatCbParams = [index: number];
 ```
 
 ```ts tab='Source'
-
 export async function repeatWhileAsync(
 	func: RepeatAsyncCb,
 	condition: RepeatWhileAsyncCondition,
@@ -287,7 +279,6 @@ function iife<const A extends ROList, const R>(func: Func<A, R>, ...args: A): R;
 ```
 
 ```ts tab='Source'
-
 export function iife<const A extends ROList, const R>(func: Func<A, R>, ...args: A): R {
 	return func(...args);
 }
@@ -320,7 +311,6 @@ async function sleep(ms: number): Promise<void>;
 ```
 
 ```ts tab='Source'
-
 export async function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -335,7 +325,6 @@ async function withDelay(func: Func, ms: number): Promise<void>;
 ```
 
 ```ts tab='Source'
-
 export async function withDelay(func: Func, ms: number): Promise<void> {
 	await sleep(ms);
 	await func();

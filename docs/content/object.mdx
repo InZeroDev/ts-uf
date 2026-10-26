@@ -11,7 +11,6 @@ function isObject<T>(value: CheckT<T>): value is SmartExtract<T, Dict>;
 ```
 
 ```ts tab='Source'
-
 export function isObject<T>(value: CheckT<T>): value is SmartExtract<T, Dict> {
 	return typeof value === "object" && value !== null && isNotArray(value);
 }
@@ -20,10 +19,10 @@ export function isObject<T>(value: CheckT<T>): value is SmartExtract<T, Dict> {
 Checks whether a value is an object.
 
 ```ts title='Example'
-function foo(inclusive: boolean | { inclusiveMin: boolean, inclusiveMax: boolean }) {
-  if (isObject(inclusive)) {
-    inclusive; // { inclusiveMin: boolean, inclusiveMax: boolean }
-  }
+function foo(inclusive: boolean | { inclusiveMin: boolean; inclusiveMax: boolean }) {
+	if (isObject(inclusive)) {
+		inclusive; // { inclusiveMin: boolean, inclusiveMax: boolean }
+	}
 }
 ```
 
@@ -34,7 +33,6 @@ function isNotObject<T>(value: CheckT<T>): value is Exclude<T, Dict>;
 ```
 
 ```ts tab='Source'
-
 export function isNotObject<T>(value: CheckT<T>): value is Exclude<T, Dict> {
 	return !isObject(value);
 }
@@ -43,10 +41,10 @@ export function isNotObject<T>(value: CheckT<T>): value is Exclude<T, Dict> {
 Checks whether a value is not an object.
 
 ```ts title='Example'
-function foo(inclusive: boolean | { inclusiveMin: boolean, inclusiveMax: boolean }) {
-  if (isNotObject(inclusive)) {
-    inclusive; // boolean
-  }
+function foo(inclusive: boolean | { inclusiveMin: boolean; inclusiveMax: boolean }) {
+	if (isNotObject(inclusive)) {
+		inclusive; // boolean
+	}
 }
 ```
 
@@ -57,7 +55,6 @@ function isEmptyObject<T>(value: CheckT<T>): value is Extract<{}, T>;
 ```
 
 ```ts tab='Source'
-
 export function isEmptyObject<T>(value: CheckT<T>): value is Extract<{}, T> {
 	return isObject(value) && Object.keys(value).length === 0;
 }
@@ -81,7 +78,6 @@ function isNonEmptyObject<T>(
 ```
 
 ```ts tab='Source'
-
 export function isNonEmptyObject<T>(
 	value: CheckT<T>,
 ): value is IsUnknown<T> | IsAny<T> extends false
@@ -135,22 +131,21 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
 
 Checks whether an object contains the given key.
 
-<Callout type='info'>
-Narrows `obj` by filtering out all the objects that don't contain the given key.
+<Callout type="info">
+	Narrows `obj` by filtering out all the objects that don't contain the given key.
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
-  if (hasKey(data, "count")) {
-    data; // { start?: number, step?: number, count: number }
-  } else {
-    data; // { start?: number, step?: number, end: number }
-  }
+	if (hasKey(data, "count")) {
+		data; // { start?: number, step?: number, count: number }
+	} else {
+		data; // { start?: number, step?: number, end: number }
+	}
 }
 ```
-
 
 </Tab>
 <Tab value={"Overload 02"}>
@@ -185,21 +180,18 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
 
 Checks whether an object contains the given key.
 
-<Callout type='info'>
-Narrows `key` to `keyof obj` when the check succeeds.
-</Callout>
+<Callout type="info">Narrows `key` to `keyof obj` when the check succeeds.</Callout>
 
 ```ts title='Example'
 const presets = { a: 1, b: 2 };
 
 function foo(preset: string) {
-  if (hasKey(presets, preset)) {
-    preset; // "a" | "b"
-    presets[preset]; // number
-  }
+	if (hasKey(presets, preset)) {
+		preset; // "a" | "b"
+		presets[preset]; // number
+	}
 }
 ```
-
 
 </Tab>
 <Tab value={"Overload 03"}>
@@ -240,13 +232,12 @@ Narrows `obj` to `typeof obj & Record<typeof key, unknown>` when the check succe
 
 ```ts title='Example'
 function foo(sizes: Record<string, number>) {
-  if (hasKey(sizes, "small")) {
-    sizes.small; // number
-    sizes.medium; // number | undefined
-  }
+	if (hasKey(sizes, "small")) {
+		sizes.small; // number
+		sizes.medium; // number | undefined
+	}
 }
 ```
-
 
 </Tab>
 <Tab value={"Overload 04"}>
@@ -278,7 +269,6 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
 
 Checks whether an object contains the given key.
 
-
 </Tab>
 </Tabs>
 ### lacksKey
@@ -308,22 +298,21 @@ export function lacksKey(obj: Dict, key: DictKey): boolean {
 
 Checks whether an object lacks the given key.
 
-<Callout type='info'>
-Narrows `obj` by filtering out all the versions that contain the given key.
+<Callout type="info">
+	Narrows `obj` by filtering out all the versions that contain the given key.
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
-  if (lacksKey(data, "count")) {
-    data; // { start?: number, step?: number, end: number }
-  } else {
-    data; // { start?: number, step?: number, count: number }
-  }
+	if (lacksKey(data, "count")) {
+		data; // { start?: number, step?: number, end: number }
+	} else {
+		data; // { start?: number, step?: number, count: number }
+	}
 }
 ```
-
 
 </Tab>
 <Tab value={"Overload 02"}>
@@ -346,7 +335,6 @@ export function lacksKey(obj: Dict, key: DictKey): boolean {
 ```
 
 Checks whether an object lacks the given key.
-
 
 </Tab>
 </Tabs>
@@ -386,7 +374,6 @@ getDeep(data, "a.b"); // { c: 4 }
 getDeep(data, "a.b.c"); // 4
 ```
 
-
 </Tab>
 <Tab value={"Overload 02"}>
 
@@ -416,7 +403,6 @@ getDeep(data, "a.b"); // { c: 4 }
 getDeep(data, "a.b.c"); // 4
 ```
 
-
 </Tab>
 </Tabs>
 ### setDeep
@@ -430,7 +416,6 @@ function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
 ```
 
 ```ts tab='Source'
-
 export function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
 	obj: T,
 	key: K,
@@ -470,7 +455,6 @@ function getKeys<T extends Dict>(obj: T): T extends T ? (keyof T)[] : never;
 ```
 
 ```ts tab='Source'
-
 export function getKeys<T extends Dict>(obj: T): T extends T ? (keyof T)[] : never {
 	return Object.keys(obj) as Valid;
 }
@@ -492,7 +476,6 @@ function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : never;
 ```
 
 ```ts tab='Source'
-
 export function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : never {
 	return Object.values(obj) as Valid;
 }
@@ -507,7 +490,6 @@ function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[keyof T]]
 ```
 
 ```ts tab='Source'
-
 export function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[keyof T]][] : never {
 	return Object.entries(obj) as Valid;
 }
@@ -529,7 +511,6 @@ function fromEntries<K extends DictKey, V>(entries: [K, V][]): Dict<K, V>;
 ```
 
 ```ts tab='Source'
-
 export function fromEntries<K extends DictKey, V>(entries: [K, V][]): Dict<K, V> {
 	return Object.fromEntries(entries) as Valid;
 }

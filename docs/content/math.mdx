@@ -11,7 +11,6 @@ function isOdd(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isOdd(value: number): boolean {
 	return value % 2 === 1;
 }
@@ -31,7 +30,6 @@ function isEven(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isEven(value: number): boolean {
 	return !isOdd(value);
 }
@@ -51,7 +49,6 @@ function isPositive(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isPositive(value: number): boolean {
 	return value > 0;
 }
@@ -59,8 +56,9 @@ export function isPositive(value: number): boolean {
 
 Checks whether a number is positive.
 
-<Callout type='info'>
-`0` is not considered positive. If you want to treat it as positive, use [isNonNegative](#isnonnegative) instead.
+<Callout type="info">
+	`0` is not considered positive. If you want to treat it as positive, use
+	[isNonNegative](#isnonnegative) instead.
 </Callout>
 
 ```ts title='Example'
@@ -76,7 +74,6 @@ function isNonNegative(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isNonNegative(value: number): boolean {
 	return value >= 0;
 }
@@ -97,7 +94,6 @@ function isNegative(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isNegative(value: number): boolean {
 	return value < 0;
 }
@@ -105,8 +101,9 @@ export function isNegative(value: number): boolean {
 
 Checks whether a number is negative.
 
-<Callout type='info'>
-`0` is not considered negative. If you want to treat it as negative, use [isNonPositive](#isnonpositive) instead.
+<Callout type="info">
+	`0` is not considered negative. If you want to treat it as negative, use
+	[isNonPositive](#isnonpositive) instead.
 </Callout>
 
 ```ts title='Example'
@@ -122,7 +119,6 @@ function isNonPositive(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isNonPositive(value: number): boolean {
 	return value <= 0;
 }
@@ -143,7 +139,6 @@ function isPrime(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isPrime(value: number): boolean {
 	if (value <= 1) return false;
 	for (let i = 2; i <= Math.sqrt(value); i++) {
@@ -173,7 +168,6 @@ function isNotPrime(value: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isNotPrime(value: number): boolean {
 	return !isPrime(value);
 }
@@ -205,7 +199,6 @@ type InclusiveMinMax = {
 ```
 
 ```ts tab='Source'
-
 export function isInRange(value: number, range: RORange, inclusive: InclusiveMinMax = {}): boolean {
 	const [min, max] = range;
 	const isGTMin = inclusive.inclusiveMin !== false ? value >= min : value > min;
@@ -216,9 +209,7 @@ export function isInRange(value: number, range: RORange, inclusive: InclusiveMin
 
 Checks whether a number is within a given range.
 
-<Callout type='info'>
-Both `min` and `max` are inclusive by default.
-</Callout>
+<Callout type="info">Both `min` and `max` are inclusive by default.</Callout>
 
 ```ts title='Example'
 const range = [1, 10] as const;
@@ -235,11 +226,7 @@ isInRange(11, range); // false
 ### isOutOfRange
 
 ```ts tab='Shape'
-function isOutOfRange(
-	value: number,
-	range: RORange,
-	exclusive: InclusiveMinMax = {},
-): boolean;
+function isOutOfRange(value: number, range: RORange, exclusive: InclusiveMinMax = {}): boolean;
 
 type RORange = readonly [start: number, end: number];
 type InclusiveMinMax = {
@@ -249,7 +236,6 @@ type InclusiveMinMax = {
 ```
 
 ```ts tab='Source'
-
 export function isOutOfRange(
 	value: number,
 	range: RORange,
@@ -261,9 +247,7 @@ export function isOutOfRange(
 
 Checks whether a number is out of a given range.
 
-<Callout type='info'>
-Both `min` and `max` are inclusive by default.
-</Callout>
+<Callout type="info">Both `min` and `max` are inclusive by default.</Callout>
 
 ```ts title='Example'
 const range = [1, 10] as const;
@@ -286,7 +270,6 @@ type RORange = readonly [start: number, end: number];
 ```
 
 ```ts tab='Source'
-
 export function doRangesOverlap(ranges: RORange[], touchingCounts: boolean = false): boolean {
 	if (ranges.some(([start, end]) => start > end)) throw new Error("Invalid range: start > end");
 
@@ -304,22 +287,39 @@ export function doRangesOverlap(ranges: RORange[], touchingCounts: boolean = fal
 
 Checks whether some ranges overlap.
 
-<Callout type='info'>
-By default, ranges sharing the same boundary are not considered overlapping.
-Set `touchingCounts` to `true` to consider them as overlapping.
+<Callout type="info">
+	By default, ranges sharing the same boundary are not considered overlapping. Set `touchingCounts`
+	to `true` to consider them as overlapping.
 </Callout>
 
-<Callout type='warn'>
-Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) If any range has a start greater than its end.
+<Callout type="warn">
+	Throws a
+	[RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError)
+	If any range has a start greater than its end.
 </Callout>
 
 ```ts title='Example'
-doRangesOverlap([[0, 3], [3, 6]]); // false
-doRangesOverlap([[0, 3], [2, 6]]); // true
+doRangesOverlap([
+	[0, 3],
+	[3, 6],
+]); // false
+doRangesOverlap([
+	[0, 3],
+	[2, 6],
+]); // true
 
-doRangesOverlap([[0, 3], [3, 6]], true); // true
+doRangesOverlap(
+	[
+		[0, 3],
+		[3, 6],
+	],
+	true,
+); // true
 
-doRangesOverlap([[0, 3], [6, 3]]); // throws // 6 > 3
+doRangesOverlap([
+	[0, 3],
+	[6, 3],
+]); // throws // 6 > 3
 ```
 
 ## utils
@@ -331,7 +331,6 @@ function getSum(...numbers: number[]): number;
 ```
 
 ```ts tab='Source'
-
 export function getSum(...numbers: number[]): number {
 	return numbers.reduce((acc, curr) => acc + curr, 0);
 }
@@ -350,7 +349,6 @@ function getAverage(...numbers: number[]): number;
 ```
 
 ```ts tab='Source'
-
 export function getAverage(...numbers: number[]): number {
 	return getSum(...numbers) / numbers.length;
 }
@@ -369,7 +367,6 @@ function getRandomFloat(min: number, max: number): number;
 ```
 
 ```ts tab='Source'
-
 export function getRandomFloat(min: number, max: number): number {
 	if (min > max) [min, max] = [max, min];
 	else if (min === max) return min;
@@ -380,9 +377,12 @@ export function getRandomFloat(min: number, max: number): number {
 Get a random float between the given range.
 
 ```ts title='Example'
-getRandomFloat(1, 10); 3.1458241132191636
-getRandomFloat(1, 10); 2.076135543542401
-getRandomFloat(1, 10); 5.6216396763729986
+getRandomFloat(1, 10);
+3.1458241132191636;
+getRandomFloat(1, 10);
+2.076135543542401;
+getRandomFloat(1, 10);
+5.6216396763729986;
 ```
 
 ### getRandomInteger
@@ -392,7 +392,6 @@ function getRandomInteger(min: number, max: number, inclusive: boolean = false):
 ```
 
 ```ts tab='Source'
-
 export function getRandomInteger(min: number, max: number, inclusive: boolean = false): number {
 	return Math.floor(getRandomFloat(min, max + +inclusive));
 }
@@ -401,9 +400,12 @@ export function getRandomInteger(min: number, max: number, inclusive: boolean = 
 Get a random integer between the given range.
 
 ```ts title='Example'
-getRandomInteger(1, 10); 3
-getRandomInteger(1, 10); 2
-getRandomInteger(1, 10); 5
+getRandomInteger(1, 10);
+3;
+getRandomInteger(1, 10);
+2;
+getRandomInteger(1, 10);
+5;
 ```
 
 ### minmax
@@ -413,7 +415,6 @@ function minmax(value: number, min: number, max: number): number;
 ```
 
 ```ts tab='Source'
-
 export function minmax(value: number, min: number, max: number): number {
 	return Math.max(min, Math.min(value, max));
 }
@@ -436,7 +437,6 @@ function roundNumber(value: number, decimals: number = 2): number;
 ```
 
 ```ts tab='Source'
-
 export function roundNumber(value: number, decimals: number = 2): number {
 	return Math.round(value * 10 ** decimals) / 10 ** decimals;
 }

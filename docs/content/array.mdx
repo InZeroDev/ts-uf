@@ -13,7 +13,6 @@ function isArray<T>(
 ```
 
 ```ts tab='Source'
-
 export function isArray<T>(
 	value: CheckT<T>,
 ): value is IsUnknown<T> | IsAny<T> extends false ? Extract<T, ROList> : Extract<List, T> {
@@ -25,9 +24,9 @@ Checks whether a value is an array.
 
 ```ts title='Example'
 function foo(value: string | string[]) {
-  if (isArray(value)) {
-    value; // string[]
-  }
+	if (isArray(value)) {
+		value; // string[]
+	}
 }
 ```
 
@@ -38,7 +37,6 @@ function isNotArray<T>(value: CheckT<T>): value is Exclude<T, ROList>;
 ```
 
 ```ts tab='Source'
-
 export function isNotArray<T>(value: CheckT<T>): value is Exclude<T, ROList> {
 	return !isArray(value);
 }
@@ -48,25 +46,20 @@ Checks whether a value is not an array.
 
 ```ts title='Example'
 function foo(value: string | string[]) {
-  if (isNotArray(value)) {
-    value; // string
-  }
+	if (isNotArray(value)) {
+		value; // string
+	}
 }
 ```
 
 ### isEmptyArray
 
 ```ts tab='Shape'
-function isEmptyArray<T>(
-	value: CheckT<T>,
-): value is Extract<[], T>;
+function isEmptyArray<T>(value: CheckT<T>): value is Extract<[], T>;
 ```
 
 ```ts tab='Source'
-
-export function isEmptyArray<T>(
-	value: CheckT<T>,
-): value is Extract<[], T> {
+export function isEmptyArray<T>(value: CheckT<T>): value is Extract<[], T> {
 	return isArray(value) && value.length === 0;
 }
 ```
@@ -75,9 +68,9 @@ Checks whether a value is an empty array.
 
 ```ts title='Example'
 function foo(value: string[]) {
-  if (isEmptyArray(value)) {
-    value; // []
-  }
+	if (isEmptyArray(value)) {
+		value; // []
+	}
 }
 ```
 
@@ -98,7 +91,6 @@ function isNonEmptyArray<T>(
 ```
 
 ```ts tab='Source'
-
 export function isNonEmptyArray<T>(
 	value: CheckT<T>,
 ): value is IsUnknown<T> | IsAny<T> extends false
@@ -118,9 +110,9 @@ Checks whether a value is a non-empty array.
 
 ```ts title='Example'
 function foo(value: string[]) {
-  if (isNonEmptyArray(value)) {
-    value; // [string, ...string[]]
-  }
+	if (isNonEmptyArray(value)) {
+		value; // [string, ...string[]]
+	}
 }
 ```
 
@@ -139,7 +131,6 @@ function isSingletonArray<T>(
 ```
 
 ```ts tab='Source'
-
 export function isSingletonArray<T>(
 	value: CheckT<T>,
 ): value is IsUnknown<T> | IsAny<T> extends false
@@ -157,9 +148,9 @@ Checks whether a value is an array with a single element.
 
 ```ts title='Example'
 function foo(value: string[]) {
-  if (isSingletonArray(value)) {
-    value; // [string]
-  }
+	if (isSingletonArray(value)) {
+		value; // [string]
+	}
 }
 ```
 
@@ -174,7 +165,6 @@ function isNonSingletonArray<T>(
 ```
 
 ```ts tab='Source'
-
 export function isNonSingletonArray<T>(
 	value: CheckT<T>,
 ): value is IsUnknown<T> | IsAny<T> extends false
@@ -199,7 +189,6 @@ function isFirstIndex(index: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isFirstIndex(index: number): boolean {
 	return index === 0;
 }
@@ -214,7 +203,6 @@ function isNotFirstIndex(index: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isNotFirstIndex(index: number): boolean {
 	return !isFirstIndex(index);
 }
@@ -229,7 +217,6 @@ function isLastIndex(index: number, length: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isLastIndex(index: number, length: number): boolean {
 	return index === numberToIndex(length);
 }
@@ -251,7 +238,6 @@ function isNotLastIndex(index: number, length: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function isNotLastIndex(index: number, length: number): boolean {
 	return !isLastIndex(index, length);
 }
@@ -273,7 +259,6 @@ function hasIndex(index: number, length: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function hasIndex(index: number, length: number): boolean {
 	return isInRange(index, getIndexRange(length));
 }
@@ -297,7 +282,6 @@ function lacksIndex(index: number, length: number): boolean;
 ```
 
 ```ts tab='Source'
-
 export function lacksIndex(index: number, length: number): boolean {
 	return !hasIndex(index, length);
 }
@@ -323,7 +307,6 @@ function indexToNumber(index: number): number;
 ```
 
 ```ts tab='Source'
-
 export function indexToNumber(index: number): number {
 	return index + 1;
 }
@@ -342,7 +325,6 @@ function numberToIndex(number: number): number;
 ```
 
 ```ts tab='Source'
-
 export function numberToIndex(number: number): number {
 	return number - 1;
 }
@@ -373,7 +355,6 @@ export function getFirstElement<const T>(arr: ROList<T>): T {
 
 Returns the first element of an array.
 
-
 </Tab>
 <Tab value={"Overload 02"}>
 
@@ -391,7 +372,6 @@ export function getFirstElement<const T>(arr: ROList<T>): T {
 
 Returns the first element of an array.
 
-
 </Tab>
 </Tabs>
 ### getLastIndex
@@ -401,7 +381,6 @@ function getLastIndex(length: number): number;
 ```
 
 ```ts tab='Source'
-
 export function getLastIndex(length: number): number {
 	return numberToIndex(length);
 }
@@ -434,7 +413,6 @@ export function getLastElement<const T>(arr: ROList<T>): T {
 
 Returns the last element of an array.
 
-
 </Tab>
 <Tab value={"Overload 02"}>
 
@@ -452,7 +430,6 @@ export function getLastElement<const T>(arr: ROList<T>): T {
 
 Returns the last element of an array.
 
-
 </Tab>
 </Tabs>
 ### getMiddleIndex
@@ -462,7 +439,6 @@ function getMiddleIndex(length: number): number;
 ```
 
 ```ts tab='Source'
-
 export function getMiddleIndex(length: number): number {
 	return numberToIndex(Math.floor(length / 2));
 }
@@ -485,7 +461,6 @@ function getMiddleElement<const T>(arr: ROList<T>): T;
 ```
 
 ```ts tab='Source'
-
 export function getMiddleElement<const T>(arr: ROList<T>): T {
 	return arr[getMiddleIndex(arr.length)] as Valid;
 }
@@ -500,7 +475,6 @@ function getIndexRange(length: number): Range;
 ```
 
 ```ts tab='Source'
-
 export function getIndexRange(length: number): Range {
 	return [0, length - 1];
 }
@@ -509,7 +483,7 @@ export function getIndexRange(length: number): Range {
 Returns the index range of an array using its length.
 
 ```ts title='Example'
-const arr = [0, 1, 2, 3, 4];;
+const arr = [0, 1, 2, 3, 4];
 getIndexRange(arr.length); // [0, 4]
 ```
 
@@ -520,7 +494,6 @@ function getSignedIndexRange(length: number): Range;
 ```
 
 ```ts tab='Source'
-
 export function getSignedIndexRange(length: number): Range {
 	return [-length, length - 1];
 }
@@ -529,7 +502,7 @@ export function getSignedIndexRange(length: number): Range {
 Returns the signed index range of an array using its length.
 
 ```ts title='Example'
-const arr = [0, 1, 2, 3, 4];;
+const arr = [0, 1, 2, 3, 4];
 getSignedIndexRange(arr.length); // [-5, 4]
 ```
 
@@ -543,7 +516,6 @@ function createArray<L extends number, const R>(
 ```
 
 ```ts tab='Source'
-
 export function createArray<L extends number, const R>(
 	length: L,
 	getValue: Func<[index: number], R>,
@@ -565,7 +537,6 @@ function getZeroBasedIndices(length: number): number[];
 ```
 
 ```ts tab='Source'
-
 export function getZeroBasedIndices(length: number): number[] {
 	return createArray(length, (index) => index);
 }
@@ -585,7 +556,6 @@ function getOneBasedIndices(length: number): number[];
 ```
 
 ```ts tab='Source'
-
 export function getOneBasedIndices(length: number): number[] {
 	return createArray(length, indexToNumber);
 }
@@ -605,7 +575,6 @@ function getRandomIndex(length: number): number;
 ```
 
 ```ts tab='Source'
-
 export function getRandomIndex(length: number): number {
 	return getRandomInteger(0, numberToIndex(length));
 }
@@ -622,7 +591,6 @@ function getRandomElement<T extends ROList>(
 ```
 
 ```ts tab='Source'
-
 export function getRandomElement<T extends ROList>(
 	arr: T,
 ): T extends T ? T[number] | (IsTuple<T> extends true ? never : undefined) : never {
@@ -642,7 +610,6 @@ function mapOnDefined<T extends ROList, const R>(
 ```
 
 ```ts tab='Source'
-
 export function mapOnDefined<T extends ROList, const R>(
 	arr: T,
 	func: Func<[value: Exclude<T[number], undefined | null>], R>,
@@ -666,7 +633,6 @@ function toUniqueArray<T extends ROList>(arr: T): T[number][];
 ```
 
 ```ts tab='Source'
-
 export function toUniqueArray<T extends ROList>(arr: T): T[number][] {
 	return [...new Set(arr)];
 }

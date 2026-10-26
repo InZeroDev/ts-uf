@@ -11,7 +11,6 @@ function isString<T>(value: CheckT<T>): value is SmartExtract<T, string>;
 ```
 
 ```ts tab='Source'
-
 export function isString<T>(value: CheckT<T>): value is SmartExtract<T, string> {
 	return typeof value === "string";
 }
@@ -21,9 +20,9 @@ Checks whether a value is a string.
 
 ```ts title='Example'
 function foo(value: string | string[]) {
-  if (isString(value)) {
-    value; // string
-  }
+	if (isString(value)) {
+		value; // string
+	}
 }
 ```
 
@@ -34,7 +33,6 @@ function isNotString<T>(value: CheckT<T>): value is Exclude<T, string>;
 ```
 
 ```ts tab='Source'
-
 export function isNotString<T>(value: CheckT<T>): value is Exclude<T, string> {
 	return !isString(value);
 }
@@ -44,9 +42,9 @@ Checks whether a value is not a string.
 
 ```ts title='Example'
 function foo(value: string | string[]) {
-  if (isNotString(value)) {
-    value; // string[]
-  }
+	if (isNotString(value)) {
+		value; // string[]
+	}
 }
 ```
 
@@ -57,7 +55,6 @@ function isEmptyString<T>(value: CheckT<T>): value is Extract<"", T>;
 ```
 
 ```ts tab='Source'
-
 export function isEmptyString<T>(value: CheckT<T>): value is Extract<"", T> {
 	return value === "";
 }
@@ -67,22 +64,19 @@ Checks whether a value is an empty string.
 
 ```ts title='Example'
 function foo(value: string) {
-  if (isEmptyString(value)) {
-    value; // ""
-  }
+	if (isEmptyString(value)) {
+		value; // ""
+	}
 }
 ```
 
 ### isNonEmptyString
 
 ```ts tab='Shape'
-function isNonEmptyString<T>(
-	value: CheckT<T>,
-): value is Exclude<SmartExtract<T, string>, "">;
+function isNonEmptyString<T>(value: CheckT<T>): value is Exclude<SmartExtract<T, string>, "">;
 ```
 
 ```ts tab='Source'
-
 export function isNonEmptyString<T>(
 	value: CheckT<T>,
 ): value is Exclude<SmartExtract<T, string>, ""> {
@@ -94,9 +88,9 @@ Checks whether a value is a non-empty string.
 
 ```ts title='Example'
 function foo(value: string | string[]) {
-  if (isNonEmptyString(value)) {
-    value; // type: string // value !== ""
-  }
+	if (isNonEmptyString(value)) {
+		value; // type: string // value !== ""
+	}
 }
 ```
 
@@ -107,7 +101,6 @@ function isBlank<T>(value: CheckT<T>): value is SmartExtract<T, string>;
 ```
 
 ```ts tab='Source'
-
 export function isBlank<T>(value: CheckT<T>): value is SmartExtract<T, string> {
 	return isString(value) && value.trim() === "";
 }
@@ -131,7 +124,6 @@ function isNonBlank<T>(value: CheckT<T>): value is SmartExtract<T, string>;
 ```
 
 ```ts tab='Source'
-
 export function isNonBlank<T>(value: CheckT<T>): value is SmartExtract<T, string> {
 	return isString(value) && value.trim() !== "";
 }
@@ -157,7 +149,6 @@ function capitalize<T extends string>(value: T): string extends T ? string : Cap
 ```
 
 ```ts tab='Source'
-
 export function capitalize<T extends string>(value: T): string extends T ? string : Capitalize<T> {
 	return (value.charAt(0).toUpperCase() + value.slice(1)) as Valid;
 }
@@ -172,13 +163,10 @@ capitalize("hello"); // "Hello"
 ### uncapitalize
 
 ```ts tab='Shape'
-function uncapitalize<T extends string>(
-	value: T,
-): string extends T ? string : Uncapitalize<T>;
+function uncapitalize<T extends string>(value: T): string extends T ? string : Uncapitalize<T>;
 ```
 
 ```ts tab='Source'
-
 export function uncapitalize<T extends string>(
 	value: T,
 ): string extends T ? string : Uncapitalize<T> {
@@ -201,7 +189,6 @@ function getFirstChar<T extends string>(value: T): string extends T ? string : F
 ```
 
 ```ts tab='Source'
-
 export function getFirstChar<T extends string>(value: T): string extends T ? string : FirstChar<T> {
 	return value.charAt(0) as Valid;
 }
@@ -220,7 +207,6 @@ function getLastChar<T extends string>(value: T): string extends T ? string : La
 ```
 
 ```ts tab='Source'
-
 export function getLastChar<T extends string>(value: T): string extends T ? string : LastChar<T> {
 	return value.charAt(value.length - 1) as Valid;
 }
@@ -239,7 +225,6 @@ function firstCharIsUppercase(value: string): boolean;
 ```
 
 ```ts tab='Source'
-
 export function firstCharIsUppercase(value: string): boolean {
 	const firstChar = getFirstChar(value);
 	return firstChar === firstChar.toUpperCase();
@@ -260,7 +245,6 @@ function firstCharIsLowercase(value: string): boolean;
 ```
 
 ```ts tab='Source'
-
 export function firstCharIsLowercase(value: string): boolean {
 	const firstChar = getFirstChar(value);
 	return firstChar === firstChar.toLowerCase();
@@ -283,7 +267,6 @@ function formatString<P extends string>(pattern: P, context: ExtractContext<P>):
 ```
 
 ```ts tab='Source'
-
 export function formatString<P extends string>(pattern: P, context: ExtractContext<P>): string {
 	return pattern.replace(/(\\*){(\w+)(?:=([^}]+))?}/g, (match, escapes, name, defaultValue) => {
 		const newEscapesCount = Math.floor(escapes.length / 2);
@@ -311,7 +294,6 @@ function prefix<T extends string, P extends string>(
 ```
 
 ```ts tab='Source'
-
 export function prefix<T extends string, P extends string>(
 	string: T,
 	prefix: P,
@@ -336,7 +318,6 @@ function ensurePrefix<T extends string, P extends string>(
 ```
 
 ```ts tab='Source'
-
 export function ensurePrefix<T extends string, P extends string>(
 	string: T,
 	prefix: P,
@@ -362,7 +343,6 @@ function unPrefix<T extends string, P extends string>(
 ```
 
 ```ts tab='Source'
-
 export function unPrefix<T extends string, P extends string>(
 	string: T,
 	prefix: P,
@@ -388,7 +368,6 @@ function suffix<T extends string, S extends string>(
 ```
 
 ```ts tab='Source'
-
 export function suffix<T extends string, S extends string>(
 	string: T,
 	suffix: S,
@@ -413,7 +392,6 @@ function ensureSuffix<T extends string, S extends string>(
 ```
 
 ```ts tab='Source'
-
 export function ensureSuffix<T extends string, S extends string>(
 	string: T,
 	suffix: S,
@@ -439,7 +417,6 @@ function unSuffix<T extends string, S extends string>(
 ```
 
 ```ts tab='Source'
-
 export function unSuffix<T extends string, S extends string>(
 	string: T,
 	suffix: S,
@@ -466,7 +443,6 @@ type ReplaceUpdate = [start: number, end: number, replacement: string];
 ```
 
 ```ts tab='Source'
-
 export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): string {
 	if (doRangesOverlap(updates.map(([start, end]) => [start, end])))
 		throw new Error("Overlapping ranges");
@@ -491,9 +467,9 @@ export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): s
 
 Replaces a substring using its coordinates.
 
-<Callout type='info'>
-Automatically adjusts the ranges of subsequent updates to account for changes in string length
-caused by earlier replacements, ensuring each update targets the intended substring.
+<Callout type="info">
+	Automatically adjusts the ranges of subsequent updates to account for changes in string length
+	caused by earlier replacements, ensuring each update targets the intended substring.
 </Callout>
 
 <Callout type='warn'>
@@ -516,7 +492,6 @@ type RORange = readonly [start: number, end: number];
 ```
 
 ```ts tab='Source'
-
 export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 	return replaceSubstring(string, ...ranges.map<ReplaceUpdate>(([start, end]) => [start, end, ""]));
 }
@@ -524,9 +499,9 @@ export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 
 Deletes a substring using its coordinates.
 
-<Callout type='info'>
-Automatically adjusts the ranges of subsequent deletions to account for changes in string length
-caused by earlier deletions, ensuring each deletion targets the intended substring.
+<Callout type="info">
+	Automatically adjusts the ranges of subsequent deletions to account for changes in string length
+	caused by earlier deletions, ensuring each deletion targets the intended substring.
 </Callout>
 
 <Callout type='warn'>
@@ -548,7 +523,6 @@ type InsertUpdate = [index: number, insertion: string];
 ```
 
 ```ts tab='Source'
-
 export function insertSubstring(string: string, ...updates: InsertUpdate[]): string {
 	return replaceSubstring(
 		string,
@@ -559,9 +533,9 @@ export function insertSubstring(string: string, ...updates: InsertUpdate[]): str
 
 Inserts a substring at a given index.
 
-<Callout type='info'>
-Automatically adjusts the ranges of subsequent insertions to account for changes in string length
-caused by earlier insertions, ensuring each insertion occurs at the intended position.
+<Callout type="info">
+	Automatically adjusts the ranges of subsequent insertions to account for changes in string length
+	caused by earlier insertions, ensuring each insertion occurs at the intended position.
 </Callout>
 
 <Callout type='warn'>

@@ -14,7 +14,6 @@ function isOneOf<const T, const L extends ROList>(
 ```
 
 ```ts tab='Source'
-
 export function isOneOf<const T, const L extends ROList>(
 	value: T,
 	list: L,
@@ -29,9 +28,9 @@ checks whether a value is one of the expected values.
 const colors = ["red", "green", "blue"] as const;
 
 function foo(color: string) {
-  if (isOneOf(color, colors)) {
-    color; // "red" | "green" | "blue"
-  }
+	if (isOneOf(color, colors)) {
+		color; // "red" | "green" | "blue"
+	}
 }
 ```
 
@@ -45,7 +44,6 @@ function isNotOneOf<const T, const L extends ROList>(
 ```
 
 ```ts tab='Source'
-
 export function isNotOneOf<const T, const L extends ROList>(
 	value: T,
 	list: L,
@@ -60,10 +58,10 @@ Checks whether a value is not one of the expected values.
 type Action = "start" | "stop" | "pause";
 
 function foo(action: string) {
-  if (isNotOneOf(action, ["stop", "pause"])) {
-    startSomething();
-    action; // "start"
-  }
+	if (isNotOneOf(action, ["stop", "pause"])) {
+		startSomething();
+		action; // "start"
+	}
 }
 ```
 
@@ -74,7 +72,6 @@ function isNullish<T>(value: T): value is SmartExtract<T, null | undefined>;
 ```
 
 ```ts tab='Source'
-
 export function isNullish<T>(value: T): value is SmartExtract<T, null | undefined> {
 	return isUndefined(value) || isNull(value);
 }
@@ -89,7 +86,6 @@ function isUndefined<T>(value: T): value is SmartExtract<T, undefined>;
 ```
 
 ```ts tab='Source'
-
 export function isUndefined<T>(value: T): value is SmartExtract<T, undefined> {
 	return value === undefined;
 }
@@ -104,7 +100,6 @@ function isNull<T>(value: T): value is SmartExtract<T, null>;
 ```
 
 ```ts tab='Source'
-
 export function isNull<T>(value: T): value is SmartExtract<T, null> {
 	return value === null;
 }
@@ -119,7 +114,6 @@ function isNotUndefined<T>(value: T): value is Exclude<T, undefined>;
 ```
 
 ```ts tab='Source'
-
 export function isNotUndefined<T>(value: T): value is Exclude<T, undefined> {
 	return !isUndefined(value);
 }
@@ -134,7 +128,6 @@ function isNotNull<T>(value: T): value is Exclude<T, null>;
 ```
 
 ```ts tab='Source'
-
 export function isNotNull<T>(value: T): value is Exclude<T, null> {
 	return !isNull(value);
 }
@@ -149,7 +142,6 @@ function isNonNullish<T>(value: T): value is Exclude<T, null | undefined>;
 ```
 
 ```ts tab='Source'
-
 export function isNonNullish<T>(value: T): value is Exclude<T, null | undefined> {
 	return !isNullish(value);
 }
@@ -164,7 +156,6 @@ function isEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsEmpty
 ```
 
 ```ts tab='Source'
-
 export function isEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsEmptyRT<T> {
 	const v: unknown = value;
 	if (isString(v)) return isEmptyString(v);
@@ -183,7 +174,6 @@ function isNonEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsNo
 ```
 
 ```ts tab='Source'
-
 export function isNonEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsNonEmptyRT<T> {
 	const v: unknown = value;
 	if (isArray(v)) return isNonEmptyArray(v);
@@ -207,7 +197,6 @@ function mapDefined<T, const R>(
 ```
 
 ```ts tab='Source'
-
 export function mapDefined<T, const R>(
 	value: T,
 	fn: Func<[value: Exclude<T, undefined | null>], R>,
@@ -221,12 +210,12 @@ Maps a value to another value if it is not `undefined` or `null`.
 ```ts title='Example'
 // Instead of:
 function getDescription(func: FunctionDeclaration) {
-  const description = func.getJsDocs().at(-1)?.getDescription();
-  if (description === undefined) return; // Notice that we used `description === undefined` and not `!description`.
-  return convertJsDocLinks(description);
+	const description = func.getJsDocs().at(-1)?.getDescription();
+	if (description === undefined) return; // Notice that we used `description === undefined` and not `!description`.
+	return convertJsDocLinks(description);
 }
 // You can do:
 function getDescription(func: FunctionDeclaration) {
-  return mapDefined(func.getJsDocs().at(-1)?.getDescription(), convertJSDocLinks);
+	return mapDefined(func.getJsDocs().at(-1)?.getDescription(), convertJSDocLinks);
 }
 ```

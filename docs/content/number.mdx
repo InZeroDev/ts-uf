@@ -11,7 +11,6 @@ function isNumber<T>(value: CheckT<T>): value is SmartExtract<T, number>;
 ```
 
 ```ts tab='Source'
-
 export function isNumber<T>(value: CheckT<T>): value is SmartExtract<T, number> {
 	return typeof value === "number";
 }
@@ -21,9 +20,9 @@ Checks whether a value is a number.
 
 ```ts title='Example'
 function foo(value: number | number[]) {
-  if (isNumber(value)) {
-    value; // number
-  }
+	if (isNumber(value)) {
+		value; // number
+	}
 }
 ```
 
@@ -34,7 +33,6 @@ function isNotNumber<T>(value: CheckT<T>): value is Exclude<T, number>;
 ```
 
 ```ts tab='Source'
-
 export function isNotNumber<T>(value: CheckT<T>): value is Exclude<T, number> {
 	return !isNumber(value);
 }
@@ -44,9 +42,9 @@ Checks whether a value is not a number.
 
 ```ts title='Example'
 function foo(value: number | number[]) {
-  if (isNotNumber(value)) {
-    value; // number[]
-  }
+	if (isNotNumber(value)) {
+		value; // number[]
+	}
 }
 ```
 
@@ -57,7 +55,6 @@ function isInteger<T>(value: CheckT<T>): value is SmartExtract<T, number>;
 ```
 
 ```ts tab='Source'
-
 export function isInteger<T>(value: CheckT<T>): value is SmartExtract<T, number> {
 	return Number.isInteger(value);
 }
@@ -77,7 +74,6 @@ function isFloat<T>(value: CheckT<T>): value is SmartExtract<T, number>;
 ```
 
 ```ts tab='Source'
-
 export function isFloat<T>(value: CheckT<T>): value is SmartExtract<T, number> {
 	return isNumber(value) && isFinite(value) && !Number.isInteger(value);
 }

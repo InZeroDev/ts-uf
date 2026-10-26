@@ -18,11 +18,11 @@ npm install @inzero/ts-uf
 import { isString } from "@inzero/ts-uf";
 
 function foo(value: string | string[]) {
-  if (isString(value)) {
-    value; // string
-  } else {
-    value; // string[]
-  }
+	if (isString(value)) {
+		value; // string
+	} else {
+		value; // string[]
+	}
 }
 ```
 
@@ -32,18 +32,18 @@ import { hasKey } from "@inzero/ts-uf/object"; // You can use category-specific 
 const myObj = { a: 1, b: 2 };
 
 function foo(key: string) {
-  // Instead of:
-  if (key in myObj) {
-    key; // string
-    myObj[key as keyof typeof myObj]; // number
-  }
+	// Instead of:
+	if (key in myObj) {
+		key; // string
+		myObj[key as keyof typeof myObj]; // number
+	}
 
-  // You can do:
-  if (hasKey(myObj, key)) {
-    key; // "a" | "b"
-    myObj[key]; // number
-    // no need for the annoying `as keyof typeof myObj`
-  }
+	// You can do:
+	if (hasKey(myObj, key)) {
+		key; // "a" | "b"
+		myObj[key]; // number
+		// no need for the annoying `as keyof typeof myObj`
+	}
 }
 ```
 
@@ -52,16 +52,13 @@ import { mapDefined } from "@inzero/ts-uf";
 
 // Instead of:
 function getDescription(func: FunctionDeclaration): string | undefined {
-  const description = func.getJsDocs().at(-1)?.getDescription();
-  if (description === undefined) return; // Notice that we used `description === undefined` and not `!description`.
-  return convertJsDocLinks(description);
+	const description = func.getJsDocs().at(-1)?.getDescription();
+	if (description === undefined) return; // Notice that we used `description === undefined` and not `!description`.
+	return convertJsDocLinks(description);
 }
 // You can do:
 function getDescription(func: FunctionDeclaration): string | undefined {
-  return mapDefined(
-    func.getJsDocs().at(-1)?.getDescription(),
-    convertJSDocLinks,
-  );
+	return mapDefined(func.getJsDocs().at(-1)?.getDescription(), convertJSDocLinks);
 }
 ```
 
@@ -80,8 +77,8 @@ const list = [1, "a", 2, "b"];
 list.filter(isNonEmptyString); // Error
 
 function foo(value: unknown) {
-  if (isNonEmptyString(value)) {
-  } // Error
+	if (isNonEmptyString(value)) {
+	} // Error
 }
 ```
 
@@ -92,8 +89,8 @@ that can never be a string, and no errors will be shown:
 isNonEmptyString(1);
 
 function foo(value: number) {
-  if (isNonEmptyString(value)) {
-  }
+	if (isNonEmptyString(value)) {
+	}
 }
 ```
 
@@ -142,13 +139,13 @@ You can check these hand-picked utils that I think you'll find useful:
 
 | Category | Utilities                                                                                                                                                                                                                 |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| string   | [isString](/string#isstring) - [isEmptyString](/string#isemptystring) - [isBlank](/string#isblank)                                                                                |
-| number   | [isNumber](/number#isnumber)                                                                                                                                |
+| string   | [isString](/string#isstring) - [isEmptyString](/string#isemptystring) - [isBlank](/string#isblank)                                                                                                                        |
+| number   | [isNumber](/number#isnumber)                                                                                                                                                                                              |
 | math     | [isInRange](/math#isinrange) - [doRangesOverlap](/math#dorangesoverlap) - [getRandomFloat](/math#getrandomfloat) - [getRandomInteger](/math#getrandominteger) - [minmax](/math#minmax) - [roundNumber](/math#roundnumber) |
 | boolean  | [isBoolean](/boolean#isboolean)                                                                                                                                                                                           |
 | function | [isFunction](/function#isfunction) - [iife](/function#iife)                                                                                                                                                               |
 | array    | [isArray](/array#isarray) - [isEmptyArray](/array#isemptyarray) - [getRandomIndex](/array#getrandomindex) - [getRandomElement](/array#getrandomelement) - [mapOnDefined](/array#mapondefined)                             |
-| object   | [isObject](/object#isobject) - [hasKey](/object#haskey-1) - [getDeep](/object#getdeep) - [setDeep](/object#setdeep)                                                                                                         |
+| object   | [isObject](/object#isobject) - [hasKey](/object#haskey-1) - [getDeep](/object#getdeep) - [setDeep](/object#setdeep)                                                                                                       |
 | other    | [isEmpty](/other#isempty) - [isOneOf](/other#isoneof) - [mapDefined](/other#mapdefined)                                                                                                                                   |
 
 or check all available utilities by category:

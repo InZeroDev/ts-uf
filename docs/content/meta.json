@@ -1,3 +1,16 @@
 {
-  "pages": ["---Get Started---", "index", "---Utils---", "string", "number", "math", "boolean", "function", "array", "object", "other", "..."]
+	"pages": [
+		"---Get Started---",
+		"index",
+		"---Utils---",
+		"string",
+		"number",
+		"math",
+		"boolean",
+		"function",
+		"array",
+		"object",
+		"other",
+		"..."
+	]
 }
