@@ -22,8 +22,8 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
 /**
  * @settingsDoc
  * @afterShape $T{RepeatCb}{I}
- * $T{RepeatCbParams}{I=./types.ts}
- * $T{RepeatCbRT}{I=./types.ts}
+ * $T{RepeatCbParams}{./types.ts}
+ * $T{RepeatCbRT}{./types.ts}
  *
  * $T{RepeatData}{I}
  */
@@ -47,8 +47,8 @@ export function repeat(func: RepeatCb, data: RepeatData): void;
 /**
  * @settingsDoc
  * @afterShape $T{RepeatCb}{I}
- * $T{RepeatCbParams}{I=./types.ts}{I}
- * $T{RepeatCbRT}{I=./types.ts}
+ * $T{RepeatCbParams}{./types.ts}{I}
+ * $T{RepeatCbRT}{./types.ts}
  */
 /**
  * Repeats a function a given number of times.
@@ -81,8 +81,8 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 /**
  * @settingsDoc
  * @afterShape $T{RepeatAsyncCb}{I}
- * $T{RepeatCbParams}{I=./types.ts}
- * $T{RepeatCbRT}{I=./types.ts}
+ * $T{RepeatCbParams}{./types.ts}
+ * $T{RepeatCbRT}{./types.ts}
  *
  * $T{RepeatData}{I}
  */
@@ -93,8 +93,8 @@ export async function repeatAsync(func: RepeatAsyncCb, data: RepeatData): Promis
 /**
  * @settingsDoc
  * @afterShape $T{RepeatAsyncCb}{I}
- * $T{RepeatCbParams}{I=./types.ts}
- * $T{RepeatCbRT}{I=./types.ts}
+ * $T{RepeatCbParams}{./types.ts}
+ * $T{RepeatCbRT}{./types.ts}
  */
 /**
  * An asynchronous version of {@linkcode repeat}.
@@ -115,10 +115,10 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
 /**
  * @settingsDoc
  * @afterShape $T{RepeatCb}{I}
- * $T{RepeatCbRT}{I=./types.ts}
+ * $T{RepeatCbRT}{./types.ts}
  *
  * $T{RepeatWhileCondition}{I}
- * $T{RepeatCbParams}{I=./types.ts}
+ * $T{RepeatCbParams}{./types.ts}
  */
 /**
  * Repeats a function while a given condition is true.
@@ -143,10 +143,10 @@ export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): vo
 /**
  * @settingsDoc
  * @afterShape $T{RepeatAsyncCb}{I}
- * $T{RepeatCbRT}{I=./types.ts}
+ * $T{RepeatCbRT}{./types.ts}
  *
  * $T{RepeatWhileAsyncCondition}{I}
- * $T{RepeatCbParams}{I=./types.ts}
+ * $T{RepeatCbParams}{./types.ts}
  */
 /**
  * An asynchronous version of {@linkcode repeatWhile}.
