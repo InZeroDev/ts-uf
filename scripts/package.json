@@ -1,8 +1,10 @@
 {
 	"devDependencies": {
+		"@types/fs-extra": "^11.0.4",
 		"@types/node": "^26.6.5",
 		"prettier": "^3.9.10",
 		"prettier-plugin-packagejson": "^3.0.2",
+		"ts-morph": "^28.0.0",
 		"typescript": "^7.0.2"
 	},
 	"packageManager": "pnpm@12.14.0",
@@ -12,5 +14,8 @@
 			"version": "12.14.0",
 			"onFail": "download"
 		}
+	},
+	"dependencies": {
+		"fs-extra": "^11.4.1"
 	}
 }
