@@ -129,6 +129,13 @@
 		"lint": "tsc --noEmit; eslint src/**/*.ts",
 		"prepublish": "pnpm barrel:main; pnpm build"
 	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE",
+		"CHANGELOG.md",
+		"package.json"
+	],
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@inzero/barrel": "0.1.0",
