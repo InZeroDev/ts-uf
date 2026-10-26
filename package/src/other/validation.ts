@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 import type { ROList } from "@inzero/ts-ut/list";
 import type { SmartExtract, Valid } from "@inzero/ts-ut/other";
+import type { Dict, NonEmptyTuple } from "@inzero/ts-ut";
+import type { IsTuple, MatchRO } from "@inzero/ts-ut/_internal";
+import type { AreEqual } from "@inzero/ts-ut/other";
+import type { _CheckT } from "../_internal";
+import { isArray, isEmptyArray, isNonEmptyArray } from "../array";
+import { isEmptyObject, isNonEmptyObject, isObject } from "../object";
+import { isEmptyString, isNonEmptyString, isString } from "../string";
 
 /**
  * checks whether a value is one of the expected values.
@@ -80,4 +89,44 @@ export function isNotNull<T>(value: T): value is Exclude<T, null> {
  */
 export function isNonNullish<T>(value: T): value is Exclude<T, null | undefined> {
 	return !isNullish(value);
+}
+
+export function isEmpty<T>(
+	value: _CheckT<T, string | ROList | Dict>,
+): value is T extends T
+	? T extends string
+		? Extract<"", T>
+		: T extends Dict
+			? Extract<{}, T>
+			: T extends ROList
+				? Extract<[], T>
+				: never
+	: never {
+	const v: unknown = value;
+	if (isString(v)) return isEmptyString(v);
+	if (isArray(v)) return isEmptyArray(v);
+	if (isObject(v)) return isEmptyObject(v);
+	throw new Error("Invalid type");
+}
+
+export function isNonEmpty<T>(
+	value: _CheckT<T, string | ROList | Dict>,
+): value is T extends T
+	? IsTuple<T> extends true
+		? Exclude<T, []>
+		: T extends ROList
+			? Extract<MatchRO<NonEmptyTuple<T[number]>, T>, T>
+			: T extends string
+				? Exclude<T, "">
+				: AreEqual<T, {}> extends true
+					? never
+					: T extends Dict
+						? T
+						: never
+	: never {
+	const v: unknown = value;
+	if (isArray(v)) return isNonEmptyArray(v);
+	if (isString(v)) return isNonEmptyString(v);
+	if (isObject(v)) return isNonEmptyObject(v);
+	throw new Error("Invalid type");
 }
