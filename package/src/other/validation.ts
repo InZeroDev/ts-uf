@@ -100,6 +100,9 @@ type IsEmptyRT<T> = T extends T
 				? Extract<[], T>
 				: never
 	: never;
+/**
+ * A wrapper for {@link isEmptyString}, {@link isEmptyArray} and {@link isEmptyObject}.
+ */
 export function isEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsEmptyRT<T> {
 	const v: unknown = value;
 	if (isString(v)) return isEmptyString(v);
@@ -121,6 +124,9 @@ type IsNonEmptyRT<T> = T extends T
 						? T
 						: never
 	: never;
+/**
+ * A wrapper for {@link isNonEmptyString}, {@link isNonEmptyArray} and {@link isNonEmptyObject}.
+ */
 export function isNonEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsNonEmptyRT<T> {
 	const v: unknown = value;
 	if (isArray(v)) return isNonEmptyArray(v);
