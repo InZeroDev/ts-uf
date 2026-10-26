@@ -1,0 +1,545 @@
+---
+title: object
+---
+
+## validation
+
+### isObject
+
+```ts tab='Shape'
+function isObject<T>(value: CheckT<T>): value is SmartExtract<T, Dict>;
+```
+
+```ts tab='Source'
+
+export function isObject<T>(value: CheckT<T>): value is SmartExtract<T, Dict> {
+	return typeof value === "object" && value !== null && isNotArray(value);
+}
+```
+
+Checks whether a value is an object.
+
+```ts title='Example'
+function foo(inclusive: boolean | { inclusiveMin: boolean, inclusiveMax: boolean }) {
+  if (isObject(inclusive)) {
+    inclusive; // { inclusiveMin: boolean, inclusiveMax: boolean }
+  }
+}
+```
+
+### isNotObject
+
+```ts tab='Shape'
+function isNotObject<T>(value: CheckT<T>): value is Exclude<T, Dict>;
+```
+
+```ts tab='Source'
+
+export function isNotObject<T>(value: CheckT<T>): value is Exclude<T, Dict> {
+	return !isObject(value);
+}
+```
+
+Checks whether a value is not an object.
+
+```ts title='Example'
+function foo(inclusive: boolean | { inclusiveMin: boolean, inclusiveMax: boolean }) {
+  if (isNotObject(inclusive)) {
+    inclusive; // boolean
+  }
+}
+```
+
+### isEmptyObject
+
+```ts tab='Shape'
+function isEmptyObject<T>(value: CheckT<T>): value is Extract<{}, T>;
+```
+
+```ts tab='Source'
+
+export function isEmptyObject<T>(value: CheckT<T>): value is Extract<{}, T> {
+	return isObject(value) && Object.keys(value).length === 0;
+}
+```
+
+checks whether a value is an object with no keys.
+
+```ts title='Example'
+isEmptyObject({}); // true
+isEmptyObject({ a: 1 }); // false
+```
+
+### isNonEmptyObject
+
+```ts tab='Shape'
+function isNonEmptyObject<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? RemoveEmptyDict<Extract<T, Dict>>
+	: Extract<Dict, T>;
+```
+
+```ts tab='Source'
+
+export function isNonEmptyObject<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? RemoveEmptyDict<Extract<T, Dict>>
+	: Extract<Dict, T> {
+	return isObject(value) && Object.keys(value).length > 0;
+}
+```
+
+Checks whether a value is an object with at least one key.
+
+```ts title='Example'
+isNonEmptyObject({}); // false
+isNonEmptyObject({ a: 1 }); // true
+```
+
+## hasKey
+
+### hasKey
+
+<Tabs items={["Overload 01", "Overload 02", "Overload 03", "Overload 04"]}>
+<Tab value={"Overload 01"}>
+
+Used when `obj` and `key` are both known.
+
+```ts tab='Shape'
+function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is SmartExtract<typeof obj, Dict<K>>;
+```
+
+```ts tab='Source'
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is SmartExtract<typeof obj, Dict<K>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends false ? K : never,
+): key is SmartExtract<typeof key, Keyof<T>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends false ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is typeof obj & Dict<K, T[keyof T]>;
+export function hasKey(obj: Dict, key: DictKey): boolean;
+export function hasKey(obj: Dict, key: DictKey): boolean {
+	return key in obj;
+}
+```
+
+Checks whether an object contains the given key.
+
+<Callout type='info'>
+Narrows `obj` by filtering out all the objects that don't contain the given key.
+</Callout>
+
+```ts title='Example'
+type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
+
+function repeat(cb: Func, data: Data) {
+  if (hasKey(data, "count")) {
+    data; // { start?: number, step?: number, count: number }
+  } else {
+    data; // { start?: number, step?: number, end: number }
+  }
+}
+```
+
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+Used when `obj` is known but `key` is not.
+
+```ts tab='Shape'
+function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends false ? K : never,
+): key is SmartExtract<typeof key, Keyof<T>>;
+```
+
+```ts tab='Source'
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is SmartExtract<typeof obj, Dict<K>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends false ? K : never,
+): key is SmartExtract<typeof key, Keyof<T>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends false ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is typeof obj & Dict<K, T[keyof T]>;
+export function hasKey(obj: Dict, key: DictKey): boolean;
+export function hasKey(obj: Dict, key: DictKey): boolean {
+	return key in obj;
+}
+```
+
+Checks whether an object contains the given key.
+
+<Callout type='info'>
+Narrows `key` to `keyof obj` when the check succeeds.
+</Callout>
+
+```ts title='Example'
+const presets = { a: 1, b: 2 };
+
+function foo(preset: string) {
+  if (hasKey(presets, preset)) {
+    preset; // "a" | "b"
+    presets[preset]; // number
+  }
+}
+```
+
+
+</Tab>
+<Tab value={"Overload 03"}>
+
+Used when `key` is known but `obj` is not.
+
+```ts tab='Shape'
+function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends false ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is typeof obj & Dict<K, T[keyof T]>;
+```
+
+```ts tab='Source'
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is SmartExtract<typeof obj, Dict<K>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends false ? K : never,
+): key is SmartExtract<typeof key, Keyof<T>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends false ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is typeof obj & Dict<K, T[keyof T]>;
+export function hasKey(obj: Dict, key: DictKey): boolean;
+export function hasKey(obj: Dict, key: DictKey): boolean {
+	return key in obj;
+}
+```
+
+Checks whether an object contains the given key.
+
+<Callout type='info'>
+Narrows `obj` to `typeof obj & Record<typeof key, unknown>` when the check succeeds.
+</Callout>
+
+```ts title='Example'
+function foo(sizes: Record<string, number>) {
+  if (hasKey(sizes, "small")) {
+    sizes.small; // number
+    sizes.medium; // number | undefined
+  }
+}
+```
+
+
+</Tab>
+<Tab value={"Overload 04"}>
+
+Used when neither `obj` nor `key` are known.
+
+```ts tab='Shape'
+function hasKey(obj: Dict, key: DictKey): boolean;
+```
+
+```ts tab='Source'
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is SmartExtract<typeof obj, Dict<K>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends false ? K : never,
+): key is SmartExtract<typeof key, Keyof<T>>;
+export function hasKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends false ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is typeof obj & Dict<K, T[keyof T]>;
+export function hasKey(obj: Dict, key: DictKey): boolean;
+export function hasKey(obj: Dict, key: DictKey): boolean {
+	return key in obj;
+}
+```
+
+Checks whether an object contains the given key.
+
+
+</Tab>
+</Tabs>
+### lacksKey
+
+<Tabs items={["Overload 01", "Overload 02"]}>
+<Tab value={"Overload 01"}>
+
+Used when `key` and `obj` are both known.
+
+```ts tab='Shape'
+function lacksKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is Exclude<typeof obj, Dict<K>>;
+```
+
+```ts tab='Source'
+export function lacksKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is Exclude<typeof obj, Dict<K>>;
+export function lacksKey(obj: Dict, key: DictKey): boolean;
+export function lacksKey(obj: Dict, key: DictKey): boolean {
+	return !(key in obj);
+}
+```
+
+Checks whether an object lacks the given key.
+
+<Callout type='info'>
+Narrows `obj` by filtering out all the versions that contain the given key.
+</Callout>
+
+```ts title='Example'
+type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
+
+function repeat(cb: Func, data: Data) {
+  if (lacksKey(data, "count")) {
+    data; // { start?: number, step?: number, end: number }
+  } else {
+    data; // { start?: number, step?: number, count: number }
+  }
+}
+```
+
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+Used when neither `obj` nor `key` are known.
+
+```ts tab='Shape'
+function lacksKey(obj: Dict, key: DictKey): boolean;
+```
+
+```ts tab='Source'
+export function lacksKey<const T extends Dict, const K extends DictKey>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): obj is Exclude<typeof obj, Dict<K>>;
+export function lacksKey(obj: Dict, key: DictKey): boolean;
+export function lacksKey(obj: Dict, key: DictKey): boolean {
+	return !(key in obj);
+}
+```
+
+Checks whether an object lacks the given key.
+
+
+</Tab>
+</Tabs>
+## utils
+
+### getDeep
+
+<Tabs items={["Overload 01", "Overload 02"]}>
+<Tab value={"Overload 01"}>
+
+Used when `obj` and `key` are both known.
+
+```ts tab='Shape'
+function getDeep<T extends Dict, K extends KeyofDeep<T>>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): GetDeep<T, K>;
+```
+
+```ts tab='Source'
+export function getDeep<T extends Dict, K extends KeyofDeep<T>>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): GetDeep<T, K>;
+export function getDeep(obj: Dict, key: string): unknown;
+export function getDeep(obj: Dict, key: string): unknown {
+	return key.split(".").reduce((acc, key) => (acc as Valid)?.[key], obj) as Valid;
+}
+```
+
+Gets a deeply nested value from an object using a dot-separated key.
+
+```ts title='Example'
+const data = { a: { b: { c: 4 } } };
+
+getDeep(data, "a.b"); // { c: 4 }
+getDeep(data, "a.b.c"); // 4
+```
+
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+Used when neither `obj` nor `key` are known.
+
+```ts tab='Shape'
+function getDeep(obj: Dict, key: string): unknown;
+```
+
+```ts tab='Source'
+export function getDeep<T extends Dict, K extends KeyofDeep<T>>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): GetDeep<T, K>;
+export function getDeep(obj: Dict, key: string): unknown;
+export function getDeep(obj: Dict, key: string): unknown {
+	return key.split(".").reduce((acc, key) => (acc as Valid)?.[key], obj) as Valid;
+}
+```
+
+Gets a deeply nested value from an object using a dot-separated key.
+
+```ts title='Example'
+const data = { a: { b: { c: 4 } } };
+
+getDeep(data, "a.b"); // { c: 4 }
+getDeep(data, "a.b.c"); // 4
+```
+
+
+</Tab>
+</Tabs>
+### setDeep
+
+```ts tab='Shape'
+function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
+	obj: T,
+	key: K,
+	value: V,
+): void;
+```
+
+```ts tab='Source'
+
+export function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
+	obj: T,
+	key: K,
+	value: V,
+): void {
+	const keys = key.split(".");
+	const lastKey = keys.pop();
+	if (lastKey === undefined) throw new Error("Invalid key");
+
+	const lastObj = keys.reduce((acc, currKey, ind) => {
+		const currValue = (acc as Valid)?.[currKey];
+		if (isNotObject(currValue)) {
+			const invalidKey = keys.slice(0, ind + 1).join(".");
+			throw new Error(`${invalidKey} is not an object.`);
+		}
+		return currValue;
+	}, obj) as Dict;
+	lastObj[lastKey] = value;
+}
+```
+
+Sets a deeply nested value in an object using a dot-separated key.
+
+```ts title='Example'
+const data = { a: 1, b: { c: 4 } };
+
+setDeep(cloneDeep(data), "b.c", 47); // { a: 1, b: { c: 47 } }
+setDeep(cloneDeep(data), "b.p", "new"); // { a: 1, b: { c: 4, p: "new" } }
+
+setDeep(cloneDeep(data), "a.y", "new"); // Error: "a" is not an object.
+```
+
+### getKeys
+
+```ts tab='Shape'
+function getKeys<T extends Dict>(obj: T): T extends T ? (keyof T)[] : never;
+```
+
+```ts tab='Source'
+
+export function getKeys<T extends Dict>(obj: T): T extends T ? (keyof T)[] : never {
+	return Object.keys(obj) as Valid;
+}
+```
+
+Returns `Object.keys(obj)` with a narrowed type.
+
+```ts title='Example'
+const myDict = { a: 1, b: 2 };
+
+Object.keys(myDict); // string[]
+getKeys(myDict); // ("a" | "b")[]
+```
+
+### getValues
+
+```ts tab='Shape'
+function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : never;
+```
+
+```ts tab='Source'
+
+export function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : never {
+	return Object.values(obj) as Valid;
+}
+```
+
+Returns `Object.values(obj)`.
+
+### getEntries
+
+```ts tab='Shape'
+function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[keyof T]][] : never;
+```
+
+```ts tab='Source'
+
+export function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[keyof T]][] : never {
+	return Object.entries(obj) as Valid;
+}
+```
+
+Returns `Object.entries(obj)` with a narrowed type.
+
+```ts title='Example'
+const myDict = { a: 1, b: 2 };
+
+Object.entries(myDict); // [string, number][]
+getEntries(myDict); // ["a" | "b", number][]
+```
+
+### fromEntries
+
+```ts tab='Shape'
+function fromEntries<K extends DictKey, V>(entries: [K, V][]): Dict<K, V>;
+```
+
+```ts tab='Source'
+
+export function fromEntries<K extends DictKey, V>(entries: [K, V][]): Dict<K, V> {
+	return Object.fromEntries(entries) as Valid;
+}
+```
+
+Returns `Object.fromEntries(entries)` with a narrowed type.
+
+```ts title='Example'
+const myEntries = getEntries(...); // ["a" | "b", number][]
+
+Object.fromEntries(myEntries); // { [x: string]: number }
+fromEntries(myEntries); // { a: number, b: number }
+```

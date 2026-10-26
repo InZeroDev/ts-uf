@@ -1,0 +1,345 @@
+---
+title: function
+---
+
+## validation
+
+### isFunction
+
+```ts tab='Shape'
+function isFunction<T>(value: CheckT<T>): value is SmartExtract<T, Func>;
+```
+
+```ts tab='Source'
+
+export function isFunction<T>(value: CheckT<T>): value is SmartExtract<T, Func> {
+	return typeof value === "function";
+}
+```
+
+Checks whether a value is a function.
+
+```ts title='Example'
+function foo(valueOrFn: string | (() => string)) {
+  const value = isFunction(valueOrFn) ? valueOrFn() : valueOrFn;
+}
+```
+
+### isNotFunction
+
+```ts tab='Shape'
+function isNotFunction<T>(value: CheckT<T>): value is Exclude<T, Func>;
+```
+
+```ts tab='Source'
+
+export function isNotFunction<T>(value: CheckT<T>): value is Exclude<T, Func> {
+	return !isFunction(value);
+}
+```
+
+Checks if the value is not a function.
+
+```ts title='Example'
+function foo(valueOrFn: string | (() => string)) {
+  const value = isNotFunction(valueOrFn) ? valueOrFn : valueOrFn();
+}
+```
+
+## repeat
+
+### repeat
+
+<Tabs items={["Overload 01", "Overload 02"]}>
+<Tab value={"Overload 01"}>
+
+```ts tab='Shape'
+function repeat(func: RepeatCb, data: RepeatData): void;
+
+type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
+type RepeatCbParams = [index: number];
+type RepeatCbRT = boolean | number | void;
+
+type RepeatData = ({ end: number } | { count: number }) & { start?: number; step?: number };
+```
+
+```ts tab='Source'
+export function repeat(func: RepeatCb, data: RepeatData): void;
+export function repeat(func: RepeatCb, times: number): void;
+export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
+	const data = argToData(arg2);
+
+	let index = data.start;
+	for (; index < data.end;) {
+		const result = func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index += data.step;
+	}
+}
+```
+
+Repeats a function a given number of times.
+
+<Callout type='info'>
+ - Return `false` to break the loop.
+ - Return a `number` to jump to that index.
+</Callout>
+
+```ts title='Example'
+repeat(console.log, { start: 10, end: 13 }); // logs "10", "11", "12"
+repeat(console.log, { start: 10, count: 3 }); // logs "10", "11", "12"
+
+repeat((index) => {
+  if (index === 3) return 5; // jump to index 5
+  if (index === 8) return false; // break the loop
+}, 10);
+```
+
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+```ts tab='Shape'
+function repeat(func: RepeatCb, times: number): void;
+
+type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
+type RepeatCbParams = [index: number];{I}
+type RepeatCbRT = boolean | number | void;
+```
+
+```ts tab='Source'
+export function repeat(func: RepeatCb, data: RepeatData): void;
+export function repeat(func: RepeatCb, times: number): void;
+export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
+	const data = argToData(arg2);
+
+	let index = data.start;
+	for (; index < data.end;) {
+		const result = func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index += data.step;
+	}
+}
+```
+
+Repeats a function a given number of times.
+
+<Callout type='info'>
+ - Return `false` to break the loop.
+ - Return a `number` to jump to that index.
+</Callout>
+
+```ts title='Example'
+repeat(console.log, 3); // logs "0", "1", "2"
+
+repeat((index) => {
+  if (index === 3) return 5; // jump to index 5
+  if (index === 8) return false; // break the loop
+}, 10);
+```
+
+
+</Tab>
+</Tabs>
+### repeatAsync
+
+<Tabs items={["Overload 01", "Overload 02"]}>
+<Tab value={"Overload 01"}>
+
+```ts tab='Shape'
+async function repeatAsync(func: RepeatAsyncCb, data: RepeatData): Promise<void>;
+
+type RepeatAsyncCb = Func<RepeatCbParams, Promise<RepeatCbRT>>;
+type RepeatCbParams = [index: number];
+type RepeatCbRT = boolean | number | void;
+
+type RepeatData = ({ end: number } | { count: number }) & { start?: number; step?: number };
+```
+
+```ts tab='Source'
+export async function repeatAsync(func: RepeatAsyncCb, data: RepeatData): Promise<void>;
+export async function repeatAsync(func: RepeatAsyncCb, times: number): Promise<void>;
+export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData): Promise<void> {
+	const data = argToData(arg2);
+
+	let index = data.start;
+	for (; index < data.end;) {
+		const result = await func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index += data.step;
+	}
+}
+```
+
+An asynchronous version of [repeat](#repeat).
+
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+```ts tab='Shape'
+async function repeatAsync(func: RepeatAsyncCb, times: number): Promise<void>;
+
+type RepeatAsyncCb = Func<RepeatCbParams, Promise<RepeatCbRT>>;
+type RepeatCbParams = [index: number];
+type RepeatCbRT = boolean | number | void;
+```
+
+```ts tab='Source'
+export async function repeatAsync(func: RepeatAsyncCb, data: RepeatData): Promise<void>;
+export async function repeatAsync(func: RepeatAsyncCb, times: number): Promise<void>;
+export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData): Promise<void> {
+	const data = argToData(arg2);
+
+	let index = data.start;
+	for (; index < data.end;) {
+		const result = await func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index += data.step;
+	}
+}
+```
+
+An asynchronous version of [repeat](#repeat).
+
+
+</Tab>
+</Tabs>
+### repeatWhile
+
+```ts tab='Shape'
+function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): void;
+
+type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
+type RepeatCbRT = boolean | number | void;
+
+type RepeatWhileCondition = Func<RepeatCbParams, boolean>;
+type RepeatCbParams = [index: number];
+```
+
+```ts tab='Source'
+
+export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): void {
+	let index = 0;
+	while (condition(index)) {
+		const result = func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index++;
+	}
+}
+```
+
+Repeats a function while a given condition is true.
+
+<Callout type='info'>
+ - Return `false` to break the loop.
+ - Return a `number` to jump to that index.
+</Callout>
+
+```ts title='Example'
+repeatWhile(console.log, (index) => index < 3); // logs "0", "1", "2"
+```
+
+### repeatWhileAsync
+
+```ts tab='Shape'
+async function repeatWhileAsync(
+	func: RepeatAsyncCb,
+	condition: RepeatWhileAsyncCondition,
+): Promise<void>;
+
+type RepeatAsyncCb = Func<RepeatCbParams, Promise<RepeatCbRT>>;
+type RepeatCbRT = boolean | number | void;
+
+type RepeatWhileAsyncCondition = Func<RepeatCbParams, Promise<boolean>>;
+type RepeatCbParams = [index: number];
+```
+
+```ts tab='Source'
+
+export async function repeatWhileAsync(
+	func: RepeatAsyncCb,
+	condition: RepeatWhileAsyncCondition,
+): Promise<void> {
+	let index = 0;
+	while (await condition(index)) {
+		const result = await func(index);
+		if (result === false) break;
+		if (isNumber(result)) index = result;
+		else index++;
+	}
+}
+```
+
+An asynchronous version of [repeatWhile](#repeatwhile).
+
+## utils
+
+### iife
+
+```ts tab='Shape'
+function iife<const A extends ROList, const R>(func: Func<A, R>, ...args: A): R;
+```
+
+```ts tab='Source'
+
+export function iife<const A extends ROList, const R>(func: Func<A, R>, ...args: A): R {
+	return func(...args);
+}
+```
+
+Immediately invokes a function and returns its result.
+Useful for creating a local scope to organize your code.
+
+```ts title='Example'
+function cliAction() {
+  const folders = iife(() => {
+    const source = "...";
+    const options = { ... };
+    const folders = glob.sync(source, options);
+    return folders.filter(...);
+  });
+  const files = iife(() => {
+    const source = "...";
+    const options = { ... };
+    const files = glob.sync(source, options);
+    return files.filter(...);
+  });
+}
+```
+
+### sleep
+
+```ts tab='Shape'
+async function sleep(ms: number): Promise<void>;
+```
+
+```ts tab='Source'
+
+export async function sleep(ms: number): Promise<void> {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+```
+
+Sleeps for the specified number of milliseconds.
+
+### withDelay
+
+```ts tab='Shape'
+async function withDelay(func: Func, ms: number): Promise<void>;
+```
+
+```ts tab='Source'
+
+export async function withDelay(func: Func, ms: number): Promise<void> {
+	await sleep(ms);
+	await func();
+}
+```
+
+Sleeps for the specified number of milliseconds and then calls the given function.

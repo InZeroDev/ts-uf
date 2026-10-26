@@ -1,0 +1,575 @@
+---
+title: string
+---
+
+## validation
+
+### isString
+
+```ts tab='Shape'
+function isString<T>(value: CheckT<T>): value is SmartExtract<T, string>;
+```
+
+```ts tab='Source'
+
+export function isString<T>(value: CheckT<T>): value is SmartExtract<T, string> {
+	return typeof value === "string";
+}
+```
+
+Checks whether a value is a string.
+
+```ts title='Example'
+function foo(value: string | string[]) {
+  if (isString(value)) {
+    value; // string
+  }
+}
+```
+
+### isNotString
+
+```ts tab='Shape'
+function isNotString<T>(value: CheckT<T>): value is Exclude<T, string>;
+```
+
+```ts tab='Source'
+
+export function isNotString<T>(value: CheckT<T>): value is Exclude<T, string> {
+	return !isString(value);
+}
+```
+
+Checks whether a value is not a string.
+
+```ts title='Example'
+function foo(value: string | string[]) {
+  if (isNotString(value)) {
+    value; // string[]
+  }
+}
+```
+
+### isEmptyString
+
+```ts tab='Shape'
+function isEmptyString<T>(value: CheckT<T>): value is Extract<"", T>;
+```
+
+```ts tab='Source'
+
+export function isEmptyString<T>(value: CheckT<T>): value is Extract<"", T> {
+	return value === "";
+}
+```
+
+Checks whether a value is an empty string.
+
+```ts title='Example'
+function foo(value: string) {
+  if (isEmptyString(value)) {
+    value; // ""
+  }
+}
+```
+
+### isNonEmptyString
+
+```ts tab='Shape'
+function isNonEmptyString<T>(
+	value: CheckT<T>,
+): value is Exclude<SmartExtract<T, string>, "">;
+```
+
+```ts tab='Source'
+
+export function isNonEmptyString<T>(
+	value: CheckT<T>,
+): value is Exclude<SmartExtract<T, string>, ""> {
+	return isString(value) && value !== "";
+}
+```
+
+Checks whether a value is a non-empty string.
+
+```ts title='Example'
+function foo(value: string | string[]) {
+  if (isNonEmptyString(value)) {
+    value; // type: string // value !== ""
+  }
+}
+```
+
+### isBlank
+
+```ts tab='Shape'
+function isBlank<T>(value: CheckT<T>): value is SmartExtract<T, string>;
+```
+
+```ts tab='Source'
+
+export function isBlank<T>(value: CheckT<T>): value is SmartExtract<T, string> {
+	return isString(value) && value.trim() === "";
+}
+```
+
+Checks whether a value is a string that's empty or empty-like.
+
+```ts title='Example'
+isBlank(""); // true
+isBlank("  "); // true
+isBlank("\t\n"); // true
+
+isBlank("hello"); // false
+isBlank("   h"); // false
+```
+
+### isNonBlank
+
+```ts tab='Shape'
+function isNonBlank<T>(value: CheckT<T>): value is SmartExtract<T, string>;
+```
+
+```ts tab='Source'
+
+export function isNonBlank<T>(value: CheckT<T>): value is SmartExtract<T, string> {
+	return isString(value) && value.trim() !== "";
+}
+```
+
+Checks whether a value is a string that's neither empty nor empty-like.
+
+```ts title='Example'
+isNonBlank(""); // false
+isNonBlank("  "); // false
+isNonBlank("\t\n"); // false
+
+isNonBlank("hello"); // true
+isNonBlank("   h"); // true
+```
+
+## case
+
+### capitalize
+
+```ts tab='Shape'
+function capitalize<T extends string>(value: T): string extends T ? string : Capitalize<T>;
+```
+
+```ts tab='Source'
+
+export function capitalize<T extends string>(value: T): string extends T ? string : Capitalize<T> {
+	return (value.charAt(0).toUpperCase() + value.slice(1)) as Valid;
+}
+```
+
+Capitalizes the first character of a string.
+
+```ts title='Example'
+capitalize("hello"); // "Hello"
+```
+
+### uncapitalize
+
+```ts tab='Shape'
+function uncapitalize<T extends string>(
+	value: T,
+): string extends T ? string : Uncapitalize<T>;
+```
+
+```ts tab='Source'
+
+export function uncapitalize<T extends string>(
+	value: T,
+): string extends T ? string : Uncapitalize<T> {
+	return (value.charAt(0).toLowerCase() + value.slice(1)) as Valid;
+}
+```
+
+Uncapitalizes the first character of a string.
+
+```ts title='Example'
+uncapitalize("Hello"); // "hello"
+```
+
+## char
+
+### getFirstChar
+
+```ts tab='Shape'
+function getFirstChar<T extends string>(value: T): string extends T ? string : FirstChar<T>;
+```
+
+```ts tab='Source'
+
+export function getFirstChar<T extends string>(value: T): string extends T ? string : FirstChar<T> {
+	return value.charAt(0) as Valid;
+}
+```
+
+Returns the first character of a string.
+
+```ts title='Example'
+getFirstChar("hello"); // "h"
+```
+
+### getLastChar
+
+```ts tab='Shape'
+function getLastChar<T extends string>(value: T): string extends T ? string : LastChar<T>;
+```
+
+```ts tab='Source'
+
+export function getLastChar<T extends string>(value: T): string extends T ? string : LastChar<T> {
+	return value.charAt(value.length - 1) as Valid;
+}
+```
+
+Returns the last character of a string.
+
+```ts title='Example'
+getLastChar("hello"); // "o"
+```
+
+### firstCharIsUppercase
+
+```ts tab='Shape'
+function firstCharIsUppercase(value: string): boolean;
+```
+
+```ts tab='Source'
+
+export function firstCharIsUppercase(value: string): boolean {
+	const firstChar = getFirstChar(value);
+	return firstChar === firstChar.toUpperCase();
+}
+```
+
+Checks whether the first character of a string is uppercase.
+
+```ts title='Example'
+firstCharIsUppercase("hello"); // false
+firstCharIsUppercase("Hello"); // true
+```
+
+### firstCharIsLowercase
+
+```ts tab='Shape'
+function firstCharIsLowercase(value: string): boolean;
+```
+
+```ts tab='Source'
+
+export function firstCharIsLowercase(value: string): boolean {
+	const firstChar = getFirstChar(value);
+	return firstChar === firstChar.toLowerCase();
+}
+```
+
+Checks whether the first character of a string is lowercase.
+
+```ts title='Example'
+firstCharIsLowercase("hello"); // true
+firstCharIsLowercase("Hello"); // false
+```
+
+## format
+
+### formatString
+
+```ts tab='Shape'
+function formatString<P extends string>(pattern: P, context: ExtractContext<P>): string;
+```
+
+```ts tab='Source'
+
+export function formatString<P extends string>(pattern: P, context: ExtractContext<P>): string {
+	return pattern.replace(/(\\*){(\w+)(?:=([^}]+))?}/g, (match, escapes, name, defaultValue) => {
+		const newEscapesCount = Math.floor(escapes.length / 2);
+		if (isOdd(escapes.length)) return match.slice(newEscapesCount + 1);
+		return "\\".repeat(newEscapesCount) + (context[name as never] ?? defaultValue ?? match);
+	});
+}
+```
+
+Formats a string using a given context.
+
+```ts title='Example'
+formatString("Hello, {name}! Your age is {age=unknown}.", { name: "John" }); // "Hello, John! Your age is unknown."
+```
+
+## prefix
+
+### prefix
+
+```ts tab='Shape'
+function prefix<T extends string, P extends string>(
+	string: T,
+	prefix: P,
+): string extends T | P ? string : Prefix<T, P>;
+```
+
+```ts tab='Source'
+
+export function prefix<T extends string, P extends string>(
+	string: T,
+	prefix: P,
+): string extends T | P ? string : Prefix<T, P> {
+	return `${prefix}${string}`;
+}
+```
+
+Adds a prefix to a string.
+
+```ts title='Example'
+prefix("key", "$"); // "$key"
+```
+
+### ensurePrefix
+
+```ts tab='Shape'
+function ensurePrefix<T extends string, P extends string>(
+	string: T,
+	prefix: P,
+): string extends T | P ? string : EnsurePrefix<T, P>;
+```
+
+```ts tab='Source'
+
+export function ensurePrefix<T extends string, P extends string>(
+	string: T,
+	prefix: P,
+): string extends T | P ? string : EnsurePrefix<T, P> {
+	return (string.startsWith(prefix) ? string : `${prefix}${string}`) as Valid;
+}
+```
+
+Adds a prefix to a string if it doesn't already have it.
+
+```ts title='Example'
+ensurePrefix("key", "$"); // "$key"
+ensurePrefix("$key", "$"); // "$key"
+```
+
+### unPrefix
+
+```ts tab='Shape'
+function unPrefix<T extends string, P extends string>(
+	string: T,
+	prefix: P,
+): string extends T | P ? string : UnPrefix<T, P>;
+```
+
+```ts tab='Source'
+
+export function unPrefix<T extends string, P extends string>(
+	string: T,
+	prefix: P,
+): string extends T | P ? string : UnPrefix<T, P> {
+	return (string.startsWith(prefix) ? string.slice(prefix.length) : string) as Valid;
+}
+```
+
+Removes a prefix from a string if it has it.
+
+```ts title='Example'
+unPrefix("$key", "$"); // "key"
+unPrefix("key", "$"); // "key"
+```
+
+### suffix
+
+```ts tab='Shape'
+function suffix<T extends string, S extends string>(
+	string: T,
+	suffix: S,
+): string extends T | S ? string : Suffix<T, S>;
+```
+
+```ts tab='Source'
+
+export function suffix<T extends string, S extends string>(
+	string: T,
+	suffix: S,
+): string extends T | S ? string : Suffix<T, S> {
+	return `${string}${suffix}`;
+}
+```
+
+Adds a suffix to a string.
+
+```ts title='Example'
+suffix("key", "$"); // "key$"
+```
+
+### ensureSuffix
+
+```ts tab='Shape'
+function ensureSuffix<T extends string, S extends string>(
+	string: T,
+	suffix: S,
+): string extends T | S ? string : EnsureSuffix<T, S>;
+```
+
+```ts tab='Source'
+
+export function ensureSuffix<T extends string, S extends string>(
+	string: T,
+	suffix: S,
+): string extends T | S ? string : EnsureSuffix<T, S> {
+	return (string.endsWith(suffix) ? string : `${string}${suffix}`) as Valid;
+}
+```
+
+Adds a suffix to a string if it doesn't already have it.
+
+```ts title='Example'
+ensureSuffix("key", "$"); // "key$"
+ensureSuffix("key$", "$"); // "key$"
+```
+
+### unSuffix
+
+```ts tab='Shape'
+function unSuffix<T extends string, S extends string>(
+	string: T,
+	suffix: S,
+): string extends T | S ? string : UnSuffix<T, S>;
+```
+
+```ts tab='Source'
+
+export function unSuffix<T extends string, S extends string>(
+	string: T,
+	suffix: S,
+): string extends T | S ? string : UnSuffix<T, S> {
+	return (string.endsWith(suffix) ? string.slice(0, -suffix.length) : string) as Valid;
+}
+```
+
+Removes a suffix from a string if it has it.
+
+```ts title='Example'
+unSuffix("key$", "$"); // "key"
+unSuffix("key", "$"); // "key"
+```
+
+## replace
+
+### replaceSubstring
+
+```ts tab='Shape'
+function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): string;
+
+type ReplaceUpdate = [start: number, end: number, replacement: string];
+```
+
+```ts tab='Source'
+
+export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): string {
+	if (doRangesOverlap(updates.map(([start, end]) => [start, end])))
+		throw new Error("Overlapping ranges");
+	return updates.reduce(
+		(acc, [start, end, replacement]) => {
+			if (start < 0) throw new RangeError("Invalid range: start < 0");
+
+			start += acc.delta;
+			end += acc.delta;
+
+			acc.string = acc.string.slice(0, start) + replacement + acc.string.slice(end);
+
+			const rangeLength = end - start;
+			acc.delta += replacement.length - rangeLength;
+
+			return acc;
+		},
+		{ string, delta: 0 },
+	).string;
+}
+```
+
+Replaces a substring using its coordinates.
+
+<Callout type='info'>
+Automatically adjusts the ranges of subsequent updates to account for changes in string length
+caused by earlier replacements, ensuring each update targets the intended substring.
+</Callout>
+
+<Callout type='warn'>
+Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
+- `start > end` or `start < 0`.
+- some ranges overlap.
+</Callout>
+
+```ts title='Example'
+replaceString("Hello World!", [6, 11, "Universe"]); // "Hello Universe!"
+replaceString("012345678", [0, 2, "x"], [3, 5, "y"], [6, 8, "z"]); // "x2y5z8"
+```
+
+### deleteSubstring
+
+```ts tab='Shape'
+function deleteSubstring(string: string, ...ranges: RORange[]): string;
+
+type RORange = readonly [start: number, end: number];
+```
+
+```ts tab='Source'
+
+export function deleteSubstring(string: string, ...ranges: RORange[]): string {
+	return replaceSubstring(string, ...ranges.map<ReplaceUpdate>(([start, end]) => [start, end, ""]));
+}
+```
+
+Deletes a substring using its coordinates.
+
+<Callout type='info'>
+Automatically adjusts the ranges of subsequent deletions to account for changes in string length
+caused by earlier deletions, ensuring each deletion targets the intended substring.
+</Callout>
+
+<Callout type='warn'>
+Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
+- `start > end` or `start < 0`.
+- some ranges overlap.
+</Callout>
+
+```ts title='Example'
+deleteSubstring("Hello World And Welcome!", [5, 11], [23, 24]); // "Hello And Welcome"
+```
+
+### insertSubstring
+
+```ts tab='Shape'
+function insertSubstring(string: string, ...updates: InsertUpdate[]): string;
+
+type InsertUpdate = [index: number, insertion: string];
+```
+
+```ts tab='Source'
+
+export function insertSubstring(string: string, ...updates: InsertUpdate[]): string {
+	return replaceSubstring(
+		string,
+		...updates.map<ReplaceUpdate>(([index, insertion]) => [index, index, insertion]),
+	);
+}
+```
+
+Inserts a substring at a given index.
+
+<Callout type='info'>
+Automatically adjusts the ranges of subsequent insertions to account for changes in string length
+caused by earlier insertions, ensuring each insertion occurs at the intended position.
+</Callout>
+
+<Callout type='warn'>
+Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
+- `index < 0`.
+- some ranges overlap.
+</Callout>
+
+```ts title='Example'
+insertSubstring("Hello World!", [6, "("], [11, ")"]); // "Hello (World)!"
+```

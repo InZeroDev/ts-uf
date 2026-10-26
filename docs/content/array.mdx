@@ -1,0 +1,680 @@
+---
+title: array
+---
+
+## validation
+
+### isArray
+
+```ts tab='Shape'
+function isArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false ? Extract<T, ROList> : Extract<List, T>;
+```
+
+```ts tab='Source'
+
+export function isArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false ? Extract<T, ROList> : Extract<List, T> {
+	return Array.isArray(value);
+}
+```
+
+Checks whether a value is an array.
+
+```ts title='Example'
+function foo(value: string | string[]) {
+  if (isArray(value)) {
+    value; // string[]
+  }
+}
+```
+
+### isNotArray
+
+```ts tab='Shape'
+function isNotArray<T>(value: CheckT<T>): value is Exclude<T, ROList>;
+```
+
+```ts tab='Source'
+
+export function isNotArray<T>(value: CheckT<T>): value is Exclude<T, ROList> {
+	return !isArray(value);
+}
+```
+
+Checks whether a value is not an array.
+
+```ts title='Example'
+function foo(value: string | string[]) {
+  if (isNotArray(value)) {
+    value; // string
+  }
+}
+```
+
+### isEmptyArray
+
+```ts tab='Shape'
+function isEmptyArray<T>(
+	value: CheckT<T>,
+): value is Extract<[], T>;
+```
+
+```ts tab='Source'
+
+export function isEmptyArray<T>(
+	value: CheckT<T>,
+): value is Extract<[], T> {
+	return isArray(value) && value.length === 0;
+}
+```
+
+Checks whether a value is an empty array.
+
+```ts title='Example'
+function foo(value: string[]) {
+  if (isEmptyArray(value)) {
+    value; // []
+  }
+}
+```
+
+### isNonEmptyArray
+
+```ts tab='Shape'
+function isNonEmptyArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? T extends T
+		? IsTuple<T> extends true
+			? Exclude<T, []>
+			: T extends ROList
+				? Extract<MatchRO<NonEmptyTuple<T[number]>, T>, T>
+				: never
+		: never
+	: Extract<NonEmptyTuple<T>, T>;
+```
+
+```ts tab='Source'
+
+export function isNonEmptyArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? T extends T
+		? IsTuple<T> extends true
+			? Exclude<T, []>
+			: T extends ROList
+				? Extract<MatchRO<NonEmptyTuple<T[number]>, T>, T>
+				: never
+		: never
+	: Extract<NonEmptyTuple<T>, T> {
+	return isArray(value) && value.length > 0;
+}
+```
+
+Checks whether a value is a non-empty array.
+
+```ts title='Example'
+function foo(value: string[]) {
+  if (isNonEmptyArray(value)) {
+    value; // [string, ...string[]]
+  }
+}
+```
+
+### isSingletonArray
+
+```ts tab='Shape'
+function isSingletonArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? T extends ROList
+		? number extends T["length"]
+			? Extract<MatchRO<[T[number]], T>, T>
+			: Extract<T, readonly [unknown]>
+		: never
+	: Extract<[T], T>;
+```
+
+```ts tab='Source'
+
+export function isSingletonArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? T extends ROList
+		? number extends T["length"]
+			? Extract<MatchRO<[T[number]], T>, T>
+			: Extract<T, readonly [unknown]>
+		: never
+	: Extract<[T], T> {
+	return isArray(value) && value.length === 1;
+}
+```
+
+Checks whether a value is an array with a single element.
+
+```ts title='Example'
+function foo(value: string[]) {
+  if (isSingletonArray(value)) {
+    value; // [string]
+  }
+}
+```
+
+### isNonSingletonArray
+
+```ts tab='Shape'
+function isNonSingletonArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? Exclude<Extract<T, ROList>, [unknown]>
+	: Extract<List, T>;
+```
+
+```ts tab='Source'
+
+export function isNonSingletonArray<T>(
+	value: CheckT<T>,
+): value is IsUnknown<T> | IsAny<T> extends false
+	? Exclude<Extract<T, ROList>, [unknown]>
+	: Extract<List, T> {
+	return isArray(value) && value.length !== 1;
+}
+```
+
+Checks whether a value is an array with no or more than one element.
+
+```ts title='Example'
+isNonSingletonArray([]); // true
+isNonSingletonArray([1]); // false
+isNonSingletonArray([1, 2]); // true
+```
+
+### isFirstIndex
+
+```ts tab='Shape'
+function isFirstIndex(index: number): boolean;
+```
+
+```ts tab='Source'
+
+export function isFirstIndex(index: number): boolean {
+	return index === 0;
+}
+```
+
+A readable way to check if `index === 0`.
+
+### isNotFirstIndex
+
+```ts tab='Shape'
+function isNotFirstIndex(index: number): boolean;
+```
+
+```ts tab='Source'
+
+export function isNotFirstIndex(index: number): boolean {
+	return !isFirstIndex(index);
+}
+```
+
+A readable way to check if `index !== 0`.
+
+### isLastIndex
+
+```ts tab='Shape'
+function isLastIndex(index: number, length: number): boolean;
+```
+
+```ts tab='Source'
+
+export function isLastIndex(index: number, length: number): boolean {
+	return index === numberToIndex(length);
+}
+```
+
+Checks whether a given index is the last index of an array.
+
+```ts title='Example'
+const arr = [0, 1, 2, 3];
+
+isLastIndex(0, arr.length); // false;
+isLastIndex(3, arr.length); // true;
+```
+
+### isNotLastIndex
+
+```ts tab='Shape'
+function isNotLastIndex(index: number, length: number): boolean;
+```
+
+```ts tab='Source'
+
+export function isNotLastIndex(index: number, length: number): boolean {
+	return !isLastIndex(index, length);
+}
+```
+
+Checks whether a given index is not the last index of an array.
+
+```ts title='Example'
+const arr = [0, 1, 2, 3];
+
+isNotLastIndex(0, arr.length); // true;
+isNotLastIndex(3, arr.length); // false;
+```
+
+### hasIndex
+
+```ts tab='Shape'
+function hasIndex(index: number, length: number): boolean;
+```
+
+```ts tab='Source'
+
+export function hasIndex(index: number, length: number): boolean {
+	return isInRange(index, getIndexRange(length));
+}
+```
+
+Checks whether a given index is within the range of an array.
+
+```ts title='Example'
+const arr = [0, 1, 2, 3];
+
+hasIndex(-1, arr.length); // false;
+hasIndex(0, arr.length); // true;
+hasIndex(3, arr.length); // true;
+hasIndex(4, arr.length); // false;
+```
+
+### lacksIndex
+
+```ts tab='Shape'
+function lacksIndex(index: number, length: number): boolean;
+```
+
+```ts tab='Source'
+
+export function lacksIndex(index: number, length: number): boolean {
+	return !hasIndex(index, length);
+}
+```
+
+Checks whether a given index is not within the range of an array.
+
+```ts title='Example'
+const arr = [0, 1, 2, 3];
+
+lacksIndex(-1, arr.length); // true;
+lacksIndex(0, arr.length); // false;
+lacksIndex(3, arr.length); // false;
+lacksIndex(4, arr.length); // true;
+```
+
+## utils
+
+### indexToNumber
+
+```ts tab='Shape'
+function indexToNumber(index: number): number;
+```
+
+```ts tab='Source'
+
+export function indexToNumber(index: number): number {
+	return index + 1;
+}
+```
+
+Converts a 0-based index to a 1-based index.
+
+```ts title='Example'
+indexToNumber(0); // 1
+```
+
+### numberToIndex
+
+```ts tab='Shape'
+function numberToIndex(number: number): number;
+```
+
+```ts tab='Source'
+
+export function numberToIndex(number: number): number {
+	return number - 1;
+}
+```
+
+Converts a 1-based index to a 0-based index.
+
+```ts title='Example'
+numberToIndex(1); // 0
+```
+
+### getFirstElement
+
+<Tabs items={["Overload 01", "Overload 02"]}>
+<Tab value={"Overload 01"}>
+
+```ts tab='Shape'
+function getFirstElement<const T>(arr: [T, ...unknown[]]): T;
+```
+
+```ts tab='Source'
+export function getFirstElement<const T>(arr: [T, ...unknown[]]): T;
+export function getFirstElement<const T>(arr: ROList<T>): T;
+export function getFirstElement<const T>(arr: ROList<T>): T {
+	return arr[0] as Valid;
+}
+```
+
+Returns the first element of an array.
+
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+```ts tab='Shape'
+function getFirstElement<const T>(arr: ROList<T>): T;
+```
+
+```ts tab='Source'
+export function getFirstElement<const T>(arr: [T, ...unknown[]]): T;
+export function getFirstElement<const T>(arr: ROList<T>): T;
+export function getFirstElement<const T>(arr: ROList<T>): T {
+	return arr[0] as Valid;
+}
+```
+
+Returns the first element of an array.
+
+
+</Tab>
+</Tabs>
+### getLastIndex
+
+```ts tab='Shape'
+function getLastIndex(length: number): number;
+```
+
+```ts tab='Source'
+
+export function getLastIndex(length: number): number {
+	return numberToIndex(length);
+}
+```
+
+Returns the last index of an array using its length.
+
+```ts title='Example'
+const arr = [1, 2, 3, 4, 5];
+
+getLastIndex(arr.length); // 4
+```
+
+### getLastElement
+
+<Tabs items={["Overload 01", "Overload 02"]}>
+<Tab value={"Overload 01"}>
+
+```ts tab='Shape'
+function getLastElement<const T>(arr: [...unknown[], T]): T;
+```
+
+```ts tab='Source'
+export function getLastElement<const T>(arr: [...unknown[], T]): T;
+export function getLastElement<const T>(arr: ROList<T>): T;
+export function getLastElement<const T>(arr: ROList<T>): T {
+	return arr[getLastIndex(arr.length)] as Valid;
+}
+```
+
+Returns the last element of an array.
+
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+```ts tab='Shape'
+function getLastElement<const T>(arr: ROList<T>): T;
+```
+
+```ts tab='Source'
+export function getLastElement<const T>(arr: [...unknown[], T]): T;
+export function getLastElement<const T>(arr: ROList<T>): T;
+export function getLastElement<const T>(arr: ROList<T>): T {
+	return arr[getLastIndex(arr.length)] as Valid;
+}
+```
+
+Returns the last element of an array.
+
+
+</Tab>
+</Tabs>
+### getMiddleIndex
+
+```ts tab='Shape'
+function getMiddleIndex(length: number): number;
+```
+
+```ts tab='Source'
+
+export function getMiddleIndex(length: number): number {
+	return numberToIndex(Math.floor(length / 2));
+}
+```
+
+Returns the middle index of an array using its length.
+
+```ts title='Example'
+const oddArr = [0, 1, 2];
+const evenArr = [0, 1, 2, 3];
+
+getMiddleIndex(oddArr.length); // 1
+getMiddleIndex(evenArr.length); // 1
+```
+
+### getMiddleElement
+
+```ts tab='Shape'
+function getMiddleElement<const T>(arr: ROList<T>): T;
+```
+
+```ts tab='Source'
+
+export function getMiddleElement<const T>(arr: ROList<T>): T {
+	return arr[getMiddleIndex(arr.length)] as Valid;
+}
+```
+
+Returns the middle element of an array.
+
+### getIndexRange
+
+```ts tab='Shape'
+function getIndexRange(length: number): Range;
+```
+
+```ts tab='Source'
+
+export function getIndexRange(length: number): Range {
+	return [0, length - 1];
+}
+```
+
+Returns the index range of an array using its length.
+
+```ts title='Example'
+const arr = [0, 1, 2, 3, 4];;
+getIndexRange(arr.length); // [0, 4]
+```
+
+### getSignedIndexRange
+
+```ts tab='Shape'
+function getSignedIndexRange(length: number): Range;
+```
+
+```ts tab='Source'
+
+export function getSignedIndexRange(length: number): Range {
+	return [-length, length - 1];
+}
+```
+
+Returns the signed index range of an array using its length.
+
+```ts title='Example'
+const arr = [0, 1, 2, 3, 4];;
+getSignedIndexRange(arr.length); // [-5, 4]
+```
+
+### createArray
+
+```ts tab='Shape'
+function createArray<L extends number, const R>(
+	length: L,
+	getValue: Func<[index: number], R>,
+): Tuple<L, R>;
+```
+
+```ts tab='Source'
+
+export function createArray<L extends number, const R>(
+	length: L,
+	getValue: Func<[index: number], R>,
+): Tuple<L, R> {
+	return Array.from({ length }, (_, index) => getValue(index)) as Valid;
+}
+```
+
+Creates an array of the given length and uses the given function to generate its values.
+
+```ts title='Example'
+createArray(5, (index) => index); // [0, 1, 2, 3, 4]
+```
+
+### getZeroBasedIndices
+
+```ts tab='Shape'
+function getZeroBasedIndices(length: number): number[];
+```
+
+```ts tab='Source'
+
+export function getZeroBasedIndices(length: number): number[] {
+	return createArray(length, (index) => index);
+}
+```
+
+Returns an array of the given length with zero-based indices.
+
+```ts title='Example'
+cons arr = [img1, img2, img3];
+const indexes = getZeroBasedIndices(arr.length); // [0, 1, 2]
+```
+
+### getOneBasedIndices
+
+```ts tab='Shape'
+function getOneBasedIndices(length: number): number[];
+```
+
+```ts tab='Source'
+
+export function getOneBasedIndices(length: number): number[] {
+	return createArray(length, indexToNumber);
+}
+```
+
+Returns an array of the given length with one-based indices.
+
+```ts title='Example'
+cons arr = [img1, img2, img3];
+const indexes = getOneBasedIndices(arr.length); // [1, 2, 3]
+```
+
+### getRandomIndex
+
+```ts tab='Shape'
+function getRandomIndex(length: number): number;
+```
+
+```ts tab='Source'
+
+export function getRandomIndex(length: number): number {
+	return getRandomInteger(0, numberToIndex(length));
+}
+```
+
+Returns a random index from an array using its length.
+
+### getRandomElement
+
+```ts tab='Shape'
+function getRandomElement<T extends ROList>(
+	arr: T,
+): T extends T ? T[number] | (IsTuple<T> extends true ? never : undefined) : never;
+```
+
+```ts tab='Source'
+
+export function getRandomElement<T extends ROList>(
+	arr: T,
+): T extends T ? T[number] | (IsTuple<T> extends true ? never : undefined) : never {
+	return arr[getRandomIndex(arr.length)] as Valid;
+}
+```
+
+Returns a random element from an array.
+
+### mapOnDefined
+
+```ts tab='Shape'
+function mapOnDefined<T extends ROList, const R>(
+	arr: T,
+	func: Func<[value: Exclude<T[number], undefined | null>], R>,
+): (R | Extract<T[number], undefined | null>)[];
+```
+
+```ts tab='Source'
+
+export function mapOnDefined<T extends ROList, const R>(
+	arr: T,
+	func: Func<[value: Exclude<T[number], undefined | null>], R>,
+): (R | Extract<T[number], undefined | null>)[] {
+	return arr.map((value) => (isNullish(value) ? value : func(value as Valid))) as Valid;
+}
+```
+
+Maps a function over an array, ignoring `undefined` and `null` values.
+
+```ts title='Example'
+const arr = [1, null, 3];
+
+mapOnDefined(arr, (value) => value * 2); // [2, null, 6]
+```
+
+### toUniqueArray
+
+```ts tab='Shape'
+function toUniqueArray<T extends ROList>(arr: T): T[number][];
+```
+
+```ts tab='Source'
+
+export function toUniqueArray<T extends ROList>(arr: T): T[number][] {
+	return [...new Set(arr)];
+}
+```
+
+Returns an array with unique elements.
+
+```ts title='Example'
+const arr = ["foo", "foo", "bar"];
+const uniqueArr = toUniqueArray(arr); // ["foo", "bar"]
+```

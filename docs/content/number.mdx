@@ -1,0 +1,91 @@
+---
+title: number
+---
+
+## validation
+
+### isNumber
+
+```ts tab='Shape'
+function isNumber<T>(value: CheckT<T>): value is SmartExtract<T, number>;
+```
+
+```ts tab='Source'
+
+export function isNumber<T>(value: CheckT<T>): value is SmartExtract<T, number> {
+	return typeof value === "number";
+}
+```
+
+Checks whether a value is a number.
+
+```ts title='Example'
+function foo(value: number | number[]) {
+  if (isNumber(value)) {
+    value; // number
+  }
+}
+```
+
+### isNotNumber
+
+```ts tab='Shape'
+function isNotNumber<T>(value: CheckT<T>): value is Exclude<T, number>;
+```
+
+```ts tab='Source'
+
+export function isNotNumber<T>(value: CheckT<T>): value is Exclude<T, number> {
+	return !isNumber(value);
+}
+```
+
+Checks whether a value is not a number.
+
+```ts title='Example'
+function foo(value: number | number[]) {
+  if (isNotNumber(value)) {
+    value; // number[]
+  }
+}
+```
+
+### isInteger
+
+```ts tab='Shape'
+function isInteger<T>(value: CheckT<T>): value is SmartExtract<T, number>;
+```
+
+```ts tab='Source'
+
+export function isInteger<T>(value: CheckT<T>): value is SmartExtract<T, number> {
+	return Number.isInteger(value);
+}
+```
+
+Checks whether a value is an integer.
+
+```ts title='Example'
+isInteger(1); // true
+isInteger(1.1); // false
+```
+
+### isFloat
+
+```ts tab='Shape'
+function isFloat<T>(value: CheckT<T>): value is SmartExtract<T, number>;
+```
+
+```ts tab='Source'
+
+export function isFloat<T>(value: CheckT<T>): value is SmartExtract<T, number> {
+	return isNumber(value) && isFinite(value) && !Number.isInteger(value);
+}
+```
+
+Checks whether a value is a float.
+
+```ts title='Example'
+isFloat(1); // false
+isFloat(1.1); // true
+```

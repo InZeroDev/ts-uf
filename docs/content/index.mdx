@@ -1,0 +1,163 @@
+---
+title: Overview
+---
+
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+
+`@inzero/ts-uf` is a collection of TypeScript utility functions.
+
+## Installation
+
+```npm
+npm install @inzero/ts-uf
+```
+
+## Quick Examples
+
+```ts tab='Example 01'
+import { isString } from "@inzero/ts-uf";
+
+function foo(value: string | string[]) {
+  if (isString(value)) {
+    value; // string
+  } else {
+    value; // string[]
+  }
+}
+```
+
+```ts tab='Example 02'
+import { hasKey } from "@inzero/ts-uf/object"; // You can use category-specific imports
+
+const myObj = { a: 1, b: 2 };
+
+function foo(key: string) {
+  // Instead of:
+  if (key in myObj) {
+    key; // string
+    myObj[key as keyof typeof myObj]; // number
+  }
+
+  // You can do:
+  if (hasKey(myObj, key)) {
+    key; // "a" | "b"
+    myObj[key]; // number
+    // no need for the annoying `as keyof typeof myObj`
+  }
+}
+```
+
+```ts tab='Example 03'
+import { mapDefined } from "@inzero/ts-uf";
+
+// Instead of:
+function getDescription(func: FunctionDeclaration): string | undefined {
+  const description = func.getJsDocs().at(-1)?.getDescription();
+  if (description === undefined) return; // Notice that we used `description === undefined` and not `!description`.
+  return convertJsDocLinks(description);
+}
+// You can do:
+function getDescription(func: FunctionDeclaration): string | undefined {
+  return mapDefined(
+    func.getJsDocs().at(-1)?.getDescription(),
+    convertJSDocLinks,
+  );
+}
+```
+
+## Strictness
+
+This library aims to provide utilities that are not too-strict and not too-loose.
+
+<Accordions>
+<Accordion title="Why">
+
+Take `isNonEmptyString()` for example. If we made it too-strict by only allowing strings, then we won't be able
+to use it on values of type `unknown`, `any` or values where `string` is a possible type:
+
+```ts title='Too Strict'
+const list = [1, "a", 2, "b"];
+list.filter(isNonEmptyString); // Error
+
+function foo(value: unknown) {
+  if (isNonEmptyString(value)) {
+  } // Error
+}
+```
+
+And if we made it too-loose by allowing anything, then we might end up checking a value
+that can never be a string, and no errors will be shown:
+
+```ts title='Too Loose'
+isNonEmptyString(1);
+
+function foo(value: number) {
+  if (isNonEmptyString(value)) {
+  }
+}
+```
+
+So I chose the middle ground by allowing any value as long as using it makes sense.
+
+```ts title='Middle Ground'
+const list = [1, "a", 2, "b"];
+list.filter(isNonEmptyString); // string[]
+
+isNonEmptyString(1); // error
+```
+
+**Note**:
+Since there's no straightforward way to tell TypeScript accept any type as long as it includes
+a certain type, I had to use some hacks that are hidden under an internal type.
+And since it's a hack don't expect it to be perfect. It works until proven otherwise 🙂
+
+</Accordion>
+</Accordions>
+
+## Before you continue
+
+<Accordions multiple>
+<Accordion title="Parameter Types">
+
+Throughout the documentation, you will notice that validation utilities have a parameter of type `CheckT<T>`:
+
+```ts
+function isNonEmptyString<T>(value: CheckT<T>): boolean;
+```
+
+This is an internal type that checks whether a type include a certain type, a `string` in this case.
+So passing a value that can never be a string will result in a TypeScript error. [See Strictness Section](#strictness) for more details.
+
+</Accordion>
+</Accordions>
+
+## Notes
+
+- The docs are automatically generated from the JSDoc comments in the source code.
+- Each utility has "**Shape**" and "**Source**" tabs so you can see the expected parameters and return type, and how it's implemented.
+
+## Next
+
+You can check these hand-picked utils that I think you'll find useful:
+
+| Category | Utilities                                                                                                                                                                                                                 |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| string   | [isString](/string#isstring) - [isEmptyString](/string#isemptystring) - [isBlank](/string#isblank)                                                                                |
+| number   | [isNumber](/number#isnumber)                                                                                                                                |
+| math     | [isInRange](/math#isinrange) - [doRangesOverlap](/math#dorangesoverlap) - [getRandomFloat](/math#getrandomfloat) - [getRandomInteger](/math#getrandominteger) - [minmax](/math#minmax) - [roundNumber](/math#roundnumber) |
+| boolean  | [isBoolean](/boolean#isboolean)                                                                                                                                                                                           |
+| function | [isFunction](/function#isfunction) - [iife](/function#iife)                                                                                                                                                               |
+| array    | [isArray](/array#isarray) - [isEmptyArray](/array#isemptyarray) - [getRandomIndex](/array#getrandomindex) - [getRandomElement](/array#getrandomelement) - [mapOnDefined](/array#mapondefined)                             |
+| object   | [isObject](/object#isobject) - [hasKey](/object#haskey-1) - [getDeep](/object#getdeep) - [setDeep](/object#setdeep)                                                                                                         |
+| other    | [isEmpty](/other#isempty) - [isOneOf](/other#isoneof) - [mapDefined](/other#mapdefined)                                                                                                                                   |
+
+or check all available utilities by category:
+
+- [string](/string)
+- [number](/number)
+- [math](/math)
+- [boolean](/boolean)
+- [function](/function)
+- [array](/array)
+- [object](/object)
+- [other](/other)

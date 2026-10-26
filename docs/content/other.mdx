@@ -1,0 +1,232 @@
+---
+title: other
+---
+
+## validation
+
+### isOneOf
+
+```ts tab='Shape'
+function isOneOf<const T, const L extends ROList>(
+	value: T,
+	list: L,
+): value is SmartExtract<T, L[number]>;
+```
+
+```ts tab='Source'
+
+export function isOneOf<const T, const L extends ROList>(
+	value: T,
+	list: L,
+): value is SmartExtract<T, L[number]> {
+	return list.includes(value as Valid);
+}
+```
+
+checks whether a value is one of the expected values.
+
+```ts title='Example'
+const colors = ["red", "green", "blue"] as const;
+
+function foo(color: string) {
+  if (isOneOf(color, colors)) {
+    color; // "red" | "green" | "blue"
+  }
+}
+```
+
+### isNotOneOf
+
+```ts tab='Shape'
+function isNotOneOf<const T, const L extends ROList>(
+	value: T,
+	list: L,
+): value is Exclude<T, L[number]>;
+```
+
+```ts tab='Source'
+
+export function isNotOneOf<const T, const L extends ROList>(
+	value: T,
+	list: L,
+): value is Exclude<T, L[number]> {
+	return !isOneOf(value, list);
+}
+```
+
+Checks whether a value is not one of the expected values.
+
+```ts title='Example'
+type Action = "start" | "stop" | "pause";
+
+function foo(action: string) {
+  if (isNotOneOf(action, ["stop", "pause"])) {
+    startSomething();
+    action; // "start"
+  }
+}
+```
+
+### isNullish
+
+```ts tab='Shape'
+function isNullish<T>(value: T): value is SmartExtract<T, null | undefined>;
+```
+
+```ts tab='Source'
+
+export function isNullish<T>(value: T): value is SmartExtract<T, null | undefined> {
+	return isUndefined(value) || isNull(value);
+}
+```
+
+Checks whether a value is nullish (`null | undefined`).
+
+### isUndefined
+
+```ts tab='Shape'
+function isUndefined<T>(value: T): value is SmartExtract<T, undefined>;
+```
+
+```ts tab='Source'
+
+export function isUndefined<T>(value: T): value is SmartExtract<T, undefined> {
+	return value === undefined;
+}
+```
+
+Checks whether a value is `undefined`.
+
+### isNull
+
+```ts tab='Shape'
+function isNull<T>(value: T): value is SmartExtract<T, null>;
+```
+
+```ts tab='Source'
+
+export function isNull<T>(value: T): value is SmartExtract<T, null> {
+	return value === null;
+}
+```
+
+Checks whether a value is `null`.
+
+### isNotUndefined
+
+```ts tab='Shape'
+function isNotUndefined<T>(value: T): value is Exclude<T, undefined>;
+```
+
+```ts tab='Source'
+
+export function isNotUndefined<T>(value: T): value is Exclude<T, undefined> {
+	return !isUndefined(value);
+}
+```
+
+Checks whether a value is not `undefined`.
+
+### isNotNull
+
+```ts tab='Shape'
+function isNotNull<T>(value: T): value is Exclude<T, null>;
+```
+
+```ts tab='Source'
+
+export function isNotNull<T>(value: T): value is Exclude<T, null> {
+	return !isNull(value);
+}
+```
+
+Checks whether a value is not `null`.
+
+### isNonNullish
+
+```ts tab='Shape'
+function isNonNullish<T>(value: T): value is Exclude<T, null | undefined>;
+```
+
+```ts tab='Source'
+
+export function isNonNullish<T>(value: T): value is Exclude<T, null | undefined> {
+	return !isNullish(value);
+}
+```
+
+Checks whether a value is neither `null` nor `undefined`.
+
+### isEmpty
+
+```ts tab='Shape'
+function isEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsEmptyRT<T>;
+```
+
+```ts tab='Source'
+
+export function isEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsEmptyRT<T> {
+	const v: unknown = value;
+	if (isString(v)) return isEmptyString(v);
+	if (isArray(v)) return isEmptyArray(v);
+	if (isObject(v)) return isEmptyObject(v);
+	throw new Error("Invalid type");
+}
+```
+
+A wrapper for [isEmptyString](#isemptystring), [isEmptyArray](#isemptyarray) and [isEmptyObject](#isemptyobject).
+
+### isNonEmpty
+
+```ts tab='Shape'
+function isNonEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsNonEmptyRT<T>;
+```
+
+```ts tab='Source'
+
+export function isNonEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsNonEmptyRT<T> {
+	const v: unknown = value;
+	if (isArray(v)) return isNonEmptyArray(v);
+	if (isString(v)) return isNonEmptyString(v);
+	if (isObject(v)) return isNonEmptyObject(v);
+	throw new Error("Invalid type");
+}
+```
+
+A wrapper for [isNonEmptyString](#isnonemptystring), [isNonEmptyArray](#isnonemptyarray) and [isNonEmptyObject](#isnonemptyobject).
+
+## utils
+
+### mapDefined
+
+```ts tab='Shape'
+function mapDefined<T, const R>(
+	value: T,
+	fn: Func<[value: Exclude<T, undefined | null>], R>,
+): R | Extract<T, undefined | null>;
+```
+
+```ts tab='Source'
+
+export function mapDefined<T, const R>(
+	value: T,
+	fn: Func<[value: Exclude<T, undefined | null>], R>,
+): R | Extract<T, undefined | null> {
+	return isOneOf(value, [undefined, null]) ? (value as Valid) : fn(value as Valid);
+}
+```
+
+Maps a value to another value if it is not `undefined` or `null`.
+
+```ts title='Example'
+// Instead of:
+function getDescription(func: FunctionDeclaration) {
+  const description = func.getJsDocs().at(-1)?.getDescription();
+  if (description === undefined) return; // Notice that we used `description === undefined` and not `!description`.
+  return convertJsDocLinks(description);
+}
+// You can do:
+function getDescription(func: FunctionDeclaration) {
+  return mapDefined(func.getJsDocs().at(-1)?.getDescription(), convertJSDocLinks);
+}
+```
