@@ -12,7 +12,10 @@ const sourceFiles = project.addSourceFilesAtPaths(
 );
 
 export const groupedSourceFiles = Object.entries(
-	Object.groupBy(sourceFiles, (sf) => path.relative(joinPkg("src"), sf.getFilePath()).split(path.sep)[0]!),
+	Object.groupBy(
+		sourceFiles,
+		(sf) => path.relative(joinPkg("src"), sf.getFilePath()).split(path.sep)[0]!,
+	),
 ) as [string, SourceFile[]][];
 
 groupedSourceFiles.forEach(([, sourceFiles]) =>
@@ -23,4 +26,3 @@ groupedSourceFiles.forEach(([, sourceFiles]) =>
 		return 0;
 	}),
 );
-
