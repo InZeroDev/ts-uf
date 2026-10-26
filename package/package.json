@@ -118,7 +118,7 @@
 	"module": "dist/index.mjs",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"barrel": "npm-run-all barrel:check:* barrel:generate:*",
+		"barrel:main": "npm-run-all barrel:check:* barrel:generate:*",
 		"barrel:check:main": "barrel check src/** --create --extension ts",
 		"barrel:check:types": "touch src/types.ts",
 		"barrel:generate:main": "barrel generate src/**/index.ts -e _* types.ts",
@@ -126,9 +126,8 @@
 		"build": "tsup",
 		"dev": "tsup --watch",
 		"format": "prettier --write .",
-		"gen-barrel": "barrel check src src/* --extension ts --create; barrel src/index.ts src/*/index.ts",
 		"lint": "tsc --noEmit; eslint src/**/*.ts",
-		"prepublish": "pnpm gen-barrel; pnpm build"
+		"prepublish": "pnpm barrel:main; pnpm build"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
