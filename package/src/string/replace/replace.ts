@@ -9,8 +9,8 @@ import type { InsertUpdate, ReplaceUpdate } from "./types";
 /**
  * Replaces a substring using its coordinates.
  *
- * @remarks You can pass as many replacements as you want
- * and the function will handle adjusting the indices accordingly.
+ * @remarks Automatically adjusts the ranges of subsequent updates to account for changes in string length
+ * caused by earlier replacements, ensuring each update targets the intended substring.
  *
  * @throws Throws a {@link RangeError} if:
  * - `start > end` or `start < 0`.
@@ -49,8 +49,8 @@ export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): s
 /**
  * Deletes a substring using its coordinates.
  *
- * @remarks You can pass as many ranges as you want
- * and the function will handle adjusting the indices accordingly.
+ * @remarks Automatically adjusts the ranges of subsequent deletions to account for changes in string length
+ * caused by earlier deletions, ensuring each deletion targets the intended substring.
  *
  * @throws Throws a {@link RangeError} if:
  * - `start > end` or `start < 0`.
@@ -70,8 +70,8 @@ export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 /**
  * Inserts a substring at a given index.
  *
- * @remarks You can pass as many insertions as you want
- * and the function will handle adjusting the indices accordingly.
+ * @remarks Automatically adjusts the ranges of subsequent insertions to account for changes in string length
+ * caused by earlier insertions, ensuring each insertion occurs at the intended position.
  *
  * @throws Throws a {@link RangeError} if:
  * - `index < 0`.

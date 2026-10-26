@@ -2,15 +2,24 @@ import type { Func } from "@inzero/ts-ut/func";
 import type { ROList } from "@inzero/ts-ut/list";
 
 /**
- * Immediately invoked function expression.
+ * Immediately invokes a function and returns its result.
+ * Useful for creating a local scope to organize your code.
  *
  * @example
- * const folders = iife(() => {
- *   const source = "...";
- *   const options = { ... };
- *   const folders = glob.sync(source, options);
- *   return folders.filter(...);
- * });
+ * function cliAction() {
+ *   const folders = iife(() => {
+ *     const source = "...";
+ *     const options = { ... };
+ *     const folders = glob.sync(source, options);
+ *     return folders.filter(...);
+ *   });
+ *   const files = iife(() => {
+ *     const source = "...";
+ *     const options = { ... };
+ *     const files = glob.sync(source, options);
+ *     return files.filter(...);
+ *   });
+ * }
  */
 export function iife<const A extends ROList, const R>(func: Func<A, R>, ...args: A): R {
 	return func(...args);
