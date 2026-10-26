@@ -1,4 +1,4 @@
-import type { IsAny, IsUnknown, SmartExtract } from "@inzero/ts-ut/other";
+import type { IsAny, IsUnknown } from "@inzero/ts-ut/other";
 import type { List, ROList } from "@inzero/ts-ut/list";
 import type { NonEmptyTuple } from "@inzero/ts-ut/tuple";
 import type { IsTuple, MatchRO } from "@inzero/ts-ut/_internal";
@@ -20,7 +20,7 @@ type CheckT<T> = _CheckT<T, ROList>;
  */
 export function isArray<T>(
 	value: CheckT<T>,
-): value is IsUnknown<T> | IsAny<T> extends false ? SmartExtract<T, ROList> : Extract<List, T> {
+): value is IsUnknown<T> | IsAny<T> extends false ? Extract<T, ROList> : Extract<List, T> {
 	return Array.isArray(value);
 }
 
