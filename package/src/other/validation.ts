@@ -91,9 +91,7 @@ export function isNonNullish<T>(value: T): value is Exclude<T, null | undefined>
 	return !isNullish(value);
 }
 
-export function isEmpty<T>(
-	value: _CheckT<T, string | ROList | Dict>,
-): value is T extends T
+type IsEmptyRT<T> = T extends T
 	? T extends string
 		? Extract<"", T>
 		: T extends Dict
@@ -101,7 +99,8 @@ export function isEmpty<T>(
 			: T extends ROList
 				? Extract<[], T>
 				: never
-	: never {
+	: never;
+export function isEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsEmptyRT<T> {
 	const v: unknown = value;
 	if (isString(v)) return isEmptyString(v);
 	if (isArray(v)) return isEmptyArray(v);
@@ -109,9 +108,7 @@ export function isEmpty<T>(
 	throw new Error("Invalid type");
 }
 
-export function isNonEmpty<T>(
-	value: _CheckT<T, string | ROList | Dict>,
-): value is T extends T
+type IsNonEmptyRT<T> = T extends T
 	? IsTuple<T> extends true
 		? Exclude<T, []>
 		: T extends ROList
@@ -123,7 +120,8 @@ export function isNonEmpty<T>(
 					: T extends Dict
 						? T
 						: never
-	: never {
+	: never;
+export function isNonEmpty<T>(value: _CheckT<T, string | ROList | Dict>): value is IsNonEmptyRT<T> {
 	const v: unknown = value;
 	if (isArray(v)) return isNonEmptyArray(v);
 	if (isString(v)) return isNonEmptyString(v);
