@@ -50,7 +50,7 @@ export function isNotArray<T>(value: CheckT<T>): value is Exclude<T, ROList> {
  */
 export function isEmptyArray<T>(
 	value: CheckT<T>,
-): value is IsUnknown<T> | IsAny<T> extends false ? Extract<T, readonly []> : Extract<[], T> {
+): value is Extract<[], T> {
 	return isArray(value) && value.length === 0;
 }
 
