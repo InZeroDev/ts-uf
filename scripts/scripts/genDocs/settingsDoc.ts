@@ -32,19 +32,16 @@ function extractTag(doc: JSDoc, tagName: string) {
 	const tagText = tag.getCommentText();
 	if (!tagText) return console.log(`Empty tag: ${getNodeCoords(tag)}`);
 
-	return tagText.replace(
-		/\$T{([^}]+)}(?:{([I])(?:=([^}]+))?})?/g,
-		(_, name: string, modifier?: string, info?: string) => {
-			let type: TypeAliasDeclaration;
+	return tagText.replace(/\$T{([^}]+)}(?:{([^}]+)})?/g, (_, name: string, modifier?: string) => {
+		let type: TypeAliasDeclaration;
 
-			if (modifier === "I") {
-				if (info !== undefined) type = getTypeFromExternalFile(name, sf, info);
-				else type = getTypeFromImport(name, sf);
-			} else type = getLocalType(name, sf);
+		if (modifier === undefined) type = getLocalType(name, sf);
+		else if (modifier === "I") type = getTypeFromImport(name, sf);
+		else if (/^\.\.?\//.test(modifier)) type = getTypeFromExternalFile(name, sf, modifier);
+		else throw new Error(`Invalid modifier: ${modifier}`);
 
-			return type.setIsExported(false).getText();
-		},
-	);
+		return type.setIsExported(false).getText();
+	});
 }
 
 function getTypeFromImport(name: string, sf: SourceFile) {
