@@ -25,7 +25,6 @@ export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): s
 		throw new Error("Overlapping ranges");
 	return updates.reduce(
 		(acc, [start, end, replacement]) => {
-			if (start > end) throw new RangeError("Invalid range: start > end");
 			if (start < 0) throw new RangeError("Invalid range: start < 0");
 
 			start += acc.delta;
