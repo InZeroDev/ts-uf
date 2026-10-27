@@ -2,6 +2,11 @@
 	"name": ".",
 	"version": "0.0.50",
 	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/InZeroDev/ts-uf",
+		"directory": "docs"
+	},
 	"scripts": {
 		"build": "next build",
 		"dev": "next dev",
@@ -10,11 +15,6 @@
 		"start": "next start",
 		"types:check": "next typegen && tsc --noEmit"
 	},
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/InZeroDev/ts-uf",
-    "directory": "docs"
-  },
 	"dependencies": {
 		"cn": "^0.5.0",
 		"fumadocs-core": "16.17.7",
