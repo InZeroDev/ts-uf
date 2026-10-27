@@ -40,10 +40,10 @@ export function getRandomFloat(min: number, max: number): number {
  * Get a random integer between the given range.
  *
  * @example
- * getRandomInteger(1, 10); 7
- * getRandomInteger(1, 10); 1
- * getRandomInteger(1, 10, true); 2
- * getRandomInteger(1, 10, true); 10
+ * getRandomInteger(1, 10); // 7
+ * getRandomInteger(1, 10); // 1
+ * getRandomInteger(1, 10, true); // 2
+ * getRandomInteger(1, 10, true); // 10
  */
 export function getRandomInteger(min: number, max: number, inclusiveMax: boolean = false): number {
 	return Math.floor(getRandomFloat(min, max + +inclusiveMax));
