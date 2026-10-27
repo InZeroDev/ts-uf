@@ -7,6 +7,7 @@
 		"utility",
 		"functions"
 	],
+	"homepage": "https://ts-uf.vercel.app",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/InZeroDev/ts-uf",
@@ -125,11 +126,9 @@
 		"package.json"
 	],
 	"scripts": {
-		"barrel:check:main": "barrel check src/** --create --extension ts",
-		"barrel:check:types": "touch src/types.ts",
-		"barrel:generate:main": "barrel generate src/**/index.ts -e _* types.ts",
-		"barrel:generate:types": "barrel generate src/types.ts -i '**/types.ts' -e '**/_*' -E '*'",
-		"barrel:main": "npm-run-all barrel:check:* barrel:generate:*",
+		"barrel:check": "barrel check src/* --create --extension ts",
+		"barrel:generate": "barrel generate src/*/index.ts",
+		"barrel:main": "pnpm run barrel:check; pnpm run barrel:generate",
 		"build": "tsup",
 		"dev": "tsup --watch",
 		"format": "prettier --write .",
