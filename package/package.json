@@ -113,6 +113,16 @@
 				"types": "./dist/other/index.d.ts",
 				"default": "./dist/other/index.js"
 			}
+		},
+		"./regex": {
+			"import": {
+				"types": "./dist/regex/index.d.mts",
+				"default": "./dist/regex/index.mjs"
+			},
+			"require": {
+				"types": "./dist/regex/index.d.ts",
+				"default": "./dist/regex/index.js"
+			}
 		}
 	},
 	"main": "dist/index.js",
