@@ -6,7 +6,7 @@ export type InsertUpdate = [index: number, insertion: string];
 
 /**
  * @settingsDoc
- * @afterShape $T{ReplaceUpdate}{I}
+ * @afterShape $T{ReplaceUpdate}
  */
 /**
  * Replaces a substring using its coordinates.
@@ -66,7 +66,7 @@ export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 
 /**
  * @settingsDoc
- * @afterShape $T{InsertUpdate}{I}
+ * @afterShape $T{InsertUpdate}
  */
 /**
  * Inserts a substring at a given index.
