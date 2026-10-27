@@ -1,12 +1,22 @@
-import { hasKey } from "../../object";
-import { isNumber } from "../../number";
-import type {
-	RepeatData,
-	RepeatCb,
-	RepeatAsyncCb,
-	RepeatWhileCondition,
-	RepeatWhileAsyncCondition,
-} from "./types";
+import { hasKey } from "../object";
+import { isNumber } from "../number";
+import type { Func } from "@inzero/ts-ut/func";
+
+/* ---------------------------------- Types --------------------------------- */
+
+export type RepeatData = ({ end: number } | { count: number }) & { start?: number; step?: number };
+
+export type RepeatCbParams = [index: number];
+
+export type RepeatCbRT = boolean | number | void;
+
+export type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
+export type RepeatAsyncCb = Func<RepeatCbParams, Promise<RepeatCbRT>>;
+
+export type RepeatWhileCondition = Func<RepeatCbParams, boolean>;
+export type RepeatWhileAsyncCondition = Func<RepeatCbParams, Promise<boolean>>;
+
+/* ----------------------------- Internal Utils ----------------------------- */
 
 const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { end: number }>> => {
 	if (isNumber(arg2)) return { start: 0, step: 1, end: arg2 };
@@ -18,6 +28,8 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
 		end: hasKey(arg2, "end") ? arg2.end : arg2.start + arg2.count,
 	};
 };
+
+/* ------------------------------ Public Utils ------------------------------ */
 
 /**
  * @settingsDoc

@@ -1,3 +1,4 @@
+import { isOdd } from "../math/validation";
 import type { Join, Stringable } from "@inzero/ts-ut/string";
 import type { Not } from "@inzero/ts-ut/other";
 import type { Dict, Prettify } from "@inzero/ts-ut/dict";
@@ -27,3 +28,17 @@ export type ExtractContext<T extends string> = T extends `${infer L}{${infer V}}
 				>
 			: never
 	: {}; // eslint-disable-line @typescript-eslint/no-empty-object-type
+
+/**
+ * Formats a string using a given context.
+ *
+ * @example
+ * formatString("Hello, {name}! Your age is {age=unknown}.", { name: "John" }); // "Hello, John! Your age is unknown."
+ */
+export function formatString<P extends string>(pattern: P, context: ExtractContext<P>): string {
+	return pattern.replace(/(\\*){(\w+)(?:=([^}]+))?}/g, (match, escapes, name, defaultValue) => {
+		const newEscapesCount = Math.floor(escapes.length / 2);
+		if (isOdd(escapes.length)) return match.slice(newEscapesCount + 1);
+		return "\\".repeat(newEscapesCount) + (context[name as never] ?? defaultValue ?? match);
+	});
+}

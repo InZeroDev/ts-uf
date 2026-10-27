@@ -1,6 +1,8 @@
-import type { RORange } from "../../_internal";
-import { doRangesOverlap } from "../../math";
-import type { InsertUpdate, ReplaceUpdate } from "./types";
+import type { RORange } from "../_internal";
+import { doRangesOverlap } from "../math";
+
+export type ReplaceUpdate = [start: number, end: number, replacement: string];
+export type InsertUpdate = [index: number, insertion: string];
 
 /**
  * @settingsDoc
