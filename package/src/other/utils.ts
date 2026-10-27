@@ -43,7 +43,12 @@ export function toArray<T>(value: T | T[]): T[] {
 
 /**
  * Extracts a value by invoking it if it's a function, otherwise returns it unchanged.
- * In other words, it converts a value of type `T | ((...args: A) => T)` to `T`.
+ * In other words, it converts a value of type `T | ((...args: A) => R)` to `T | R`.
+ * 
+ * @example
+ * function foo(valueOrFunc: string | (() => string)) {
+ *   const value = unwrapValue(valueOrFunc); // string
+ * }
  */
 export function unwrapValue<T, A extends ROList, R = never>(
 	value: T | Func<A, R>,
