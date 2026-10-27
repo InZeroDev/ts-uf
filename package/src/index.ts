@@ -5,4 +5,5 @@ export * from "./math";
 export * from "./number";
 export * from "./object";
 export * from "./other";
+export * from "./regex";
 export * from "./string";
