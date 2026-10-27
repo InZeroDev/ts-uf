@@ -21,6 +21,10 @@ export function getAverage(...numbers: number[]): number {
 /**
  * Get a random float between the given range.
  *
+ * @remarks
+ * - If min is greater than max, the values are swapped.
+ * - The minimum is inclusive, while the maximum is exclusive.
+ * 
  * @example
  * getRandomFloat(1, 10); 3.1458241132191636
  * getRandomFloat(1, 10); 2.076135543542401
@@ -29,7 +33,7 @@ export function getAverage(...numbers: number[]): number {
 export function getRandomFloat(min: number, max: number): number {
 	if (min > max) [min, max] = [max, min];
 	else if (min === max) return min;
-	return Math.random() * (max - min + 1) + min;
+	return Math.random() * (max - min) + min;
 }
 
 /**
