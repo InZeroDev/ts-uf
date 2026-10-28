@@ -16,7 +16,7 @@ type SuggestValues<T extends Stringable> = T | (string & {}) | (number & {});
  *
  * @example
  * type Pattern = "Hello, {name}! Your age is {age=unknown}.";
- * type Context = ExtractContext<Pattern>; // { name: string, age?: "unknown" | (string & {}) | number }
+ * type Context = ExtractContext<Pattern>; // { name: Stringable, age?: "unknown" | (string & {}) | (number & {}) }
  */
 export type ExtractContext<T extends string> = T extends `${infer L}{${infer V}}${infer R}`
 	? IsEscaped<L> extends true
