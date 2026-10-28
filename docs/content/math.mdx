@@ -56,9 +56,10 @@ export function isPositive(value: number): boolean {
 
 Checks whether a number is positive.
 
-<Callout type="info">
-	`0` is not considered positive. If you want to treat it as positive, use
-	[isNonNegative](#isnonnegative) instead.
+<Callout type='info'>
+
+`0` is not considered positive. If you want to treat it as positive, use [isNonNegative](#isnonnegative) instead.
+
 </Callout>
 
 ```ts title='Example'
@@ -101,9 +102,10 @@ export function isNegative(value: number): boolean {
 
 Checks whether a number is negative.
 
-<Callout type="info">
-	`0` is not considered negative. If you want to treat it as negative, use
-	[isNonPositive](#isnonpositive) instead.
+<Callout type='info'>
+
+`0` is not considered negative. If you want to treat it as negative, use [isNonPositive](#isnonpositive) instead.
+
 </Callout>
 
 ```ts title='Example'
@@ -209,7 +211,11 @@ export function isInRange(value: number, range: RORange, inclusive: InclusiveMin
 
 Checks whether a number is within a given range.
 
-<Callout type="info">Both `min` and `max` are inclusive by default.</Callout>
+<Callout type='info'>
+
+Both `min` and `max` are inclusive by default.
+
+</Callout>
 
 ```ts title='Example'
 const range = [1, 10] as const;
@@ -226,7 +232,11 @@ isInRange(11, range); // false
 ### isOutOfRange
 
 ```ts tab='Shape'
-function isOutOfRange(value: number, range: RORange, exclusive: InclusiveMinMax = {}): boolean;
+function isOutOfRange(
+	value: number,
+	range: RORange,
+	exclusive: InclusiveMinMax = {},
+): boolean;
 
 type RORange = readonly [start: number, end: number];
 type InclusiveMinMax = {
@@ -247,7 +257,11 @@ export function isOutOfRange(
 
 Checks whether a number is out of a given range.
 
-<Callout type="info">Both `min` and `max` are inclusive by default.</Callout>
+<Callout type='info'>
+
+Both `min` and `max` are inclusive by default.
+
+</Callout>
 
 ```ts title='Example'
 const range = [1, 10] as const;
@@ -287,39 +301,26 @@ export function doRangesOverlap(ranges: RORange[], touchingCounts: boolean = fal
 
 Checks whether some ranges overlap.
 
-<Callout type="info">
-	By default, ranges sharing the same boundary are not considered overlapping. Set `touchingCounts`
-	to `true` to consider them as overlapping.
+<Callout type='info'>
+
+By default, ranges sharing the same boundary are not considered overlapping.
+Set `touchingCounts` to `true` to consider them as overlapping.
+
 </Callout>
 
-<Callout type="warn">
-	Throws a
-	[RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError)
-	If any range has a start greater than its end.
+<Callout type='warn'>
+
+Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) If any range has a start greater than its end.
+
 </Callout>
 
 ```ts title='Example'
-doRangesOverlap([
-	[0, 3],
-	[3, 6],
-]); // false
-doRangesOverlap([
-	[0, 3],
-	[2, 6],
-]); // true
+doRangesOverlap([[0, 3], [3, 6]]); // false
+doRangesOverlap([[0, 3], [2, 6]]); // true
 
-doRangesOverlap(
-	[
-		[0, 3],
-		[3, 6],
-	],
-	true,
-); // true
+doRangesOverlap([[0, 3], [3, 6]], true); // true
 
-doRangesOverlap([
-	[0, 3],
-	[6, 3],
-]); // throws // 6 > 3
+doRangesOverlap([[0, 3], [6, 3]]); // throws // 6 > 3
 ```
 
 ## utils
@@ -370,42 +371,44 @@ function getRandomFloat(min: number, max: number): number;
 export function getRandomFloat(min: number, max: number): number {
 	if (min > max) [min, max] = [max, min];
 	else if (min === max) return min;
-	return Math.random() * (max - min + 1) + min;
+	return Math.random() * (max - min) + min;
 }
 ```
 
 Get a random float between the given range.
 
+<Callout type='info'>
+
+- If min is greater than max, the values are swapped.
+- The minimum is inclusive, while the maximum is exclusive.
+
+</Callout>
+
 ```ts title='Example'
-getRandomFloat(1, 10);
-3.1458241132191636;
-getRandomFloat(1, 10);
-2.076135543542401;
-getRandomFloat(1, 10);
-5.6216396763729986;
+getRandomFloat(1, 10); 3.1458241132191636
+getRandomFloat(1, 10); 2.076135543542401
+getRandomFloat(1, 10); 5.6216396763729986
 ```
 
 ### getRandomInteger
 
 ```ts tab='Shape'
-function getRandomInteger(min: number, max: number, inclusive: boolean = false): number;
+function getRandomInteger(min: number, max: number, inclusiveMax: boolean = false): number;
 ```
 
 ```ts tab='Source'
-export function getRandomInteger(min: number, max: number, inclusive: boolean = false): number {
-	return Math.floor(getRandomFloat(min, max + +inclusive));
+export function getRandomInteger(min: number, max: number, inclusiveMax: boolean = false): number {
+	return Math.floor(getRandomFloat(min, max + +inclusiveMax));
 }
 ```
 
 Get a random integer between the given range.
 
 ```ts title='Example'
-getRandomInteger(1, 10);
-3;
-getRandomInteger(1, 10);
-2;
-getRandomInteger(1, 10);
-5;
+getRandomInteger(1, 10); // 7
+getRandomInteger(1, 10); // 1
+getRandomInteger(1, 10, true); // 2
+getRandomInteger(1, 10, true); // 10
 ```
 
 ### minmax

@@ -1,0 +1,432 @@
+---
+title: regex
+---
+
+## validation
+
+### isRegex
+
+```ts tab='Shape'
+function isRegex<T>(value: CheckT<T>): value is SmartExtract<T, RegExp>;
+```
+
+```ts tab='Source'
+export function isRegex<T>(value: CheckT<T>): value is SmartExtract<T, RegExp> {
+	return value instanceof RegExp;
+}
+```
+
+Checks whether a value is a regex.
+
+```ts title='Example'
+function deleteSubstring(target: string | RegExp) {
+	if (isRegex(target)) {
+		target; // RegExp
+	} else {
+		target; // string
+	}
+}
+```
+
+### isNotRegex
+
+```ts tab='Shape'
+function isNotRegex<T>(value: CheckT<T>): value is Exclude<T, RegExp>;
+```
+
+```ts tab='Source'
+export function isNotRegex<T>(value: CheckT<T>): value is Exclude<T, RegExp> {
+	return !isRegex(value);
+}
+```
+
+Checks whether a value is not a regex.
+
+```ts title='Example'
+function deleteSubstring(target: string | RegExp) {
+	if (isNotRegex(target)) {
+		target; // string
+	} else {
+		target; // RegExp
+	}
+}
+```
+
+### isValidRegexFlag
+
+```ts tab='Shape'
+function isValidRegexFlag(flag: string): boolean;
+```
+
+```ts tab='Source'
+export function isValidRegexFlag(flag: string): boolean {
+	return isOneOf(flag, regexFlags);
+}
+```
+
+Checks whether a character is a valid regex flag.
+
+```ts title='Example'
+isValidRegexFlag("g"); // true
+isValidRegexFlag("gi"); // false
+```
+
+### isInvalidRegexFlag
+
+```ts tab='Shape'
+function isInvalidRegexFlag(flag: string): boolean;
+```
+
+```ts tab='Source'
+export function isInvalidRegexFlag(flag: string): boolean {
+	return !isValidRegexFlag(flag);
+}
+```
+
+Checks whether a character is an invalid regex flag.
+
+```ts title='Example'
+isValidRegexFlag("g"); // false
+isValidRegexFlag("gi"); // true
+```
+
+### areValidRegexFlags
+
+```ts tab='Shape'
+function areValidRegexFlags(flags: string): boolean;
+```
+
+```ts tab='Source'
+export function areValidRegexFlags(flags: string): boolean {
+	const flagsArr = [...new Set(flags)];
+	if (flagsArr.length !== flags.length) return false;
+
+	return flagsArr.every(isValidRegexFlag);
+}
+```
+
+Checks whether a string contains only valid, non-duplicated regex flags.
+
+<Callout type='info'>
+
+An empty string is considered valid.
+
+</Callout>
+
+```ts title='Example'
+areValidRegexFlags("g"); // true
+areValidRegexFlags("gi"); // true
+areValidRegexFlags("gg"); // false
+areValidRegexFlags("gn"); // false
+```
+
+### areInvalidRegexFlags
+
+```ts tab='Shape'
+function areInvalidRegexFlags(flags: string): boolean;
+```
+
+```ts tab='Source'
+export function areInvalidRegexFlags(flags: string): boolean {
+	return !areValidRegexFlags(flags);
+}
+```
+
+Checks whether a string contains invalid or duplicated regex flags.
+
+```ts title='Example'
+areInvalidRegexFlags("gi"); // false
+areInvalidRegexFlags("gn"); // true
+```
+
+### hasRegexFlag
+
+```ts tab='Shape'
+function hasRegexFlag(regexOrFlags: RegExp | string, flag: string): boolean;
+```
+
+```ts tab='Source'
+export function hasRegexFlag(regexOrFlags: RegExp | string, flag: string): boolean {
+	checkFlag(flag);
+	if (isString(regexOrFlags)) checkFlags(regexOrFlags);
+
+	const flags = isString(regexOrFlags) ? regexOrFlags : regexOrFlags.flags;
+	return flags.includes(flag);
+}
+```
+
+Checks whether a regex or a regex flags string contains the specified flag.
+
+```ts title='Example'
+hasRegexFlag(/abc/gi, "g"); // true
+hasRegexFlag(/abc/gi, "y"); // false
+hasRegexFlag("gi", "y"); // false
+```
+
+### lacksRegexFlag
+
+```ts tab='Shape'
+function lacksRegexFlag(regexOrFlags: RegExp | string, flag: string): boolean;
+```
+
+```ts tab='Source'
+export function lacksRegexFlag(regexOrFlags: RegExp | string, flag: string): boolean {
+	return !hasRegexFlag(regexOrFlags, flag);
+}
+```
+
+Checks whether a regex or a regex flags string does not contain the specified flag.
+
+```ts title='Example'
+lacksRegexFlag(/abc/gi, "g"); // true
+lacksRegexFlag(/abc/gi, "y"); // false
+lacksRegexFlag("gi", "y"); // false
+```
+
+### hasRegexFlags
+
+```ts tab='Shape'
+function hasRegexFlags(regexOrFlags: RegExp | string, flags: string): boolean;
+```
+
+```ts tab='Source'
+export function hasRegexFlags(regexOrFlags: RegExp | string, flags: string): boolean {
+	return flags.split("").every((flag) => hasRegexFlag(regexOrFlags, flag));
+}
+```
+
+Checks whether a regex or a regex flags string contains all the specified flags.
+
+```ts title='Example'
+hasRegexFlags(/abc/gi, "gi"); // true
+hasRegexFlags(/abc/gi, "gim"); // false
+hasRegexFlags("gi", "gim"); // false
+```
+
+### lacksRegexFlags
+
+```ts tab='Shape'
+function lacksRegexFlags(regexOrFlags: RegExp | string, flags: string): boolean;
+```
+
+```ts tab='Source'
+export function lacksRegexFlags(regexOrFlags: RegExp | string, flags: string): boolean {
+	return flags.split("").every((flag) => lacksRegexFlag(regexOrFlags, flag));
+}
+```
+
+Checks whether a regex or a regex flags string contains none of the specified flags.
+
+```ts title='Example'
+lacksRegexFlags(/abc/gi, "ym"); // true
+lacksRegexFlags(/abc/gi, "gym"); // false
+lacksRegexFlags("gi", "gym"); // false
+```
+
+## constants
+
+### TYPES
+
+```ts
+/**
+ * Regex flag name.
+ */
+export type RegexFlagName = keyof typeof regexFlag;
+```
+
+```ts
+/**
+ * Regex flag character.
+ */
+export type RegexFlag = (typeof regexFlags)[number];
+```
+
+### VARIABLES
+
+```ts
+/**
+ * A list of valid regex flags.
+ */
+export const regexFlags = ["d", "g", "i", "m", "s", "u", "v", "y"] as const;
+```
+```ts
+/**
+ * Maps regular expression flag names to their corresponding flag characters.
+ */
+export const regexFlag = {
+	hasIndices: "d",
+	global: "g",
+	ignoreCase: "i",
+	multiline: "m",
+	dotAll: "s",
+	unicode: "u",
+	unicodeSets: "v",
+	sticky: "y",
+} as const;
+```
+## utils
+
+### escapeRegex
+
+```ts tab='Shape'
+function escapeRegex(text: string): string;
+```
+
+```ts tab='Source'
+export function escapeRegex(text: string): string {
+	return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+```
+
+Escapes special regex characters so a string can be matched literally.
+
+```ts title='Example'
+escapeRegex("a.b+c"); // "a\\.b\\+c"
+```
+
+### toRegexFlags
+
+```ts tab='Shape'
+function toRegexFlags(...flagNames: RegexFlagName[]): string;
+```
+
+```ts tab='Source'
+export function toRegexFlags(...flagNames: RegexFlagName[]): string {
+	return flagNames
+		.map((flagName) => (hasKey(regexFlag, flagName) ? regexFlag[flagName] : ""))
+		.sort()
+		.join("");
+}
+```
+
+Converts regex flag names to their corresponding flags characters.
+
+```ts title='Example'
+toRegexpFlags("global", "multiline"); // "gm"
+```
+
+### normalizeFlags
+
+```ts tab='Shape'
+function normalizeFlags(flags: string): string;
+```
+
+```ts tab='Source'
+export function normalizeFlags(flags: string): string {
+	return [...new Set(flags)].filter(isValidRegexFlag).sort().join("");
+}
+```
+
+Normalizes regex flags by removing duplicates and invalid flags, then sorting them.
+
+```ts title='Example'
+normalizeFlags("iggn"); // "gi"
+```
+
+### ensureRegexFlag
+
+```ts tab='Shape'
+function ensureRegexFlag<T extends RegExp | string>(regexOrFlags: T, flag: string): T;
+```
+
+```ts tab='Source'
+export function ensureRegexFlag<T extends RegExp | string>(regexOrFlags: T, flag: string): T {
+	checkFlag(flag);
+	return _ensureRegexFlags(regexOrFlags, flag);
+}
+```
+
+Ensures that a regex or regex flags string contains the specified flag.
+
+<Callout type='info'>
+
+When passed a regex, returns a new instance and preserves its `lastIndex`.
+
+</Callout>
+
+```ts title='Example'
+function findLastMatch(regex: RegExp) {
+	const globalRegex = ensureRegexFlag(regex, "g");
+	// ...
+}
+```
+
+### ensureRegexFlags
+
+```ts tab='Shape'
+function ensureRegexFlags<T extends RegExp | string>(regexOrFlags: T, flags: string): T;
+```
+
+```ts tab='Source'
+export function ensureRegexFlags<T extends RegExp | string>(regexOrFlags: T, flags: string): T {
+	checkFlags(flags);
+	return _ensureRegexFlags(regexOrFlags, flags);
+}
+```
+
+Ensures that a regex or regex flags string contains the specified flag.
+
+<Callout type='info'>
+
+When passed a regex, returns a new instance and preserves its `lastIndex`.
+
+</Callout>
+
+```ts title='Example'
+ensureRegexFlags(/abc/, "gm"); // /abc/gm
+ensureRegexFlags("g", "gm"); // "gm"
+```
+
+### removeRegexFlag
+
+```ts tab='Shape'
+function removeRegexFlag<T extends RegExp | string>(regexOrFlags: T, flag: string): T;
+```
+
+```ts tab='Source'
+export function removeRegexFlag<T extends RegExp | string>(regexOrFlags: T, flag: string): T {
+	checkFlag(flag);
+	return _removeRegexFlags(regexOrFlags, flag);
+}
+```
+
+Removes the specified flag from a regex or regex flags string.
+
+```ts title='Example'
+removeRegexFlag(/abc/gi, "i"); // /abc/g
+removeRegexFlag("gi", "i"); // "g"
+```
+
+### removeRegexFlags
+
+```ts tab='Shape'
+function removeRegexFlags<T extends RegExp | string>(regexOrFlags: T, flags: string): T;
+```
+
+```ts tab='Source'
+export function removeRegexFlags<T extends RegExp | string>(regexOrFlags: T, flags: string): T {
+	checkFlags(flags);
+	return _removeRegexFlags(regexOrFlags, flags);
+}
+```
+
+Removes the specified flags from a regex or regex flags string.
+
+```ts title='Example'
+removeRegexFlags(/abc/gi, "gi"); // /abc/
+removeRegexFlags("gi", "gi"); // ""
+```
+
+### extractInvalidFlags
+
+```ts tab='Shape'
+function extractInvalidFlags(flags: string): string;
+```
+
+```ts tab='Source'
+export function extractInvalidFlags(flags: string): string {
+	return flags.replace(new RegExp(`[${regexFlags.join("")}]`, "g"), "");
+}
+```
+
+Extract all invalid characters from a regex flags string.

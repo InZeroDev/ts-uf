@@ -245,7 +245,10 @@ function foo(value: string | string[]) {
 ### unwrapValue
 
 ```ts tab='Shape'
-function unwrapValue<T, A extends ROList, R = never>(value: T | Func<A, R>, ...args: A): T | R;
+function unwrapValue<T, A extends ROList, R = never>(
+	value: T | Func<A, R>,
+	...args: A
+): T | R;
 ```
 
 ```ts tab='Source'
@@ -259,4 +262,85 @@ export function unwrapValue<T, A extends ROList, R = never>(
 ```
 
 Extracts a value by invoking it if it's a function, otherwise returns it unchanged.
-In other words, it converts a value of type `T | ((...args: A) => T)` to `T`.
+In other words, it converts a value of type `T | ((...args: A) => R)` to `T | R`.
+
+```ts title='Example'
+function foo(valueOrFunc: string | (() => string)) {
+	const value = unwrapValue(valueOrFunc); // string
+}
+```
+
+### findLastMatch
+
+```ts tab='Shape'
+function findLastMatch(input: string, regex: RegExp, n = 1): RegExpExecArray | undefined;
+```
+
+```ts tab='Source'
+export function findLastMatch(input: string, regex: RegExp, n = 1): RegExpExecArray | undefined {
+	if (isNonPositive(n) || isFloat(n)) throw new RangeError("n must be a positive integer.");
+
+	const globalRegex = ensureRegexFlags(regex, regexFlag.global);
+	globalRegex.lastIndex = 0;
+
+	let currMatch;
+	const matches: RegExpExecArray[] = [];
+
+	while ((currMatch = globalRegex.exec(input))) matches.push(currMatch);
+
+	return matches.at(-n);
+}
+```
+
+Finds the nth-to-last match of a regex in a string.
+
+<Callout type='warn'>
+
+Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if `n` is not a positive integer.
+
+</Callout>
+
+```ts title='Example'
+findLastMatch("a1 b2 c3", /\d/); // [ '3', index: 7, input: 'a1 b2 c3', groups: undefined ]
+```
+
+### weightedRandom
+
+```ts tab='Shape'
+function weightedRandom<T>(items: ROList<T>, weights: ROList<number>): T | undefined;
+```
+
+```ts tab='Source'
+export function weightedRandom<T>(items: ROList<T>, weights: ROList<number>): T | undefined {
+	if (weights.some((weight) => isNaN(weight) || !isFinite(weight) || isNegative(weight)))
+		throw new RangeError("Weights must be non-negative numbers.");
+
+	const total = weights.reduce((a, b) => a + b, 0);
+	let random = getRandomFloat(0, total);
+
+	for (let i = 0; i < items.length; i++) {
+		random -= weights[i]!;
+		if (random < 0) return items[i]!;
+	}
+
+	return undefined;
+}
+```
+
+Selects a random item using the corresponding weights as selection probabilities.
+
+<Callout type='info'>
+
+- Items with larger weights are more likely to be selected.
+- Items with missing weights will never be selected.
+- Extra weights can return `undefined`.
+
+</Callout>
+
+```ts title='Example'
+weightedRandom([1,2,3], [1, 1, 8]); // 3 // there's 80% chance 3 is selected
+
+weightedRandom([1,2,3], []); // undefined
+weightedRandom([1,2,3], [1, 1]); // 1 // 3 will never be selected
+weightedRandom([1,2,3], [1, 1, 1, 3]) // 1 // there's a 50% chance an item is selected, and another 50% chance `undefined` is returned.
+```

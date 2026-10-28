@@ -131,12 +131,14 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
 
 Checks whether an object contains the given key.
 
-<Callout type="info">
-	Narrows `obj` by filtering out all the objects that don't contain the given key.
+<Callout type='info'>
+
+Narrows `obj` by filtering out all the objects that don't contain the given key.
+
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
 	if (hasKey(data, "count")) {
@@ -180,7 +182,11 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
 
 Checks whether an object contains the given key.
 
-<Callout type="info">Narrows `key` to `keyof obj` when the check succeeds.</Callout>
+<Callout type='info'>
+
+Narrows `key` to `keyof obj` when the check succeeds.
+
+</Callout>
 
 ```ts title='Example'
 const presets = { a: 1, b: 2 };
@@ -227,7 +233,9 @@ export function hasKey(obj: Dict, key: DictKey): boolean {
 Checks whether an object contains the given key.
 
 <Callout type='info'>
+
 Narrows `obj` to `typeof obj & Record<typeof key, unknown>` when the check succeeds.
+
 </Callout>
 
 ```ts title='Example'
@@ -298,12 +306,14 @@ export function lacksKey(obj: Dict, key: DictKey): boolean {
 
 Checks whether an object lacks the given key.
 
-<Callout type="info">
-	Narrows `obj` by filtering out all the versions that contain the given key.
+<Callout type='info'>
+
+Narrows `obj` by filtering out all the versions that contain the given key.
+
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
 	if (lacksKey(data, "count")) {

@@ -73,7 +73,9 @@ function foo(value: string) {
 ### isNonEmptyString
 
 ```ts tab='Shape'
-function isNonEmptyString<T>(value: CheckT<T>): value is Exclude<SmartExtract<T, string>, "">;
+function isNonEmptyString<T>(
+	value: CheckT<T>,
+): value is Exclude<SmartExtract<T, string>, "">;
 ```
 
 ```ts tab='Source'
@@ -163,7 +165,9 @@ capitalize("hello"); // "Hello"
 ### uncapitalize
 
 ```ts tab='Shape'
-function uncapitalize<T extends string>(value: T): string extends T ? string : Uncapitalize<T>;
+function uncapitalize<T extends string>(
+	value: T,
+): string extends T ? string : Uncapitalize<T>;
 ```
 
 ```ts tab='Source'
@@ -280,6 +284,39 @@ Formats a string using a given context.
 
 ```ts title='Example'
 formatString("Hello, {name}! Your age is {age=unknown}.", { name: "John" }); // "Hello, John! Your age is unknown."
+```
+
+### TYPES
+
+```ts tab='Shape'
+/**
+ * Extracts the context from a string pattern.
+ *
+ * @example
+ * type Pattern = "Hello, {name}! Your age is {age=unknown}.";
+ * type Context = ExtractContext<Pattern>; // { name: Stringable, age?: "unknown" | (string & {}) | (number & {}) }
+ */
+type ExtractContext<T extends string>
+```
+
+```ts tab='Source'
+/**
+ * Extracts the context from a string pattern.
+ *
+ * @example
+ * type Pattern = "Hello, {name}! Your age is {age=unknown}.";
+ * type Context = ExtractContext<Pattern>; // { name: Stringable, age?: "unknown" | (string & {}) | (number & {}) }
+ */
+export type ExtractContext<T extends string> = T extends `${infer L}{${infer V}}${infer R}`
+	? IsEscaped<L> extends true
+		? ExtractContext<Join<[V, "}", R]>>
+		: ExtractVariableData<V> extends [infer N extends string, infer D extends string | null]
+			? Prettify<
+					(D extends string ? Partial<Dict<N, SuggestValues<D>>> : Dict<N, Stringable>) &
+						ExtractContext<R>
+				>
+			: never
+	: {};
 ```
 
 ## prefix
@@ -467,15 +504,19 @@ export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): s
 
 Replaces a substring using its coordinates.
 
-<Callout type="info">
-	Automatically adjusts the ranges of subsequent updates to account for changes in string length
-	caused by earlier replacements, ensuring each update targets the intended substring.
+<Callout type='info'>
+
+Automatically adjusts the ranges of subsequent updates to account for changes in string length
+caused by earlier replacements, ensuring each update targets the intended substring.
+
 </Callout>
 
 <Callout type='warn'>
+
 Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
 - `start > end` or `start < 0`.
 - some ranges overlap.
+
 </Callout>
 
 ```ts title='Example'
@@ -499,15 +540,19 @@ export function deleteSubstring(string: string, ...ranges: RORange[]): string {
 
 Deletes a substring using its coordinates.
 
-<Callout type="info">
-	Automatically adjusts the ranges of subsequent deletions to account for changes in string length
-	caused by earlier deletions, ensuring each deletion targets the intended substring.
+<Callout type='info'>
+
+Automatically adjusts the ranges of subsequent deletions to account for changes in string length
+caused by earlier deletions, ensuring each deletion targets the intended substring.
+
 </Callout>
 
 <Callout type='warn'>
+
 Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
 - `start > end` or `start < 0`.
 - some ranges overlap.
+
 </Callout>
 
 ```ts title='Example'
@@ -533,15 +578,19 @@ export function insertSubstring(string: string, ...updates: InsertUpdate[]): str
 
 Inserts a substring at a given index.
 
-<Callout type="info">
-	Automatically adjusts the ranges of subsequent insertions to account for changes in string length
-	caused by earlier insertions, ensuring each insertion occurs at the intended position.
+<Callout type='info'>
+
+Automatically adjusts the ranges of subsequent insertions to account for changes in string length
+caused by earlier insertions, ensuring each insertion occurs at the intended position.
+
 </Callout>
 
 <Callout type='warn'>
+
 Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
 - `index < 0`.
 - some ranges overlap.
+
 </Callout>
 
 ```ts title='Example'

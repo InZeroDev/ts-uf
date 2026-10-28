@@ -79,8 +79,11 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 
 Repeats a function a given number of times.
 
-<Callout type="info">
-	- Return `false` to break the loop. - Return a `number` to jump to that index.
+<Callout type='info'>
+
+- Return `false` to break the loop.
+- Return a `number` to jump to that index.
+
 </Callout>
 
 ```ts title='Example'
@@ -101,9 +104,6 @@ function repeat(func: RepeatCb, times: number): void;
 
 type RepeatCb = Func<RepeatCbParams, RepeatCbRT>;
 type RepeatCbParams = [index: number];
-{
-	I;
-}
 type RepeatCbRT = boolean | number | void;
 ```
 
@@ -125,8 +125,11 @@ export function repeat(func: RepeatCb, arg2: number | RepeatData): void {
 
 Repeats a function a given number of times.
 
-<Callout type="info">
-	- Return `false` to break the loop. - Return a `number` to jump to that index.
+<Callout type='info'>
+
+- Return `false` to break the loop.
+- Return a `number` to jump to that index.
+
 </Callout>
 
 ```ts title='Example'
@@ -230,8 +233,11 @@ export function repeatWhile(func: RepeatCb, condition: RepeatWhileCondition): vo
 
 Repeats a function while a given condition is true.
 
-<Callout type="info">
-	- Return `false` to break the loop. - Return a `number` to jump to that index.
+<Callout type='info'>
+
+- Return `false` to break the loop.
+- Return a `number` to jump to that index.
+
 </Callout>
 
 ```ts title='Example'
@@ -289,18 +295,18 @@ Useful for creating a local scope to organize your code.
 
 ```ts title='Example'
 function cliAction() {
-  const folders = iife(() => {
-    const source = "...";
-    const options = { ... };
-    const folders = glob.sync(source, options);
-    return folders.filter(...);
-  });
-  const files = iife(() => {
-    const source = "...";
-    const options = { ... };
-    const files = glob.sync(source, options);
-    return files.filter(...);
-  });
+	const folders = iife(() => {
+		const source = "...";
+		const options = { ... };
+		const folders = glob.sync(source, options);
+		return folders.filter(...);
+	});
+	const files = iife(() => {
+		const source = "...";
+		const options = { ... };
+		const files = glob.sync(source, options);
+		return files.filter(...);
+	});
 }
 ```
 
