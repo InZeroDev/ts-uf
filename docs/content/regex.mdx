@@ -249,6 +249,7 @@ export type RegexFlag = (typeof regexFlags)[number];
  */
 export const regexFlags = ["d", "g", "i", "m", "s", "u", "v", "y"] as const;
 ```
+
 ```ts
 /**
  * Maps regular expression flag names to their corresponding flag characters.
@@ -264,6 +265,7 @@ export const regexFlag = {
 	sticky: "y",
 } as const;
 ```
+
 ## utils
 
 ### escapeRegex

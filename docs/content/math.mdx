@@ -232,11 +232,7 @@ isInRange(11, range); // false
 ### isOutOfRange
 
 ```ts tab='Shape'
-function isOutOfRange(
-	value: number,
-	range: RORange,
-	exclusive: InclusiveMinMax = {},
-): boolean;
+function isOutOfRange(value: number, range: RORange, exclusive: InclusiveMinMax = {}): boolean;
 
 type RORange = readonly [start: number, end: number];
 type InclusiveMinMax = {
@@ -315,12 +311,27 @@ Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Re
 </Callout>
 
 ```ts title='Example'
-doRangesOverlap([[0, 3], [3, 6]]); // false
-doRangesOverlap([[0, 3], [2, 6]]); // true
+doRangesOverlap([
+	[0, 3],
+	[3, 6],
+]); // false
+doRangesOverlap([
+	[0, 3],
+	[2, 6],
+]); // true
 
-doRangesOverlap([[0, 3], [3, 6]], true); // true
+doRangesOverlap(
+	[
+		[0, 3],
+		[3, 6],
+	],
+	true,
+); // true
 
-doRangesOverlap([[0, 3], [6, 3]]); // throws // 6 > 3
+doRangesOverlap([
+	[0, 3],
+	[6, 3],
+]); // throws // 6 > 3
 ```
 
 ## utils
@@ -385,9 +396,12 @@ Get a random float between the given range.
 </Callout>
 
 ```ts title='Example'
-getRandomFloat(1, 10); 3.1458241132191636
-getRandomFloat(1, 10); 2.076135543542401
-getRandomFloat(1, 10); 5.6216396763729986
+getRandomFloat(1, 10);
+3.1458241132191636;
+getRandomFloat(1, 10);
+2.076135543542401;
+getRandomFloat(1, 10);
+5.6216396763729986;
 ```
 
 ### getRandomInteger

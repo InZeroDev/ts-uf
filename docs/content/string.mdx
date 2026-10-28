@@ -73,9 +73,7 @@ function foo(value: string) {
 ### isNonEmptyString
 
 ```ts tab='Shape'
-function isNonEmptyString<T>(
-	value: CheckT<T>,
-): value is Exclude<SmartExtract<T, string>, "">;
+function isNonEmptyString<T>(value: CheckT<T>): value is Exclude<SmartExtract<T, string>, "">;
 ```
 
 ```ts tab='Source'
@@ -165,9 +163,7 @@ capitalize("hello"); // "Hello"
 ### uncapitalize
 
 ```ts tab='Shape'
-function uncapitalize<T extends string>(
-	value: T,
-): string extends T ? string : Uncapitalize<T>;
+function uncapitalize<T extends string>(value: T): string extends T ? string : Uncapitalize<T>;
 ```
 
 ```ts tab='Source'
@@ -514,6 +510,7 @@ caused by earlier replacements, ensuring each update targets the intended substr
 <Callout type='warn'>
 
 Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
+
 - `start > end` or `start < 0`.
 - some ranges overlap.
 
@@ -550,6 +547,7 @@ caused by earlier deletions, ensuring each deletion targets the intended substri
 <Callout type='warn'>
 
 Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
+
 - `start > end` or `start < 0`.
 - some ranges overlap.
 
@@ -588,6 +586,7 @@ caused by earlier insertions, ensuring each insertion occurs at the intended pos
 <Callout type='warn'>
 
 Throws a [RangeError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) if:
+
 - `index < 0`.
 - some ranges overlap.
 

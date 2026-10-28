@@ -245,10 +245,7 @@ function foo(value: string | string[]) {
 ### unwrapValue
 
 ```ts tab='Shape'
-function unwrapValue<T, A extends ROList, R = never>(
-	value: T | Func<A, R>,
-	...args: A
-): T | R;
+function unwrapValue<T, A extends ROList, R = never>(value: T | Func<A, R>, ...args: A): T | R;
 ```
 
 ```ts tab='Source'
@@ -338,9 +335,9 @@ Selects a random item using the corresponding weights as selection probabilities
 </Callout>
 
 ```ts title='Example'
-weightedRandom([1,2,3], [1, 1, 8]); // 3 // there's 80% chance 3 is selected
+weightedRandom([1, 2, 3], [1, 1, 8]); // 3 // there's 80% chance 3 is selected
 
-weightedRandom([1,2,3], []); // undefined
-weightedRandom([1,2,3], [1, 1]); // 1 // 3 will never be selected
-weightedRandom([1,2,3], [1, 1, 1, 3]) // 1 // there's a 50% chance an item is selected, and another 50% chance `undefined` is returned.
+weightedRandom([1, 2, 3], []); // undefined
+weightedRandom([1, 2, 3], [1, 1]); // 1 // 3 will never be selected
+weightedRandom([1, 2, 3], [1, 1, 1, 3]); // 1 // there's a 50% chance an item is selected, and another 50% chance `undefined` is returned.
 ```

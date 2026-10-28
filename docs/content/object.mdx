@@ -138,7 +138,7 @@ Narrows `obj` by filtering out all the objects that don't contain the given key.
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
 	if (hasKey(data, "count")) {
@@ -313,7 +313,7 @@ Narrows `obj` by filtering out all the versions that contain the given key.
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
 	if (lacksKey(data, "count")) {
