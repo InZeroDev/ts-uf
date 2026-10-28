@@ -31,4 +31,4 @@ export type RegexFlagName = keyof typeof regexFlag;
 /**
  * Regex flag character.
  */
-export type RegexFlag = (typeof regexFlag)[RegexFlagName];
+export type RegexFlag = (typeof regexFlags)[number];
