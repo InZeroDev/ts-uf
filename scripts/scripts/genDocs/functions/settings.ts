@@ -6,7 +6,7 @@ import {
 	type JSDoc,
 	type Node,
 } from "ts-morph";
-import { project } from "./project";
+import { project } from "../project";
 
 export function extractSettings(func: FunctionDeclaration) {
 	const settingsDoc = func

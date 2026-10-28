@@ -16,8 +16,24 @@ export class Md {
 	public append(text: string) {
 		return ((this.text += text), this);
 	}
+	public appendIf(condition: unknown, text: string) {
+		if (!condition) return this;
+		return this.append(text);
+	}
+	public appendIfDefined(text: string | null | undefined) {
+		if (text === null || text === undefined) return this;
+		return this.append(text);
+	}
 	public appendLine(text: string) {
 		return ((this.text += text + "\n"), this);
+	}
+	public appendLineIf(condition: unknown, text: string) {
+		if (!condition) return this;
+		return this.appendLine(text);
+	}
+	public appendLineIfDefined(text: string | null | undefined) {
+		if (text === null || text === undefined) return this;
+		return this.appendLine(text);
 	}
 	public newLine(count: number = 1) {
 		return ((this.text += "\n".repeat(count)), this);

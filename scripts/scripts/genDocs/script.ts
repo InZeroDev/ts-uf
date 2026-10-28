@@ -2,7 +2,10 @@ import fs from "fs-extra";
 import { Md } from "../Md";
 import { joinDocs } from "../shared";
 import { groupedSourceFiles } from "./project";
-import { genFileText } from "./utils";
+import { type SourceFile } from "ts-morph";
+import { handleFunctions } from "./functions";
+import { handleTypes } from "./types";
+import { handleVars } from "./vars";
 
 for (const [category, sourceFiles] of groupedSourceFiles) {
 	const outFile = joinDocs("content", category + ".mdx");
@@ -19,4 +22,14 @@ for (const [category, sourceFiles] of groupedSourceFiles) {
 	output.removeLine();
 
 	fs.writeFileSync(outFile, output.text);
+}
+
+function genFileText(sourceFile: SourceFile): string {
+	const output = new Md();
+
+	handleFunctions(sourceFile, output);
+	handleTypes(sourceFile, output);
+	handleVars(sourceFile, output);
+
+	return output.text;
 }

@@ -1,56 +1,8 @@
-import type { FunctionDeclaration, JSDoc, SourceFile } from "ts-morph";
-import { Md } from "../Md";
-import { extractSettings, type Settings } from "./settingsDoc";
+import type { FunctionDeclaration, JSDoc } from "ts-morph";
+import type { Settings } from "./settings";
+import { Md } from "../../Md";
 
-export function genFileText(sourceFile: SourceFile): string {
-	const output = new Md();
-
-	const functions = sourceFile.getFunctions().filter((func) => func.isExported());
-	for (const func of functions) {
-		output.appendLine(`### ${func.getName()}`).newLine();
-
-		const overloads = func.getOverloads();
-		if (overloads.length) {
-			output.appendLine(
-				`<Tabs items={[${Array.from({ length: overloads.length }, (_, i) => `"Overload ${(i + 1).toString().padStart(2, "0")}"`).join(", ")}]}>`,
-			);
-
-			overloads.forEach((overload, index) =>
-				output
-					.appendLine(`<Tab value={"Overload ${(index + 1).toString().padStart(2, "0")}"}>`)
-					.newLine()
-					.append(genFuncText(overload))
-					.newLine()
-					.appendLine("</Tab>"),
-			);
-
-			output.appendLine("</Tabs>");
-		} else output.append(genFuncText(func));
-	}
-
-	return output.text;
-}
-
-function genFuncText(func: FunctionDeclaration): string {
-	const output = new Md();
-	const settings = extractSettings(func);
-
-	const data = extractFuncData(func, settings);
-
-	if (settings?.before) output.appendLine(settings.before).newLine();
-
-	output.appendLine(data.shape);
-
-	if (data.description) output.appendLine(data.description).newLine();
-	if (data.remarks) output.append(data.remarks).newLine();
-	if (data.see) output.append(data.see).newLine();
-	if (data.throws) output.append(data.throws).newLine();
-	if (data.example) output.append(data.example).newLine();
-
-	return output.text;
-}
-
-function extractFuncData(func: FunctionDeclaration, settings: Settings) {
+export function extractFuncData(func: FunctionDeclaration, settings: Settings) {
 	const docs = func.getJsDocs();
 
 	const shape = extractFuncShape(func, settings);
@@ -89,7 +41,7 @@ function extractFuncShape(func: FunctionDeclaration, settings: Settings) {
 	md.appendLine("```")
 		.newLine()
 		.appendLine("```ts tab='Source'")
-		.appendLine(source)
+		.appendLine(source.trim())
 		.appendLine("```");
 
 	return md.text;
@@ -103,7 +55,10 @@ function extractDescription(doc: JSDoc | undefined) {
 
 function extractExample(doc: JSDoc | undefined) {
 	const tags = doc?.getTags();
-	const example = tags?.find((tag) => tag.getTagName() === "example")?.getCommentText();
+	const example = tags
+		?.find((tag) => tag.getTagName() === "example")
+		?.getCommentText()
+		?.replace(/^(\s{2})+/gm, (m) => "\t".repeat(m.length / 2));
 	if (!example) return;
 
 	return new Md().appendLine("```ts title='Example'").appendLine(example).appendLine("```").text;
@@ -116,7 +71,9 @@ function extractThrows(doc: JSDoc | undefined) {
 
 	return new Md()
 		.appendLine("<Callout type='warn'>")
+		.newLine()
 		.appendLine(convertJsDocLinks(throws))
+		.newLine()
 		.appendLine("</Callout>").text;
 }
 
@@ -129,14 +86,16 @@ function extractNote(doc: JSDoc | undefined, tagName: "remarks" | "see") {
 
 	return new Md()
 		.appendLine("<Callout type='info'>")
+		.newLine()
 		.append(tagName === "see" ? "See " : "")
 		.appendLine(note)
+		.newLine()
 		.appendLine("</Callout>").text;
 }
 
 /* -------------------------------------------------------------------------- */
 
-export function convertJsDocLinks(text: string) {
+function convertJsDocLinks(text: string) {
 	const regex = /{@(?:link(?:code)?)\s+([^}|]+)(?:\s*\|\s*([^}]+))?}/g;
 	return text.replace(regex, (_, link: string, placeholder?: string) => {
 		if (link in externalLinks)
