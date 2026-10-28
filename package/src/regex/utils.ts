@@ -16,7 +16,7 @@ export function escapeRegex(text: string): string {
 
 /**
  * Converts regex flag names to their corresponding flags characters.
- * 
+ *
  * @example
  * toRegexpFlags("global", "multiline"); // "gm"
  */
@@ -29,7 +29,7 @@ export function toRegexFlags(...flagNames: RegexFlagName[]): string {
 
 /**
  * Normalizes regex flags by removing duplicates and invalid flags, then sorting them.
- * 
+ *
  * @example
  * normalizeFlags("iggn"); // "gi"
  */
@@ -39,9 +39,9 @@ export function normalizeFlags(flags: string): string {
 
 /**
  * Ensures that a regex or regex flags string contains the specified flag.
- * 
+ *
  * @remarks When passed a regex, returns a new instance and preserves its `lastIndex`.
- * 
+ *
  * @example
  * function findLastMatch(regex: RegExp) {
  *   const globalRegex = ensureRegexFlag(regex, "g");
@@ -55,9 +55,9 @@ export function ensureRegexFlag<T extends RegExp | string>(regexOrFlags: T, flag
 
 /**
  * Ensures that a regex or regex flags string contains the specified flag.
- * 
+ *
  * @remarks When passed a regex, returns a new instance and preserves its `lastIndex`.
- * 
+ *
  * @example
  * ensureRegexFlags(/abc/, "gm"); // /abc/gm
  * ensureRegexFlags("g", "gm"); // "gm"
@@ -69,7 +69,7 @@ export function ensureRegexFlags<T extends RegExp | string>(regexOrFlags: T, fla
 
 /**
  * Removes the specified flag from a regex or regex flags string.
- * 
+ *
  * @example
  * removeRegexFlag(/abc/gi, "i"); // /abc/g
  * removeRegexFlag("gi", "i"); // "g"
@@ -81,7 +81,7 @@ export function removeRegexFlag<T extends RegExp | string>(regexOrFlags: T, flag
 
 /**
  * Removes the specified flags from a regex or regex flags string.
- * 
+ *
  * @example
  * removeRegexFlags(/abc/gi, "gi"); // /abc/
  * removeRegexFlags("gi", "gi"); // ""

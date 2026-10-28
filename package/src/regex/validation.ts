@@ -8,7 +8,7 @@ type CheckT<T> = _CheckT<T, RegExp>;
 
 /**
  * Checks whether a value is a regex.
- * 
+ *
  * @example
  * function deleteSubstring(target: string | RegExp) {
  *   if (isRegex(target)) {
@@ -24,7 +24,7 @@ export function isRegex<T>(value: CheckT<T>): value is SmartExtract<T, RegExp> {
 
 /**
  * Checks whether a value is not a regex.
- * 
+ *
  * @example
  * function deleteSubstring(target: string | RegExp) {
  *   if (isNotRegex(target)) {
@@ -40,7 +40,7 @@ export function isNotRegex<T>(value: CheckT<T>): value is Exclude<T, RegExp> {
 
 /**
  * Checks whether a character is a valid regex flag.
- * 
+ *
  * @example
  * isValidRegexFlag("g"); // true
  * isValidRegexFlag("gi"); // false
@@ -51,7 +51,7 @@ export function isValidRegexFlag(flag: string): boolean {
 
 /**
  * Checks whether a character is an invalid regex flag.
- * 
+ *
  * @example
  * isValidRegexFlag("g"); // false
  * isValidRegexFlag("gi"); // true
@@ -62,9 +62,9 @@ export function isInvalidRegexFlag(flag: string): boolean {
 
 /**
  * Checks whether a string contains only valid, non-duplicated regex flags.
- * 
+ *
  * @remarks An empty string is considered valid.
- * 
+ *
  * @example
  * areValidRegexFlags("g"); // true
  * areValidRegexFlags("gi"); // true
@@ -80,7 +80,7 @@ export function areValidRegexFlags(flags: string): boolean {
 
 /**
  * Checks whether a string contains invalid or duplicated regex flags.
- * 
+ *
  * @example
  * areInvalidRegexFlags("gi"); // false
  * areInvalidRegexFlags("gn"); // true
@@ -91,7 +91,7 @@ export function areInvalidRegexFlags(flags: string): boolean {
 
 /**
  * Checks whether a regex or a regex flags string contains the specified flag.
- * 
+ *
  * @example
  * hasRegexFlag(/abc/gi, "g"); // true
  * hasRegexFlag(/abc/gi, "y"); // false
@@ -107,7 +107,7 @@ export function hasRegexFlag(regexOrFlags: RegExp | string, flag: string): boole
 
 /**
  * Checks whether a regex or a regex flags string does not contain the specified flag.
- * 
+ *
  * @example
  * lacksRegexFlag(/abc/gi, "g"); // true
  * lacksRegexFlag(/abc/gi, "y"); // false
@@ -119,7 +119,7 @@ export function lacksRegexFlag(regexOrFlags: RegExp | string, flag: string): boo
 
 /**
  * Checks whether a regex or a regex flags string contains all the specified flags.
- * 
+ *
  * @example
  * hasRegexFlags(/abc/gi, "gi"); // true
  * hasRegexFlags(/abc/gi, "gim"); // false
@@ -131,7 +131,7 @@ export function hasRegexFlags(regexOrFlags: RegExp | string, flags: string): boo
 
 /**
  * Checks whether a regex or a regex flags string contains none of the specified flags.
- * 
+ *
  * @example
  * lacksRegexFlags(/abc/gi, "ym"); // true
  * lacksRegexFlags(/abc/gi, "gym"); // false

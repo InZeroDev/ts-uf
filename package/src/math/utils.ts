@@ -24,7 +24,7 @@ export function getAverage(...numbers: number[]): number {
  * @remarks
  * - If min is greater than max, the values are swapped.
  * - The minimum is inclusive, while the maximum is exclusive.
- * 
+ *
  * @example
  * getRandomFloat(1, 10); 3.1458241132191636
  * getRandomFloat(1, 10); 2.076135543542401
