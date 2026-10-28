@@ -43,8 +43,8 @@ const argToData = (arg2: number | RepeatData): Required<Extract<RepeatData, { en
  * Repeats a function a given number of times.
  *
  * @remarks
- *  - Return `false` to break the loop.
- *  - Return a `number` to jump to that index.
+ * - Return `false` to break the loop.
+ * - Return a `number` to jump to that index.
  *
  * @example
  * repeat(console.log, { start: 10, end: 13 }); // logs "10", "11", "12"
@@ -66,8 +66,8 @@ export function repeat(func: RepeatCb, data: RepeatData): void;
  * Repeats a function a given number of times.
  *
  * @remarks
- *  - Return `false` to break the loop.
- *  - Return a `number` to jump to that index.
+ * - Return `false` to break the loop.
+ * - Return a `number` to jump to that index.
  *
  * @example
  * repeat(console.log, 3); // logs "0", "1", "2"
@@ -136,8 +136,8 @@ export async function repeatAsync(func: RepeatAsyncCb, arg2: number | RepeatData
  * Repeats a function while a given condition is true.
  *
  * @remarks
- *  - Return `false` to break the loop.
- *  - Return a `number` to jump to that index.
+ * - Return `false` to break the loop.
+ * - Return a `number` to jump to that index.
  *
  * @example
  * repeatWhile(console.log, (index) => index < 3); // logs "0", "1", "2"

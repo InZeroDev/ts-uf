@@ -102,7 +102,7 @@ export function getMiddleElement<const T>(arr: ROList<T>): T {
  * Returns the index range of an array using its length.
  *
  * @example
- * const arr = [0, 1, 2, 3, 4];;
+ * const arr = [0, 1, 2, 3, 4];
  * getIndexRange(arr.length); // [0, 4]
  */
 export function getIndexRange(length: number): Range {
@@ -113,7 +113,7 @@ export function getIndexRange(length: number): Range {
  * Returns the signed index range of an array using its length.
  *
  * @example
- * const arr = [0, 1, 2, 3, 4];;
+ * const arr = [0, 1, 2, 3, 4];
  * getSignedIndexRange(arr.length); // [-5, 4]
  */
 export function getSignedIndexRange(length: number): Range {
