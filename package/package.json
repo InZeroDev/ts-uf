@@ -145,10 +145,12 @@
 		"lint": "tsc --noEmit; eslint src/**/*.ts",
 		"prepublish": "pnpm barrel:main; pnpm build"
 	},
+	"dependencies": {
+		"@inzero/ts-ut": "^0.3.0"
+	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
-		"@inzero/barrel": "0.1.0",
-		"@inzero/ts-ut": "0.2.0",
+		"@inzero/barrel": "^0.1.0",
 		"eslint": "^10.13.0",
 		"globals": "^17.13.0",
 		"jiti": "^2.7.0",

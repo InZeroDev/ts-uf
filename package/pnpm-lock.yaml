@@ -165,16 +165,17 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@inzero/ts-ut':
+        specifier: ^0.3.0
+        version: 0.3.0
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.13.0(jiti@2.7.0)(supports-color@5.5.0))
       '@inzero/barrel':
-        specifier: 0.1.0
+        specifier: ^0.1.0
         version: 0.1.0
-      '@inzero/ts-ut':
-        specifier: 0.2.0
-        version: 0.2.0
       eslint:
         specifier: ^10.13.0
         version: 10.13.0(jiti@2.7.0)(supports-color@5.5.0)
@@ -430,8 +431,8 @@ packages:
     resolution: {integrity: sha512-QGZB99ZIKf8NxABCQLvPvGtxCyxqp5rf2IwkOdmm+76OTmGBaqeiDVJDoth678vE0PEEe2+FPpkB3QPbTxI1SQ==}
     hasBin: true
 
-  '@inzero/ts-ut@0.2.0':
-    resolution: {integrity: sha512-/lH7oEA8MdKvoI4ifV8AqC5Nfg9inmTrNZupWNWSi+j8mP26sncRV7LKx4jslADLamsi7j7aEYNrZ8wHigmAfQ==}
+  '@inzero/ts-ut@0.3.0':
+    resolution: {integrity: sha512-tG5f5T3RmhWHOq+cIXTsisWD+eW98xq0dDF8Tto0jD8q+fjnoQEW/RUpiWIcP476rQqnjkuvGxqD9QqLdyVJcw==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1902,7 +1903,7 @@ snapshots:
       fs-extra: 11.4.1
       zod: 4.6.7
 
-  '@inzero/ts-ut@0.2.0': {}
+  '@inzero/ts-ut@0.3.0': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
