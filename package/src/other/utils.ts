@@ -1,12 +1,13 @@
-import type { ROList } from "@inzero/ts-ut";
+import type { Dict, DictKey, ROList, Stringable } from "@inzero/ts-ut";
 import type { Func } from "@inzero/ts-ut/func";
 import type { Valid } from "@inzero/ts-ut/other";
-import { isNotArray } from "../array";
+import { isArray, isNotArray } from "../array";
 import { isFunction } from "../function";
 import { getRandomFloat, isNegative, isNonPositive } from "../math";
 import { isFloat } from "../number";
 import { ensureRegexFlags, regexFlag } from "../regex";
 import { isOneOf } from "./validation";
+import { getKeys, isObject } from "../object";
 
 /**
  * Maps a value to another value if it is not `undefined` or `null`.
@@ -111,4 +112,17 @@ export function weightedRandom<T>(items: ROList<T>, weights: ROList<number>): T 
 	}
 
 	return undefined;
+}
+
+/**
+ * Returns the length of a {@linkcode Stringable}, array or object.
+ * 
+ * @example
+ * const strings = ["hello", "!", "foo"];
+ * const lengths = strings.map(len);
+ */
+export function len(value: Stringable | ROList | Dict): number {
+	if (isArray(value)) return value.length;
+	if (isObject(value)) return getKeys(value).length;
+	return `${value}`.length;
 }
