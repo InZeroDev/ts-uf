@@ -29,3 +29,45 @@ export function isBoolean<T>(value: CheckT<T>): value is SmartExtract<T, boolean
 export function isNotBoolean<T>(value: CheckT<T>): value is Exclude<T, boolean> {
 	return !isBoolean(value);
 }
+
+/**
+ * Checks whether a value is `true`.
+ */
+export function isTrue<T>(value: CheckT<T>): value is SmartExtract<T, true> {
+	return value === true;
+}
+
+/**
+ * Checks whether a value is not `true`.
+ */
+export function isNotTrue<T>(value: CheckT<T>): value is Exclude<T, true> {
+	return value !== true;
+}
+
+/**
+ * Checks whether a value is `false`.
+ */
+export function isFalse<T>(value: CheckT<T>): value is SmartExtract<T, false> {
+	return value === false;
+}
+
+/**
+ * Checks whether a value is `false`.
+ */
+export function isNotFalse<T>(value: CheckT<T>): value is Exclude<T, false> {
+	return value !== false;
+}
+
+/**
+ * Checks whether a value is truthy.
+ */
+export function isTruthy(value: unknown): boolean {
+	return Boolean(value);
+}
+
+/**
+ * Checks whether a value is falsy.
+ */
+export function isFalsy(value: unknown): boolean {
+	return !isTruthy(value);
+}
