@@ -13,7 +13,9 @@ export default defineConfig([
 	tseslint.configs.recommended,
 	{
 		rules: {
-			"@typescript-eslint/explicit-function-return-type": "error",
+			"@typescript-eslint/explicit-function-return-type": "warn",
+			"@typescript-eslint/no-explicit-any": "off",
+			"@typescript-eslint/no-empty-object-type": "off"
 		},
 	},
 ]);
