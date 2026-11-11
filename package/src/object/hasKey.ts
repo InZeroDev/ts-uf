@@ -1,4 +1,4 @@
-import type { Dict, DictKey, Keyof } from "@inzero/ts-ut/dict";
+import type { Dict, DictKey, Keys } from "@inzero/ts-ut/dict";
 import type { SmartExtract } from "@inzero/ts-ut/other";
 import type { IsKnownDict, IsKnownKey } from "./_internal";
 
@@ -33,7 +33,7 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 /**
  * Checks whether an object contains the given key.
  *
- * @remarks Narrows `key` to `keyof obj` when the check succeeds.
+ * @remarks Narrows `key` to `keys obj` when the check succeeds.
  *
  * @example
  * const presets = { a: 1, b: 2 };
@@ -48,7 +48,7 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends false ? K : never,
-): key is SmartExtract<typeof key, Keyof<T>>;
+): key is SmartExtract<typeof key, Keys<T>>;
 /**
  * @settingsDoc
  * @before Used when `key` is known but `obj` is not.

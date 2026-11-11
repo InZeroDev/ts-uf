@@ -1,6 +1,6 @@
 import type { IsNever, Valid } from "@inzero/ts-ut/other";
 import type { Suggest } from "@inzero/ts-ut/string";
-import type { Dict, KeyofDeep, DictKey } from "@inzero/ts-ut/dict";
+import type { Dict, DictKey, Entries, KeysDeep } from "@inzero/ts-ut/dict";
 import type { ROList } from "@inzero/ts-ut/list";
 
 import { isNotObject } from "./validation";
@@ -8,7 +8,7 @@ import type { IsKnownDict, IsKnownKey } from "./_internal";
 
 // Temporary type until GetDeep supports a parameter that let you decide
 // whether to return undefined when one of the parents is possibly undefined.
-type GetDeep<T extends Dict | ROList, K extends KeyofDeep<T>> = T extends T
+type GetDeep<T extends Dict | ROList, K extends KeysDeep<T>> = T extends T
 	? K extends K
 		? Next<K> extends [infer N extends string, infer R]
 			? _GetDeep<T, N, R>
@@ -46,7 +46,7 @@ type Next<K extends string> = K extends `${infer N extends string}.${infer R ext
  * getDeep(data, "a.b"); // { c: 4 }
  * getDeep(data, "a.b.c"); // 4
  */
-export function getDeep<T extends Dict, K extends KeyofDeep<T>>(
+export function getDeep<T extends Dict, K extends KeysDeep<T>>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
 ): GetDeep<T, K>;
@@ -79,7 +79,7 @@ export function getDeep(obj: Dict, key: string): unknown {
  *
  * setDeep(cloneDeep(data), "a.y", "new"); // Error: "a" is not an object.
  */
-export function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
+export function setDeep<T extends Dict, K extends Suggest<KeysDeep<T>>, V>(
 	obj: T,
 	key: K,
 	value: V,
@@ -128,7 +128,7 @@ export function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : 
  * Object.entries(myDict); // [string, number][]
  * getEntries(myDict); // ["a" | "b", number][]
  */
-export function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[keyof T]][] : never {
+export function getEntries<T extends Dict>(obj: T): Entries<T> {
 	return Object.entries(obj) as Valid;
 }
 
