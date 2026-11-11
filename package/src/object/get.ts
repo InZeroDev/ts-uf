@@ -1,37 +1,8 @@
-import type { IsNever, Valid } from "@inzero/ts-ut/other";
+import type { Valid } from "@inzero/ts-ut/other";
 import type { Suggest } from "@inzero/ts-ut/string";
-import type { Dict, KeysDeep } from "@inzero/ts-ut/dict";
-import type { ROList } from "@inzero/ts-ut/list";
-
+import type { Dict, GetDeep, KeysDeep } from "@inzero/ts-ut/dict";
 import { isNotObject } from "./validation";
 import type { IsKnownDict, IsKnownKey } from "./_internal";
-
-// Temporary type until GetDeep supports a parameter that let you decide
-// whether to return undefined when one of the parents is possibly undefined.
-type GetDeep<T extends Dict | ROList, K extends KeysDeep<T>> = T extends T
-	? K extends K
-		? Next<K> extends [infer N extends string, infer R]
-			? _GetDeep<T, N, R>
-			: never
-		: never
-	: never;
-type _GetDeep<T extends Dict | ROList, N extends string, R> = {
-	[P in keyof T]: P extends N
-		? IsNever<R> extends true
-			? T[P]
-			: // @ts-expect-error - TS is just unhappy. Code is correct (I hope :)
-				GetDeep<T[P], R>
-		: never;
-} extends infer O
-	? O extends ROList
-		? O[number]
-		: O[keyof O]
-	: never;
-type Next<K extends string> = K extends `${infer N extends string}.${infer R extends string}`
-	? [N, R]
-	: [K, never];
-
-/* -------------------------------------------------------------------------- */
 
 /**
  * @settingsDoc
@@ -49,7 +20,8 @@ type Next<K extends string> = K extends `${infer N extends string}.${infer R ext
 export function getDeep<T extends Dict, K extends KeysDeep<T>>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
-): GetDeep<T, K>;
+): GetDeep<T, K, true>;
+
 /**
  * @settingsDoc
  * @before Used when neither `obj` nor `key` are known.
