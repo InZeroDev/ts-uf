@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0] - 2026-11-27
+## [0.2.0] - 2026-10-27
 
 ### Added
 
@@ -17,19 +17,19 @@
 
 - Fixed `getRandomFloat()` returning values outside the specified range due to an incorrect `+1` in the calculation.
 
-## [0.1.0] - 2026-11-27
+## [0.1.0] - 2026-10-27
 
 ### Added
 
 - `toArray`: Converts a value to an array if it's not already one.
 - `unwrapValue` Extracts a value by invoking it if it's a function, otherwise returns it unchanged.
 
-## [0.0.2] - 2026-11-26
+## [0.0.2] - 2026-10-26
 
 ### Added
 
 - Added content to `README.md`.
 
-## [0.0.1] - 2026-11-26
+## [0.0.1] - 2026-10-26
 
 First release.
