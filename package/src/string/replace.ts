@@ -11,36 +11,28 @@ export type InsertUpdate = [index: number, insertion: string];
 /**
  * Replaces a substring using its coordinates.
  *
- * @remarks Automatically adjusts the ranges of subsequent updates to account for changes in string length
- * caused by earlier replacements, ensuring each update targets the intended substring.
+ * @remarks You don't have to worry about adjusting the ranges.
  *
  * @throws Throws a {@link RangeError} if:
  * - `start > end` or `start < 0`.
  * - some ranges overlap.
  *
  * @example
- * replaceString("Hello World!", [6, 11, "Universe"]); // "Hello Universe!"
- * replaceString("012345678", [0, 2, "x"], [3, 5, "y"], [6, 8, "z"]); // "x2y5z8"
+ * replaceSubstring("Hello World!", [6, 11, "Universe"]); // "Hello Universe!"
+ * replaceSubstring("012345678", [0, 2, "x"], [3, 5, "y"], [6, 8, "z"]); // "x2y5z8"
  */
 export function replaceSubstring(string: string, ...updates: ReplaceUpdate[]): string {
 	if (doRangesOverlap(updates.map(([start, end]) => [start, end])))
 		throw new Error("Overlapping ranges");
-	return updates.reduce(
-		(acc, [start, end, replacement]) => {
+	return updates
+		.toSorted(([a], [b]) => a - b)
+		.reduceRight<string>((string, [start, end, replacement]) => {
 			if (start < 0) throw new RangeError("Invalid range: start < 0");
 
-			start += acc.delta;
-			end += acc.delta;
+			string = string.slice(0, start) + replacement + string.slice(end);
 
-			acc.string = acc.string.slice(0, start) + replacement + acc.string.slice(end);
-
-			const rangeLength = end - start;
-			acc.delta += replacement.length - rangeLength;
-
-			return acc;
-		},
-		{ string, delta: 0 },
-	).string;
+			return string;
+		}, string);
 }
 
 /**
