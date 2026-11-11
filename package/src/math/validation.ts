@@ -197,7 +197,7 @@ export function isOutOfRange(
 export function doRangesOverlap(ranges: RORange[], touchingCounts: boolean = false): boolean {
 	if (ranges.some(([start, end]) => start > end)) throw new Error("Invalid range: start > end");
 
-	const sorted = ranges.toSorted((a, b) => a[0] - b[0]);
+	const sorted = ranges.toSorted(([a], [b]) => a - b);
 
 	for (let index = 1; index < sorted.length; index++) {
 		const range = sorted[index]!;
