@@ -1,4 +1,4 @@
-import type { Dict, DictKey, ROList, Stringable } from "@inzero/ts-ut";
+import type { Dict, ROList, Stringable } from "@inzero/ts-ut";
 import type { Func } from "@inzero/ts-ut/func";
 import type { Valid } from "@inzero/ts-ut/other";
 import { isArray, isNotArray } from "../array";
