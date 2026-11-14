@@ -30,7 +30,7 @@ export function getValues<T extends Dict>(obj: T): Values<T>[] {
  * Object.entries(myDict); // [string, number][]
  * getEntries(myDict); // ["a" | "b", number][]
  */
-export function getEntries<T extends Dict>(obj: T): Entries<T> {
+export function getEntries<T extends Dict>(obj: T): Entries<T>[] {
 	return Object.entries(obj) as Valid;
 }
 
