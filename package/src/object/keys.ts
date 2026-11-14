@@ -1,4 +1,4 @@
-import type { Dict, DictKey, Entries } from "@inzero/ts-ut/dict";
+import type { Dict, DictKey, Entries, Keys, Values } from "@inzero/ts-ut/dict";
 import type { Valid } from "@inzero/ts-ut/other";
 
 /**
@@ -10,14 +10,14 @@ import type { Valid } from "@inzero/ts-ut/other";
  * Object.keys(myDict); // string[]
  * getKeys(myDict); // ("a" | "b")[]
  */
-export function getKeys<T extends Dict>(obj: T): T extends T ? (keyof T)[] : never {
+export function getKeys<T extends Dict>(obj: T): Keys<T>[] {
 	return Object.keys(obj) as Valid;
 }
 
 /**
  * Returns `Object.values(obj)`.
  */
-export function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : never {
+export function getValues<T extends Dict>(obj: T): Values<T>[] {
 	return Object.values(obj) as Valid;
 }
 
