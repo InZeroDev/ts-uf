@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-
 import type { ROList } from "@inzero/ts-ut/list";
 import type { SmartExtract, Valid } from "@inzero/ts-ut/other";
 import type { Dict, NonEmptyTuple } from "@inzero/ts-ut";
