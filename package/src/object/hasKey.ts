@@ -33,7 +33,7 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 /**
  * Checks whether an object contains the given key.
  *
- * @remarks Narrows `key` to `keys obj` when the check succeeds.
+ * @remarks Narrows `key` to `keyof obj` when the check succeeds.
  *
  * @example
  * const presets = { a: 1, b: 2 };
