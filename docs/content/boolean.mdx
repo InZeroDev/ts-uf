@@ -48,6 +48,90 @@ function foo(value: boolean | { a: boolean; b: boolean }) {
 }
 ```
 
+### isTrue
+
+```ts tab='Shape'
+function isTrue<T>(value: CheckT<T>): value is SmartExtract<T, true>;
+```
+
+```ts tab='Source'
+export function isTrue<T>(value: CheckT<T>): value is SmartExtract<T, true> {
+	return value === true;
+}
+```
+
+Checks whether a value is `true`.
+
+### isNotTrue
+
+```ts tab='Shape'
+function isNotTrue<T>(value: CheckT<T>): value is Exclude<T, true>;
+```
+
+```ts tab='Source'
+export function isNotTrue<T>(value: CheckT<T>): value is Exclude<T, true> {
+	return value !== true;
+}
+```
+
+Checks whether a value is not `true`.
+
+### isFalse
+
+```ts tab='Shape'
+function isFalse<T>(value: CheckT<T>): value is SmartExtract<T, false>;
+```
+
+```ts tab='Source'
+export function isFalse<T>(value: CheckT<T>): value is SmartExtract<T, false> {
+	return value === false;
+}
+```
+
+Checks whether a value is `false`.
+
+### isNotFalse
+
+```ts tab='Shape'
+function isNotFalse<T>(value: CheckT<T>): value is Exclude<T, false>;
+```
+
+```ts tab='Source'
+export function isNotFalse<T>(value: CheckT<T>): value is Exclude<T, false> {
+	return value !== false;
+}
+```
+
+Checks whether a value is `false`.
+
+### isTruthy
+
+```ts tab='Shape'
+function isTruthy(value: unknown): boolean;
+```
+
+```ts tab='Source'
+export function isTruthy(value: unknown): boolean {
+	return Boolean(value);
+}
+```
+
+Checks whether a value is truthy.
+
+### isFalsy
+
+```ts tab='Shape'
+function isFalsy(value: unknown): boolean;
+```
+
+```ts tab='Source'
+export function isFalsy(value: unknown): boolean {
+	return !isTruthy(value);
+}
+```
+
+Checks whether a value is falsy.
+
 ## utils
 
 ### not

@@ -94,6 +94,112 @@ isNonEmptyObject({}); // false
 isNonEmptyObject({ a: 1 }); // true
 ```
 
+## get
+
+### getDeep
+
+<Tabs items={["Overload 01", "Overload 02"]}>
+<Tab value={"Overload 01"}>
+
+Used when `obj` and `key` are both known.
+
+```ts tab='Shape'
+function getDeep<T extends Dict, K extends KeysDeep<T>>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): GetDeep<T, K, true>;
+```
+
+```ts tab='Source'
+export function getDeep<T extends Dict, K extends KeysDeep<T>>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): GetDeep<T, K, true>;
+export function getDeep(obj: Dict, key: string): unknown;
+export function getDeep(obj: Dict, key: string): unknown {
+	return key.split(".").reduce((acc, key) => (acc as Valid)?.[key], obj) as Valid;
+}
+```
+
+Gets a deeply nested value from an object using a dot-separated key.
+
+```ts title='Example'
+const data = { a: { b: { c: 4 } } };
+
+getDeep(data, "a.b"); // { c: 4 }
+getDeep(data, "a.b.c"); // 4
+```
+
+</Tab>
+<Tab value={"Overload 02"}>
+
+Used when neither `obj` nor `key` are known.
+
+```ts tab='Shape'
+function getDeep(obj: Dict, key: string): unknown;
+```
+
+```ts tab='Source'
+export function getDeep<T extends Dict, K extends KeysDeep<T>>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+): GetDeep<T, K, true>;
+export function getDeep(obj: Dict, key: string): unknown;
+export function getDeep(obj: Dict, key: string): unknown {
+	return key.split(".").reduce((acc, key) => (acc as Valid)?.[key], obj) as Valid;
+}
+```
+
+Gets a deeply nested value from an object using a dot-separated key.
+
+```ts title='Example'
+const data = { a: { b: { c: 4 } } };
+
+getDeep(data, "a.b"); // { c: 4 }
+getDeep(data, "a.b.c"); // 4
+```
+
+</Tab>
+</Tabs>
+### setDeep
+
+```ts tab='Shape'
+function setDeep<T extends Dict, K extends Suggest<KeysDeep<T>>, V>(obj: T, key: K, value: V): void;
+```
+
+```ts tab='Source'
+export function setDeep<T extends Dict, K extends Suggest<KeysDeep<T>>, V>(
+	obj: T,
+	key: K,
+	value: V,
+): void {
+	const keys = key.split(".");
+	const lastKey = keys.pop();
+	if (lastKey === undefined) throw new Error("Invalid key");
+
+	const lastObj = keys.reduce((acc, currKey, ind) => {
+		const currValue = (acc as Valid)?.[currKey];
+		if (isNotObject(currValue)) {
+			const invalidKey = keys.slice(0, ind + 1).join(".");
+			throw new Error(`${invalidKey} is not an object.`);
+		}
+		return currValue;
+	}, obj) as Dict;
+	lastObj[lastKey] = value;
+}
+```
+
+Sets a deeply nested value in an object using a dot-separated key.
+
+```ts title='Example'
+const data = { a: 1, b: { c: 4 } };
+
+setDeep(cloneDeep(data), "b.c", 47); // { a: 1, b: { c: 47 } }
+setDeep(cloneDeep(data), "b.p", "new"); // { a: 1, b: { c: 4, p: "new" } }
+
+setDeep(cloneDeep(data), "a.y", "new"); // Error: "a" is not an object.
+```
+
 ## hasKey
 
 ### hasKey
@@ -118,7 +224,7 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends false ? K : never,
-): key is SmartExtract<typeof key, Keyof<T>>;
+): key is SmartExtract<typeof key, Keys<T>>;
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends false ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
@@ -158,7 +264,7 @@ Used when `obj` is known but `key` is not.
 function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends false ? K : never,
-): key is SmartExtract<typeof key, Keyof<T>>;
+): key is SmartExtract<typeof key, Keys<T>>;
 ```
 
 ```ts tab='Source'
@@ -169,7 +275,7 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends false ? K : never,
-): key is SmartExtract<typeof key, Keyof<T>>;
+): key is SmartExtract<typeof key, Keys<T>>;
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends false ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
@@ -219,7 +325,7 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends false ? K : never,
-): key is SmartExtract<typeof key, Keyof<T>>;
+): key is SmartExtract<typeof key, Keys<T>>;
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends false ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
@@ -264,7 +370,7 @@ export function hasKey<const T extends Dict, const K extends DictKey>(
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends true ? T : never,
 	key: IsKnownKey<K> extends false ? K : never,
-): key is SmartExtract<typeof key, Keyof<T>>;
+): key is SmartExtract<typeof key, Keys<T>>;
 export function hasKey<const T extends Dict, const K extends DictKey>(
 	obj: IsKnownDict<T> extends false ? T : never,
 	key: IsKnownKey<K> extends true ? K : never,
@@ -348,124 +454,16 @@ Checks whether an object lacks the given key.
 
 </Tab>
 </Tabs>
-## utils
-
-### getDeep
-
-<Tabs items={["Overload 01", "Overload 02"]}>
-<Tab value={"Overload 01"}>
-
-Used when `obj` and `key` are both known.
-
-```ts tab='Shape'
-function getDeep<T extends Dict, K extends KeyofDeep<T>>(
-	obj: IsKnownDict<T> extends true ? T : never,
-	key: IsKnownKey<K> extends true ? K : never,
-): GetDeep<T, K>;
-```
-
-```ts tab='Source'
-export function getDeep<T extends Dict, K extends KeyofDeep<T>>(
-	obj: IsKnownDict<T> extends true ? T : never,
-	key: IsKnownKey<K> extends true ? K : never,
-): GetDeep<T, K>;
-export function getDeep(obj: Dict, key: string): unknown;
-export function getDeep(obj: Dict, key: string): unknown {
-	return key.split(".").reduce((acc, key) => (acc as Valid)?.[key], obj) as Valid;
-}
-```
-
-Gets a deeply nested value from an object using a dot-separated key.
-
-```ts title='Example'
-const data = { a: { b: { c: 4 } } };
-
-getDeep(data, "a.b"); // { c: 4 }
-getDeep(data, "a.b.c"); // 4
-```
-
-</Tab>
-<Tab value={"Overload 02"}>
-
-Used when neither `obj` nor `key` are known.
-
-```ts tab='Shape'
-function getDeep(obj: Dict, key: string): unknown;
-```
-
-```ts tab='Source'
-export function getDeep<T extends Dict, K extends KeyofDeep<T>>(
-	obj: IsKnownDict<T> extends true ? T : never,
-	key: IsKnownKey<K> extends true ? K : never,
-): GetDeep<T, K>;
-export function getDeep(obj: Dict, key: string): unknown;
-export function getDeep(obj: Dict, key: string): unknown {
-	return key.split(".").reduce((acc, key) => (acc as Valid)?.[key], obj) as Valid;
-}
-```
-
-Gets a deeply nested value from an object using a dot-separated key.
-
-```ts title='Example'
-const data = { a: { b: { c: 4 } } };
-
-getDeep(data, "a.b"); // { c: 4 }
-getDeep(data, "a.b.c"); // 4
-```
-
-</Tab>
-</Tabs>
-### setDeep
-
-```ts tab='Shape'
-function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
-	obj: T,
-	key: K,
-	value: V,
-): void;
-```
-
-```ts tab='Source'
-export function setDeep<T extends Dict, K extends Suggest<KeyofDeep<T>>, V>(
-	obj: T,
-	key: K,
-	value: V,
-): void {
-	const keys = key.split(".");
-	const lastKey = keys.pop();
-	if (lastKey === undefined) throw new Error("Invalid key");
-
-	const lastObj = keys.reduce((acc, currKey, ind) => {
-		const currValue = (acc as Valid)?.[currKey];
-		if (isNotObject(currValue)) {
-			const invalidKey = keys.slice(0, ind + 1).join(".");
-			throw new Error(`${invalidKey} is not an object.`);
-		}
-		return currValue;
-	}, obj) as Dict;
-	lastObj[lastKey] = value;
-}
-```
-
-Sets a deeply nested value in an object using a dot-separated key.
-
-```ts title='Example'
-const data = { a: 1, b: { c: 4 } };
-
-setDeep(cloneDeep(data), "b.c", 47); // { a: 1, b: { c: 47 } }
-setDeep(cloneDeep(data), "b.p", "new"); // { a: 1, b: { c: 4, p: "new" } }
-
-setDeep(cloneDeep(data), "a.y", "new"); // Error: "a" is not an object.
-```
+## keys
 
 ### getKeys
 
 ```ts tab='Shape'
-function getKeys<T extends Dict>(obj: T): T extends T ? (keyof T)[] : never;
+function getKeys<T extends Dict>(obj: T): Keys<T>[];
 ```
 
 ```ts tab='Source'
-export function getKeys<T extends Dict>(obj: T): T extends T ? (keyof T)[] : never {
+export function getKeys<T extends Dict>(obj: T): Keys<T>[] {
 	return Object.keys(obj) as Valid;
 }
 ```
@@ -482,11 +480,11 @@ getKeys(myDict); // ("a" | "b")[]
 ### getValues
 
 ```ts tab='Shape'
-function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : never;
+function getValues<T extends Dict>(obj: T): Values<T>[];
 ```
 
 ```ts tab='Source'
-export function getValues<T extends Dict>(obj: T): T extends T ? T[keyof T][] : never {
+export function getValues<T extends Dict>(obj: T): Values<T>[] {
 	return Object.values(obj) as Valid;
 }
 ```
@@ -496,11 +494,11 @@ Returns `Object.values(obj)`.
 ### getEntries
 
 ```ts tab='Shape'
-function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[keyof T]][] : never;
+function getEntries<T extends Dict>(obj: T): Entries<T>[];
 ```
 
 ```ts tab='Source'
-export function getEntries<T extends Dict>(obj: T): T extends T ? [keyof T, T[keyof T]][] : never {
+export function getEntries<T extends Dict>(obj: T): Entries<T>[] {
 	return Object.entries(obj) as Valid;
 }
 ```
@@ -533,4 +531,288 @@ const myEntries = getEntries(...); // ["a" | "b", number][]
 
 Object.fromEntries(myEntries); // { [x: string]: number }
 fromEntries(myEntries); // { a: number, b: number }
+```
+
+## merge
+
+### mergeIntersection
+
+```ts tab='Shape'
+function mergeIntersection<A extends Dict, B extends Dict>(a: A, b: B): MergeInt<A, B>;
+```
+
+```ts tab='Source'
+export function mergeIntersection<A extends Dict, B extends Dict>(a: A, b: B): MergeInt<A, B> {
+	const [aKeys, bKeys] = [getKeys(a), getKeys(b)];
+	const keysToDelete = bKeys.filter((bKey) => isNotOneOf(bKey, aKeys));
+
+	const result = updateValues(deleteKeys(b, keysToDelete), (value, key) =>
+		isUndefined(value) ? a[key] : value,
+	);
+
+	return result as Valid;
+}
+```
+
+Merge two objects, keeping all keys that exist in both.
+Values are taken from `B` when defined, otherwise falling back to `A`.
+
+```ts title='Example'
+mergeIntersection({ a: 1, b: 2 }, { b: 22, c: 4 }); // { b: 22 }
+mergeIntersection({ a: 1, b: 2 }, { b: undefined, c: 4 }); // { b: 2 }
+mergeIntersection({ a: 1, b: undefined }, { b: undefined, c: 4 }); // { b: undefined }
+```
+
+### mergeUnion
+
+```ts tab='Shape'
+function mergeUnion<A extends Dict, B extends Dict>(a: A, b: B): MergeUnion<A, B>;
+```
+
+```ts tab='Source'
+export function mergeUnion<A extends Dict, B extends Dict>(a: A, b: B): MergeUnion<A, B> {
+	return { ...mergeIntersection(a, b), ...mergeSymDifference(a, b) };
+}
+```
+
+Merge two objects, keeping all keys from both.
+Values are taken from `B` when defined, otherwise falling back to `A`.
+
+```ts title='Example'
+mergeUnion({ a: 1, b: 2 }, { b: 22, c: 4 }); // { a: 1, b: 22, c: 4 }
+mergeUnion({ a: 1, b: 2 }, { b: undefined, c: 4 }); // { a: 1, b: 2, c: 4 }
+mergeUnion({ a: 1, b: undefined }, { b: undefined, c: 4 }); // { a: 1, b: undefined, c: 4 }
+```
+
+### mergePatch
+
+```ts tab='Shape'
+function mergePatch<A extends Dict, B extends Dict>(a: A, b: B): MergePatch<A, B>;
+```
+
+```ts tab='Source'
+export function mergePatch<A extends Dict, B extends Dict>(a: A, b: B): MergePatch<A, B> {
+	return { ...mergeIntersection(a, b), ...mergeDifference(a, b) };
+}
+```
+
+Merge two objects, keeping all keys from A.
+Values are taken from `B` when defined, otherwise falling back to `A`.
+
+```ts title='Example'
+mergePatch({ a: 1, b: 2 }, { b: 22, c: 4 }); // { a: 1, b: 22 }
+mergePatch({ a: 1, b: 2 }, { b: undefined, c: 4 }); // { a: 1, b: 2 }
+mergePatch({ a: 1, b: undefined }, { b: undefined, c: 4 }); // { a: 1, b: undefined }
+```
+
+### mergeDifference
+
+```ts tab='Shape'
+function mergeDifference<A extends Dict, B extends Dict>(a: A, b: B): MergeDiff<A, B>;
+```
+
+```ts tab='Source'
+export function mergeDifference<A extends Dict, B extends Dict>(a: A, b: B): MergeDiff<A, B> {
+	const [aKeys, bKeys] = [getKeys(a), getKeys(b)];
+	const keysToDelete = aKeys.filter((aKey) => isOneOf(aKey, bKeys));
+
+	const result = deleteKeys(a, keysToDelete);
+
+	return result as Valid;
+}
+```
+
+Merge two objects, keeping all keys that exist only in A.
+
+```ts title='Example'
+mergeDifference({ a: 1, b: 2 }, { b: 22, c: 4 }); // { a: 1 }
+```
+
+### mergeSymDifference
+
+```ts tab='Shape'
+function mergeSymDifference<A extends Dict, B extends Dict>(a: A, b: B): MergeSymDiff<A, B>;
+```
+
+```ts tab='Source'
+export function mergeSymDifference<A extends Dict, B extends Dict>(a: A, b: B): MergeSymDiff<A, B> {
+	return { ...mergeDifference(a, b), ...mergeDifference(b, a) } as Valid;
+}
+```
+
+Merge two objects, keeping all non-shared keys.
+
+```ts title='Example'
+mergeSymDifference({ a: 1, b: 2 }, { b: 22, c: 4 }); // { a: 1, c: 4 }
+```
+
+## mergeDefaults
+
+### mergeDefaults
+
+```ts tab='Shape'
+function mergeDefaults<S extends Dict>(
+	source: S,
+	defaults: Prettify<Required<PickOptional<S> & PickUndefinable<S>>>,
+): MergeDefaultsRT<S>;
+```
+
+```ts tab='Source'
+export function mergeDefaults<S extends Dict>(
+	source: S,
+	defaults: Prettify<Required<PickOptional<S> & PickUndefinable<S>>>,
+): MergeDefaultsRT<S> {
+	return {
+		...updateValues(source, (value, key) => (isUndefined(value) ? (defaults as Dict)[key] : value)),
+		...mergeDifference(defaults, source),
+	} as Valid;
+}
+```
+
+Merges default values into a source object, using them for missing or undefined properties.
+
+```ts title='Example'
+type Config = { a: number; b?: number; c: number | undefined; d?: number };
+
+const config: Config = {
+	a: 1,
+	b: 2,
+	c: undefined,
+};
+const fullConfig = mergeDefaults(config, { b: 222, c: 3, d: 4 }); // { a: 1, b: 2, c: 3, d: 4 }
+```
+
+### mergeDefaultsDeep
+
+```ts tab='Shape'
+function mergeDefaultsDeep<S extends Dict>(
+	source: S,
+	defaults: RequiredDeep<PickOptionalDeep<S> & PickUndefinableDeep<S>>,
+): MergeDefaultsDeepRT<S>;
+```
+
+```ts tab='Source'
+export function mergeDefaultsDeep<S extends Dict>(
+	source: S,
+	defaults: RequiredDeep<PickOptionalDeep<S> & PickUndefinableDeep<S>>,
+): MergeDefaultsDeepRT<S> {
+	return {
+		...updateValues(source, (value, key) => {
+			const df = defaults as Dict;
+			if (isUndefined(value)) return df[key];
+			if (isObject(value) && isObject(df[key]))
+				return mergeDefaultsDeep(value as Dict, df[key] as Valid);
+			return source[key];
+		}),
+		...mergeDifference(defaults, source),
+	} as Valid;
+}
+```
+
+Recursively merges default values into a source object, using them for missing or undefined properties.
+
+```ts title='Example'
+type Config = { a?: number; b: { c: number; d: number | undefined } };
+const config: Config = { b: { c: 4, d: undefined } };
+
+const fullConfig = mergeDefaultsDeep(config, { a: 1, b: { d: 99 } }); // { a: 1, b: { c: 4, d: 99 } }
+```
+
+## update
+
+### updateObject
+
+```ts tab='Shape'
+function updateObject<
+	T extends Dict,
+	F extends Func<[key: Keys<T>, value: Values<T>], [DictKey, unknown]>,
+>(obj: T, fn: F): Dict<RT<F>["0"], RT<F>["1"]>;
+```
+
+```ts tab='Source'
+export function updateObject<
+	T extends Dict,
+	F extends Func<[key: Keys<T>, value: Values<T>], [DictKey, unknown]>,
+>(obj: T, fn: F): Dict<RT<F>["0"], RT<F>["1"]> {
+	return fromEntries(getEntries(obj).map(([key, value]) => fn(key as Valid, value as Valid)));
+}
+```
+
+Creates a new object by transforming each key-value pair using `fn`.
+
+```ts title='Example'
+updateObject({ a: 1, b: 2 }, (key, value) => [key.toUpperCase(), value * 2]);
+// { A: 2, B: 4 }
+```
+
+### updateKeys
+
+```ts tab='Shape'
+function updateKeys<T extends Dict, F extends Func<[key: Keys<T>, value: Values<T>], DictKey>>(
+	obj: T,
+	fn: F,
+): Dict<RT<F>, Values<T>>;
+```
+
+```ts tab='Source'
+export function updateKeys<
+	T extends Dict,
+	F extends Func<[key: Keys<T>, value: Values<T>], DictKey>,
+>(obj: T, fn: F): Dict<RT<F>, Values<T>> {
+	return updateObject(obj, (key, value) => [fn(key, value), value]);
+}
+```
+
+Creates a new object by transforming its keys using `fn`.
+
+```ts title='Example'
+updateKeys({ a: 1, b: 2 }, (key) => key.toUpperCase());
+// { A: 1, B: 2 }
+```
+
+### updateValues
+
+```ts tab='Shape'
+function updateValues<T extends Dict, F extends Func<[value: Values<T>, key: Keys<T>]>>(
+	obj: T,
+	fn: F,
+): Dict<Keys<T>, RT<F>>;
+```
+
+```ts tab='Source'
+export function updateValues<T extends Dict, F extends Func<[value: Values<T>, key: Keys<T>]>>(
+	obj: T,
+	fn: F,
+): Dict<Keys<T>, RT<F>> {
+	return updateObject(obj, (key, value) => [key, fn(value, key)]);
+}
+```
+
+Creates a new object by transforming its values using `fn`.
+
+```ts title='Example'
+updateValues({ a: 1, b: 2 }, (value) => value * 2);
+// { a: 2, b: 4 }
+```
+
+### deleteKeys
+
+```ts tab='Shape'
+function deleteKeys<T extends Dict, K extends DictKey>(obj: T, keys: readonly K[]): LooseOmit<T, K>;
+```
+
+```ts tab='Source'
+export function deleteKeys<T extends Dict, K extends DictKey>(
+	obj: T,
+	keys: readonly K[],
+): LooseOmit<T, K> {
+	return fromEntries(getEntries(obj).filter(([key]) => isNotOneOf(key, keys))) as Valid;
+}
+```
+
+Creates a new object by removing the specified keys.
+
+```ts title='Example'
+deleteKeys({ a: 1, b: 2, c: 3 }, ["a", "c"]);
+// { b: 2 }
 ```

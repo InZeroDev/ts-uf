@@ -341,3 +341,24 @@ weightedRandom([1, 2, 3], []); // undefined
 weightedRandom([1, 2, 3], [1, 1]); // 1 // 3 will never be selected
 weightedRandom([1, 2, 3], [1, 1, 1, 3]); // 1 // there's a 50% chance an item is selected, and another 50% chance `undefined` is returned.
 ```
+
+### len
+
+```ts tab='Shape'
+function len(value: Stringable | ROList | Dict): number;
+```
+
+```ts tab='Source'
+export function len(value: Stringable | ROList | Dict): number {
+	if (isArray(value)) return value.length;
+	if (isObject(value)) return getKeys(value).length;
+	return `${value}`.length;
+}
+```
+
+Returns the length of a [Stringable](#stringable), array or object.
+
+```ts title='Example'
+const strings = ["hello", "!", "foo"];
+const lengths = strings.map(len);
+```
