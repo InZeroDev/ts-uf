@@ -167,8 +167,8 @@ importers:
   .:
     dependencies:
       '@inzero/ts-ut':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.5.0
+        version: 0.5.0
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.1
@@ -431,8 +431,8 @@ packages:
     resolution: {integrity: sha512-QGZB99ZIKf8NxABCQLvPvGtxCyxqp5rf2IwkOdmm+76OTmGBaqeiDVJDoth678vE0PEEe2+FPpkB3QPbTxI1SQ==}
     hasBin: true
 
-  '@inzero/ts-ut@0.3.0':
-    resolution: {integrity: sha512-tG5f5T3RmhWHOq+cIXTsisWD+eW98xq0dDF8Tto0jD8q+fjnoQEW/RUpiWIcP476rQqnjkuvGxqD9QqLdyVJcw==}
+  '@inzero/ts-ut@0.5.0':
+    resolution: {integrity: sha512-dLlKk7vnpRlHlyVTvbpGCdWrWUI/Gcg2hiRb2aOYaaVw8IL8OjQH+dv8ixX7L+gu6zqG+/C74dGN5Fxnr9f+2A==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1903,7 +1903,7 @@ snapshots:
       fs-extra: 11.4.1
       zod: 4.6.7
 
-  '@inzero/ts-ut@0.3.0': {}
+  '@inzero/ts-ut@0.5.0': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
