@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.1] - 2026-11-15
+
+### Fixed
+
+- Correct exports field in `package.json`.
+
 ## [0.3.0] - 2026-11-15
 
 ### Breaking Changes
