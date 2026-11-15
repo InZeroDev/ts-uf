@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.3.0] - 2026-11-15
+
+### Breaking Changes
+
+- Drop support for CJS. The package is now ESM-only
+
+### Added
+
+- Added boolean validation utils: `isTrue`, `isFalse`, `isNotTrue`, `isNotFalse`, `isTruthy` and `isFalsy`.
+- Added `len` utility.
+- Added object update utils: `updateObject`, `updateKeys`, `updateValues` and `deleteKeys`.
+- Added object merge utils: `mergeIntersection`, `mergeUnion`, `mergePatch`, `mergeDifference`, `mergeSymDifference`, `mergeDefaults` and `mergeDefaultsDeep`.
+
+### Changed
+
+- Utility implementation improvements. Same behavior.
+- Upgrade `@inzero/ts-ut` to **v0.5.0**
+- Validation utilities now accept any value originating from a generic type parameter.
+
+### Fixed
+
+- Set `@inzero/ts-ut` as a dependency.
+- Correct `getEntries` return type.
+
 ## [0.2.0] - 2026-10-27
 
 ### Added
