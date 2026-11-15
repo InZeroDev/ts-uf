@@ -164,7 +164,11 @@ getDeep(data, "a.b.c"); // 4
 ### setDeep
 
 ```ts tab='Shape'
-function setDeep<T extends Dict, K extends Suggest<KeysDeep<T>>, V>(obj: T, key: K, value: V): void;
+function setDeep<T extends Dict, K extends Suggest<KeysDeep<T>>, V>(
+	obj: T,
+	key: K,
+	value: V,
+): void;
 ```
 
 ```ts tab='Source'
@@ -244,7 +248,7 @@ Narrows `obj` by filtering out all the objects that don't contain the given key.
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
 	if (hasKey(data, "count")) {
@@ -419,7 +423,7 @@ Narrows `obj` by filtering out all the versions that contain the given key.
 </Callout>
 
 ```ts title='Example'
-type Data = { start?: number; step?: number } & ({ end: number } | { count: number });
+type Data = { start?: number, step?: number } & ({ end: number } | { count: number });
 
 function repeat(cb: Func, data: Data) {
 	if (lacksKey(data, "count")) {
@@ -748,10 +752,10 @@ updateObject({ a: 1, b: 2 }, (key, value) => [key.toUpperCase(), value * 2]);
 ### updateKeys
 
 ```ts tab='Shape'
-function updateKeys<T extends Dict, F extends Func<[key: Keys<T>, value: Values<T>], DictKey>>(
-	obj: T,
-	fn: F,
-): Dict<RT<F>, Values<T>>;
+function updateKeys<
+	T extends Dict,
+	F extends Func<[key: Keys<T>, value: Values<T>], DictKey>,
+>(obj: T, fn: F): Dict<RT<F>, Values<T>>;
 ```
 
 ```ts tab='Source'
@@ -798,7 +802,10 @@ updateValues({ a: 1, b: 2 }, (value) => value * 2);
 ### deleteKeys
 
 ```ts tab='Shape'
-function deleteKeys<T extends Dict, K extends DictKey>(obj: T, keys: readonly K[]): LooseOmit<T, K>;
+function deleteKeys<T extends Dict, K extends DictKey>(
+	obj: T,
+	keys: readonly K[],
+): LooseOmit<T, K>;
 ```
 
 ```ts tab='Source'
