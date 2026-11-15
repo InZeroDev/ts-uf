@@ -18,51 +18,50 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.mts",
-			"default": "./dist/index.mjs"
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
 		},
 		"./types": {
-			"types": "./dist/types.d.mts"
+			"types": "./dist/types.d.ts"
 		},
 		"./string": {
-			"types": "./dist/string/index.d.mts",
-			"default": "./dist/string/index.mjs"
+			"types": "./dist/string/index.d.ts",
+			"default": "./dist/string/index.js"
 		},
 		"./number": {
-			"types": "./dist/number/index.d.mts",
-			"default": "./dist/number/index.mjs"
+			"types": "./dist/number/index.d.ts",
+			"default": "./dist/number/index.js"
 		},
 		"./boolean": {
-			"types": "./dist/boolean/index.d.mts",
-			"default": "./dist/boolean/index.mjs"
+			"types": "./dist/boolean/index.d.ts",
+			"default": "./dist/boolean/index.js"
 		},
 		"./array": {
-			"types": "./dist/array/index.d.mts",
-			"default": "./dist/array/index.mjs"
+			"types": "./dist/array/index.d.ts",
+			"default": "./dist/array/index.js"
 		},
 		"./object": {
-			"types": "./dist/object/index.d.mts",
-			"default": "./dist/object/index.mjs"
+			"types": "./dist/object/index.d.ts",
+			"default": "./dist/object/index.js"
 		},
 		"./function": {
-			"types": "./dist/function/index.d.mts",
-			"default": "./dist/function/index.mjs"
+			"types": "./dist/function/index.d.ts",
+			"default": "./dist/function/index.js"
 		},
 		"./math": {
-			"types": "./dist/math/index.d.mts",
-			"default": "./dist/math/index.mjs"
+			"types": "./dist/math/index.d.ts",
+			"default": "./dist/math/index.js"
 		},
 		"./other": {
-			"types": "./dist/other/index.d.mts",
-			"default": "./dist/other/index.mjs"
+			"types": "./dist/other/index.d.ts",
+			"default": "./dist/other/index.js"
 		},
 		"./regex": {
-			"types": "./dist/regex/index.d.mts",
-			"default": "./dist/regex/index.mjs"
+			"types": "./dist/regex/index.d.ts",
+			"default": "./dist/regex/index.js"
 		}
 	},
 	"main": "dist/index.js",
-	"module": "dist/index.mjs",
 	"types": "dist/index.d.ts",
 	"files": [
 		"dist",
