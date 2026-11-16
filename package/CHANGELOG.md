@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.2] - 2026-11-16
+
+### Fixed
+
+- Fixed `mergeDefaultsDeep()` return types on union properties.
+
+### Added
+
+- Added `GenerateDefaults<S>` and `GenerateDefaultsDeep<S>` utility types.
+
 ## [0.3.1] - 2026-11-15
 
 ### Fixed
