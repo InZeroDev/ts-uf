@@ -13,6 +13,7 @@ import type {
 	Prettify,
 	RequiredDeep,
 	Valid,
+	Values,
 } from "@inzero/ts-ut";
 import { isUndefined } from "../other";
 import { updateValues } from "./update";
@@ -106,7 +107,15 @@ type PickUndefinable<T> = ExcludeFromValues<LoosePick<T, KeysWithType<T, undefin
 type PickUndefinableDeep<T> = T extends T
 	? {
 			[
-				P in keyof T as HasType<T[P], undefined | Dict> extends true ? P : never
+				P in keyof T as T[P] extends infer TP
+					? TP extends Dict
+						? HasType<Values<TP>, undefined> extends true
+							? P
+							: never
+						: HasType<T[P], undefined> extends true
+							? P
+							: never
+					: never
 			]: T[P] extends infer TP
 				? TP extends Dict
 					? PickUndefinableDeep<TP>
