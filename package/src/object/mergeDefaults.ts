@@ -2,6 +2,7 @@ import type {
 	Dict,
 	ExcludeFromValues,
 	HasType,
+	IsNever,
 	IsSubtype,
 	KeysOfType,
 	KeysWithType,
@@ -34,7 +35,7 @@ import type { IsOptionalKey } from "@inzero/ts-ut/_internal";
  */
 export function mergeDefaults<S extends Dict>(
 	source: S,
-	defaults: Prettify<Required<PickOptional<S> & PickUndefinable<S>>>,
+	defaults: GenerateDefaults<S>,
 ): MergeDefaultsRT<S> {
 	return {
 		...updateValues(source, (value, key) => (isUndefined(value) ? (defaults as Dict)[key] : value)),
@@ -51,10 +52,10 @@ export function mergeDefaults<S extends Dict>(
  *
  * const fullConfig = mergeDefaultsDeep(config, { a: 1, b: { d: 99 } }); // { a: 1, b: { c: 4, d: 99 } }
  */
-export function mergeDefaultsDeep<S extends Dict>(
+export function mergeDefaultsDeep<S extends Dict, D extends GenerateDefaultsDeep<S>>(
 	source: S,
-	defaults: RequiredDeep<PickOptionalDeep<S> & PickUndefinableDeep<S>>,
-): MergeDefaultsDeepRT<S> {
+	defaults: D,
+): MergeDefaultsDeepRT<S, D> {
 	return {
 		...updateValues(source, (value, key) => {
 			const df = defaults as Dict;
@@ -68,15 +69,36 @@ export function mergeDefaultsDeep<S extends Dict>(
 }
 
 /* ----------------------------- Internal Types ----------------------------- */
-type MergeDefaultsRT<T> = {
-	[P in keyof T]-?: Exclude<T[P], undefined>;
+/**
+ * Generates the required default-value shape for {@link mergeDefaults},
+ * including optional and `undefined` properties.
+ */
+export type GenerateDefaults<S> = Prettify<Required<PickOptional<S> & PickUndefinable<S>>>;
+
+/**
+ * Recursively generates the required default-value shape for {@link mergeDefaultsDeep},
+ * including optional and `undefined` properties at every level.
+ */
+export type GenerateDefaultsDeep<S> = RequiredDeep<PickOptionalDeep<S> & PickUndefinableDeep<S>>;
+
+type IsUnion<T> = IsNever<T> extends true ? false : _IsUnion<T>;
+type _IsUnion<T, C = T> = T extends T ? ([C] extends [T] ? false : true) : never;
+
+type MergeDefaultsRT<S> = {
+	[P in keyof S]-?: Exclude<S[P], undefined>;
 } & {};
 
-type MergeDefaultsDeepRT<T> = {
-	[P in keyof T]-?: T[P] extends infer TP
-		? TP extends Dict
-			? MergeDefaultsDeepRT<TP>
-			: Exclude<TP, undefined>
+type MergeDefaultsDeepRT<S, D, C = Required<S>> = {
+	[P in keyof S]-?: D[P & keyof D] extends infer DP
+		? C[P & keyof C] extends infer CP
+			? S[P] extends infer TP
+				? TP extends Dict
+					? IsUnion<CP> | IsNever<Extract<DP, TP>> extends true
+						? Exclude<TP, undefined>
+						: MergeDefaultsDeepRT<TP, DP>
+					: Exclude<TP, undefined>
+				: never
+			: never
 		: never;
 } & {};
 
