@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.3] - 2026-11-16
+
+### Fixed
+
+- Fixed `GenerateDefaultsDeep<S>` type, where it used to pick keys whose values are an object, even tho the key is required and cannot be `undefined`.
+
 ## [0.3.2] - 2026-11-16
 
 ### Fixed
