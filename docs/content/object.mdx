@@ -657,14 +657,14 @@ mergeSymDifference({ a: 1, b: 2 }, { b: 22, c: 4 }); // { a: 1, c: 4 }
 ```ts tab='Shape'
 function mergeDefaults<S extends Dict>(
 	source: S,
-	defaults: Prettify<Required<PickOptional<S> & PickUndefinable<S>>>,
+	defaults: GenerateDefaults<S>,
 ): MergeDefaultsRT<S>;
 ```
 
 ```ts tab='Source'
 export function mergeDefaults<S extends Dict>(
 	source: S,
-	defaults: Prettify<Required<PickOptional<S> & PickUndefinable<S>>>,
+	defaults: GenerateDefaults<S>,
 ): MergeDefaultsRT<S> {
 	return {
 		...updateValues(source, (value, key) => (isUndefined(value) ? (defaults as Dict)[key] : value)),
@@ -689,17 +689,17 @@ const fullConfig = mergeDefaults(config, { b: 222, c: 3, d: 4 }); // { a: 1, b: 
 ### mergeDefaultsDeep
 
 ```ts tab='Shape'
-function mergeDefaultsDeep<S extends Dict>(
+function mergeDefaultsDeep<S extends Dict, D extends GenerateDefaultsDeep<S>>(
 	source: S,
-	defaults: RequiredDeep<PickOptionalDeep<S> & PickUndefinableDeep<S>>,
-): MergeDefaultsDeepRT<S>;
+	defaults: D,
+): MergeDefaultsDeepRT<S, D>;
 ```
 
 ```ts tab='Source'
-export function mergeDefaultsDeep<S extends Dict>(
+export function mergeDefaultsDeep<S extends Dict, D extends GenerateDefaultsDeep<S>>(
 	source: S,
-	defaults: RequiredDeep<PickOptionalDeep<S> & PickUndefinableDeep<S>>,
-): MergeDefaultsDeepRT<S> {
+	defaults: D,
+): MergeDefaultsDeepRT<S, D> {
 	return {
 		...updateValues(source, (value, key) => {
 			const df = defaults as Dict;
@@ -720,6 +720,40 @@ type Config = { a?: number; b: { c: number; d: number | undefined } };
 const config: Config = { b: { c: 4, d: undefined } };
 
 const fullConfig = mergeDefaultsDeep(config, { a: 1, b: { d: 99 } }); // { a: 1, b: { c: 4, d: 99 } }
+```
+
+### TYPES
+
+```ts tab='Shape'
+/**
+ * Generates the required default-value shape for {@link mergeDefaults},
+ * including optional and `undefined` properties.
+ */
+type GenerateDefaults<S>
+```
+
+```ts tab='Source'
+/**
+ * Generates the required default-value shape for {@link mergeDefaults},
+ * including optional and `undefined` properties.
+ */
+export type GenerateDefaults<S> = Prettify<Required<PickOptional<S> & PickUndefinable<S>>>;
+```
+
+```ts tab='Shape'
+/**
+ * Recursively generates the required default-value shape for {@link mergeDefaultsDeep},
+ * including optional and `undefined` properties at every level.
+ */
+type GenerateDefaultsDeep<S>
+```
+
+```ts tab='Source'
+/**
+ * Recursively generates the required default-value shape for {@link mergeDefaultsDeep},
+ * including optional and `undefined` properties at every level.
+ */
+export type GenerateDefaultsDeep<S> = RequiredDeep<PickOptionalDeep<S> & PickUndefinableDeep<S>>;
 ```
 
 ## update
