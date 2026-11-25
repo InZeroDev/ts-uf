@@ -1,5 +1,5 @@
 import type { Valid } from "@inzero/ts-ut/other";
-import type { Dict, GetDeep, KeysDeep } from "@inzero/ts-ut/dict";
+import type { Dict, GetDeep, KeysDeep, Known, SetDeep, SuggestKey } from "@inzero/ts-ut/dict";
 import { isNotObject } from "./validation";
 import type { IsKnownDict, IsKnownKey } from "./_internal";
 
@@ -50,21 +50,25 @@ export function getDeep(obj: Dict, key: string): unknown {
  *
  * setDeep(cloneDeep(data), "a.y", "new"); // Error: "a" is not an object.
  */
-export function setDeep(obj: Dict, key: string, value: unknown): void {
+export function setDeep<T extends Dict, K extends SuggestKey<KeysDeep<Known<T>>, true>, V>(
+	obj: IsKnownDict<T> extends true ? T : never,
+	key: IsKnownKey<K> extends true ? K : never,
+	value: V,
+): SetDeep<T, K, V>;
+export function setDeep(obj: Dict, key: string, value: unknown): Dict;
+export function setDeep(obj: Dict, key: string, value: unknown): Dict {
 	const keys = key.split(".");
 
 	const lastKey = keys.pop();
 	if (lastKey === undefined) throw new Error("Invalid key");
 
-	const lastObj = keys.reduce((acc, key, ind) => {
-		acc[key] ??= {};
+	const lastObj = keys.reduce((acc, key) => {
 		const currValue = acc[key];
-		if (isNotObject(currValue)) {
-			const invalidKey = keys.slice(0, ind + 1).join(".");
-			throw new Error(`${invalidKey} is not an object.`);
-		}
+		if (isNotObject(currValue)) return (acc[key] = {});
 		return currValue;
 	}, obj);
 
 	lastObj[lastKey] = value;
+
+	return obj;
 }
