@@ -1,5 +1,4 @@
 import type { Valid } from "@inzero/ts-ut/other";
-import type { Suggest } from "@inzero/ts-ut/string";
 import type { Dict, GetDeep, KeysDeep } from "@inzero/ts-ut/dict";
 import { isNotObject } from "./validation";
 import type { IsKnownDict, IsKnownKey } from "./_internal";
@@ -51,22 +50,21 @@ export function getDeep(obj: Dict, key: string): unknown {
  *
  * setDeep(cloneDeep(data), "a.y", "new"); // Error: "a" is not an object.
  */
-export function setDeep<T extends Dict, K extends Suggest<KeysDeep<T>>, V>(
-	obj: T,
-	key: K,
-	value: V,
-): void {
+export function setDeep(obj: Dict, key: string, value: unknown): void {
 	const keys = key.split(".");
+
 	const lastKey = keys.pop();
 	if (lastKey === undefined) throw new Error("Invalid key");
 
-	const lastObj = keys.reduce((acc, currKey, ind) => {
-		const currValue = (acc as Valid)?.[currKey];
+	const lastObj = keys.reduce((acc, key, ind) => {
+		acc[key] ??= {};
+		const currValue = acc[key];
 		if (isNotObject(currValue)) {
 			const invalidKey = keys.slice(0, ind + 1).join(".");
 			throw new Error(`${invalidKey} is not an object.`);
 		}
 		return currValue;
-	}, obj) as Dict;
+	}, obj);
+
 	lastObj[lastKey] = value;
 }
