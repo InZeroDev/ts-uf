@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0] - 2026-11-25
+
+### Changed
+
+- Updated `setDeep()` to override non-object parents and added overloads.
+
+### Fixed
+
+- Fixed the implementation of an internal util called `IsKnownDict<T>`, fixing the behavior of multiple object utils that depend on it.
+
 ## [0.3.3] - 2026-11-16
 
 ### Fixed
